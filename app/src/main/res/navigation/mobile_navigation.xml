@@ -22,4 +22,10 @@
         android:name="com.example.pharmamanufacturer.ui.components.ComponentsFragment"
         android:label="@string/title_components"
         tools:layout="@layout/fragment_components" />
+
+    <fragment
+        android:id="@+id/navigation_packing"
+        android:name="com.example.pharmamanufacturer.ui.packing.PackingFragment"
+        android:label="@string/title_packing"
+        tools:layout="@layout/fragment_components" />
 </navigation>
