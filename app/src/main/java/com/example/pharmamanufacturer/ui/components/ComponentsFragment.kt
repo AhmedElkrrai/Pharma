@@ -4,39 +4,29 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.example.pharmamanufacturer.databinding.FragmentComponentsBinding
+import com.example.pharmamanufacturer.data.models.componentsList
+import com.example.pharmamanufacturer.ui.theme.ComposeTheme
 
 class ComponentsFragment : Fragment() {
-
-    private var _binding: FragmentComponentsBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        val componentsViewModel =
-            ViewModelProvider(this).get(ComponentsViewModel::class.java)
+    ): View = ComposeView(requireContext()).apply {
+        setViewCompositionStrategy(
+            ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
+        )
 
-        _binding = FragmentComponentsBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val textView: TextView = binding.textComponents
-        componentsViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        setContent {
+            ComponentsScreen(componentsList)
         }
-        return root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
