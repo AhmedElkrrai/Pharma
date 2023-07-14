@@ -2,12 +2,11 @@ package com.example.pharmamanufacturer.ui.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
-import androidx.compose.material.Surface
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,20 +23,13 @@ import com.example.pharmamanufacturer.ui.theme.Green
 
 @Composable
 fun ComponentsScreen(components: List<ChemicalComponent>) {
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = androidx.compose.material.MaterialTheme.colors.background
+    Column(
+        modifier = Modifier.verticalScroll(
+            rememberScrollState()
+        )
     ) {
-        ComposeTheme {
-            Column(
-                modifier = Modifier.verticalScroll(
-                    rememberScrollState()
-                )
-            ) {
-                components.forEach {
-                    ComponentItem(it)
-                }
-            }
+        components.forEach {
+            ComponentItem(it)
         }
     }
 }
@@ -46,6 +38,7 @@ fun ComponentsScreen(components: List<ChemicalComponent>) {
 fun ComponentItem(component: ChemicalComponent) {
     Card(
         elevation = 2.dp,
+        shape = RoundedCornerShape(20.dp),
         modifier = Modifier.padding(10.dp)
     ) {
         Row(
@@ -71,7 +64,7 @@ fun ComponentTitle(
 ) {
     Text(
         text = title,
-        modifier = modifier,
+        modifier = modifier.padding(start = 10.dp),
         style = MaterialTheme.typography.titleLarge,
         color = Blue,
     )
@@ -84,7 +77,7 @@ fun ComponentAmount(
 ) {
     Text(
         text = amount,
-        modifier = modifier,
+        modifier = modifier.padding(end = 10.dp),
         style = MaterialTheme.typography.titleMedium,
         color = Green,
         textAlign = TextAlign.End

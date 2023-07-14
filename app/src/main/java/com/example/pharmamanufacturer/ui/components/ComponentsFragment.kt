@@ -26,7 +26,14 @@ class ComponentsFragment : Fragment() {
         )
 
         setContent {
-            ComponentsScreen(componentsList)
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                color = MaterialTheme.colors.background
+            ) {
+                ComposeTheme {
+                    ComponentsScreen(componentsList)
+                }
+            }
         }
     }
 }
