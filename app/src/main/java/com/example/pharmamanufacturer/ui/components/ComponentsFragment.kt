@@ -12,7 +12,8 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import com.example.pharmamanufacturer.data.models.componentsList
-import com.example.pharmamanufacturer.ui.theme.ComposeTheme
+import com.example.pharmamanufacturer.ui.compose.ComponentsScreen
+import com.example.pharmamanufacturer.ui.compose.theme.ComposeTheme
 
 class ComponentsFragment : Fragment() {
 

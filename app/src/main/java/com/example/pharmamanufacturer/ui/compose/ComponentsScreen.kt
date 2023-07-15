@@ -1,11 +1,11 @@
-package com.example.pharmamanufacturer.ui.components
+package com.example.pharmamanufacturer.ui.compose
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -17,18 +17,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.pharmamanufacturer.data.models.ChemicalComponent
 import com.example.pharmamanufacturer.data.models.componentsList
-import com.example.pharmamanufacturer.ui.theme.Blue
-import com.example.pharmamanufacturer.ui.theme.ComposeTheme
-import com.example.pharmamanufacturer.ui.theme.Green
+import com.example.pharmamanufacturer.ui.compose.theme.Blue
+import com.example.pharmamanufacturer.ui.compose.theme.ComposeTheme
+import com.example.pharmamanufacturer.ui.compose.theme.Green
 
 @Composable
 fun ComponentsScreen(components: List<ChemicalComponent>) {
-    Column(
-        modifier = Modifier.verticalScroll(
-            rememberScrollState()
-        )
-    ) {
-        components.forEach {
+    LazyColumn {
+        items(components) {
             ComponentItem(it)
         }
     }
@@ -47,11 +43,12 @@ fun ComponentItem(component: ChemicalComponent) {
         ) {
             ComponentTitle(
                 title = component.name,
-                modifier = Modifier.weight(0.15f)
+                modifier = Modifier.weight(0.6f)
             )
+            //Spacer(modifier = Modifier.width(30.dp))
             ComponentAmount(
                 amount = component.amount.toString(),
-                modifier = Modifier.weight(0.15f)
+                modifier = Modifier.weight(0.4f)
             )
         }
     }

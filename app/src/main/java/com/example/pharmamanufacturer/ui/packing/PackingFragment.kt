@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
-import com.example.pharmamanufacturer.ui.theme.ComposeTheme
+import com.example.pharmamanufacturer.ui.compose.PackingScreen
+import com.example.pharmamanufacturer.ui.compose.theme.ComposeTheme
 
 class PackingFragment : Fragment() {
 
@@ -31,7 +31,7 @@ class PackingFragment : Fragment() {
                 color = MaterialTheme.colors.background
             ) {
                 ComposeTheme {
-                    Text("I AM BATMAN")
+                    PackingScreen()
                 }
             }
         }

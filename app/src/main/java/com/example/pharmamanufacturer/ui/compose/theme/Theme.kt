@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.ui.theme
+package com.example.pharmamanufacturer.ui.compose.theme
 
 import android.app.Activity
 import android.os.Build
