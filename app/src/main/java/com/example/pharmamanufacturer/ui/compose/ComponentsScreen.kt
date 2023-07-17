@@ -1,7 +1,6 @@
 package com.example.pharmamanufacturer.ui.compose
 
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -31,11 +30,14 @@ fun ComponentsScreen(components: List<ChemicalComponent>) {
 }
 
 @Composable
-fun ComponentItem(component: ChemicalComponent) {
+fun ComponentItem(
+    component: ChemicalComponent,
+    modifier: Modifier = Modifier
+) {
     Card(
         elevation = 2.dp,
         shape = RoundedCornerShape(20.dp),
-        modifier = Modifier.padding(10.dp)
+        modifier = modifier.padding(10.dp)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,

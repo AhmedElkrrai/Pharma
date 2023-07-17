@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
@@ -26,14 +27,8 @@ class PackingFragment : Fragment() {
         )
 
         setContent {
-            Surface(
-                modifier = Modifier.fillMaxSize(),
-                color = MaterialTheme.colors.background
-            ) {
-                ComposeTheme {
-                    PackingScreen()
-                }
-            }
+            val scope = rememberCoroutineScope()
+            PackingScreen(scope)
         }
     }
 }

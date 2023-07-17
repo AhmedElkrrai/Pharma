@@ -19,14 +19,14 @@ class ProductsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
+        val productsViewModel =
+            ViewModelProvider(this).get(ProductsViewModel::class.java)
 
         _binding = FragmentProductsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
+        productsViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
         return root
