@@ -11,8 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
-import com.example.pharmamanufacturer.data.models.ChemicalComponent
-import com.example.pharmamanufacturer.data.models.componentsList
 import com.example.pharmamanufacturer.ui.compose.ComponentsScreen
 import com.example.pharmamanufacturer.ui.compose.theme.ComposeTheme
 
@@ -33,7 +31,7 @@ class ComponentsFragment : Fragment() {
                 color = MaterialTheme.colors.background
             ) {
                 ComposeTheme {
-                    ComponentsScreen(componentsList)
+                    ComponentsScreen()
                 }
             }
         }

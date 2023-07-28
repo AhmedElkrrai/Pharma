@@ -15,16 +15,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pharmamanufacturer.data.models.ChemicalComponent
-import com.example.pharmamanufacturer.data.models.componentsList
+import com.example.pharmamanufacturer.ui.components.ComponentsViewModel
 import com.example.pharmamanufacturer.ui.compose.theme.Blue
 import com.example.pharmamanufacturer.ui.compose.theme.ComposeTheme
 import com.example.pharmamanufacturer.ui.compose.theme.Green
 
 @Composable
-fun ComponentsScreen(components: List<ChemicalComponent>) {
+fun ComponentsScreen() {
+    val vm: ComponentsViewModel = viewModel()
     LazyColumn {
-        items(components) {
+        items(vm.getComponents()) {
             ComponentItem(it)
         }
     }
@@ -68,6 +70,6 @@ fun ComponentItem(
 @Composable
 fun ComponentsScreenPreview() {
     ComposeTheme {
-        ComponentsScreen(componentsList)
+        ComponentsScreen()
     }
 }
