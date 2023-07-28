@@ -1,6 +1,7 @@
 package com.example.pharmamanufacturer.data.models
 
 data class ChemicalComponent(
+    val id: Int,
     val name: String,
-    val amount: Double
+    var amount: Double
 )

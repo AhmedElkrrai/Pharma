@@ -1,5 +1,6 @@
 package com.example.pharmamanufacturer.ui.compose
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,8 +27,10 @@ import com.example.pharmamanufacturer.ui.compose.theme.Green
 fun ComponentsScreen() {
     val vm: ComponentsViewModel = viewModel()
     LazyColumn {
-        items(vm.getComponents()) {
-            ComponentItem(it)
+        items(vm.componentsState) { components ->
+            ComponentItem(components) {
+                vm.updateAmount(it)
+            }
         }
     }
 }
@@ -35,12 +38,17 @@ fun ComponentsScreen() {
 @Composable
 fun ComponentItem(
     component: ChemicalComponent,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: (Int) -> Unit
 ) {
     Card(
         elevation = 2.dp,
         shape = RoundedCornerShape(20.dp),
-        modifier = modifier.padding(10.dp)
+        modifier = modifier
+            .padding(10.dp)
+            .clickable {
+                onClick(component.id)
+            }
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
