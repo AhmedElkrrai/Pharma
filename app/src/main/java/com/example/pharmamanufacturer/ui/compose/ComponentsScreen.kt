@@ -39,7 +39,7 @@ fun ComponentsScreen() {
 fun ComponentItem(
     component: ChemicalComponent,
     modifier: Modifier = Modifier,
-    onClick: (Int) -> Unit
+    onClick: (Int) -> Unit = {}
 ) {
     Card(
         elevation = 2.dp,
