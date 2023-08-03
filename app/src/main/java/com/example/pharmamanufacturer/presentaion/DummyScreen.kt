@@ -30,7 +30,7 @@ import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun PackingScreen(scope: CoroutineScope) {
+fun DummyScreen(scope: CoroutineScope) {
     var name by remember {
         mutableStateOf("")
     }

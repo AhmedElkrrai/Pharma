@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.presentaion.home_screen
+package com.example.pharmamanufacturer.presentaion.products_screen
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,11 +8,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun ChatScreen() {
+fun ProductsScreen() {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = "Chat screen")
+        Text(text = "Products screen")
     }
 }
