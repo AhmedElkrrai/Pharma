@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.ui.compose
+package com.example.pharmamanufacturer.presentaion
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,7 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.pharmamanufacturer.R
 import com.example.pharmamanufacturer.data.models.BottomMenuItem
-import com.example.pharmamanufacturer.ui.compose.theme.DeepBlue
+import com.example.pharmamanufacturer.presentaion.theme.DeepBlue
 
 @Composable
 fun MainScreen() {

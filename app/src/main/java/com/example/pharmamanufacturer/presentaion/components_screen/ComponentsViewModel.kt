@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.ui.components
+package com.example.pharmamanufacturer.presentaion.components_screen
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

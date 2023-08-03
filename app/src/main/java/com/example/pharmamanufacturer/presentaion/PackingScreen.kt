@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.ui.compose
+package com.example.pharmamanufacturer.presentaion
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement

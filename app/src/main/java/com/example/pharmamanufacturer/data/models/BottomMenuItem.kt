@@ -2,8 +2,8 @@ package com.example.pharmamanufacturer.data.models
 
 import androidx.annotation.DrawableRes
 import androidx.compose.ui.graphics.Color
-import com.example.pharmamanufacturer.ui.compose.theme.AquaBlue
-import com.example.pharmamanufacturer.ui.compose.theme.ButtonBlue
+import com.example.pharmamanufacturer.presentaion.theme.AquaBlue
+import com.example.pharmamanufacturer.presentaion.theme.ButtonBlue
 
 data class BottomMenuItem(
     val title: String,
