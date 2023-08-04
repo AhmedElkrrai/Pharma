@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.presentaion.theme
+package com.example.pharmamanufacturer.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

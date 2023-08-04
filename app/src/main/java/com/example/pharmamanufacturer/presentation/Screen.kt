@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.presentaion
+package com.example.pharmamanufacturer.presentation
 
 sealed class Screen(val rout: String) {
     object ProductsScreen : Screen("products")

@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.presentaion
+package com.example.pharmamanufacturer.presentation
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -7,9 +7,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.example.pharmamanufacturer.presentaion.home_screen.HomeScreen
+import com.example.pharmamanufacturer.presentation.home_screen.HomeScreen
 
-class MainActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

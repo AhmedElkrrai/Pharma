@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.presentaion.theme
+package com.example.pharmamanufacturer.presentation.theme
 
 import android.app.Activity
 import android.os.Build

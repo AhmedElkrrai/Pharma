@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.presentaion.home_screen
+package com.example.pharmamanufacturer.presentation.home_screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.pharmamanufacturer.data.models.BottomNavItem
-import com.example.pharmamanufacturer.presentaion.theme.DeepBlue
+import com.example.pharmamanufacturer.presentation.theme.DeepBlue
 
 @Composable
 fun BottomNavigationBar(

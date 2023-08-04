@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.presentaion.components_screen
+package com.example.pharmamanufacturer.presentation.components_screen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -14,8 +14,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.pharmamanufacturer.data.models.ChemicalComponent
-import com.example.pharmamanufacturer.presentaion.theme.Blue
-import com.example.pharmamanufacturer.presentaion.theme.Green
+import com.example.pharmamanufacturer.presentation.theme.Blue
+import com.example.pharmamanufacturer.presentation.theme.Green
 
 @Composable
 fun ComponentItem(

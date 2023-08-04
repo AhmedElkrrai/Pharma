@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.presentaion
+package com.example.pharmamanufacturer.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,10 +28,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.pharmamanufacturer.R
 import com.example.pharmamanufacturer.data.models.BottomMenuItem
-import com.example.pharmamanufacturer.presentaion.theme.DeepBlue
+import com.example.pharmamanufacturer.presentation.theme.DeepBlue
 
 @Composable
-fun MainScreen() {
+fun NavScreen() {
     Box(
         modifier = Modifier
             .background(DeepBlue)
@@ -125,5 +125,5 @@ fun MenuItem(
 @Preview(showBackground = true)
 @Composable
 fun MainScreenPreview() {
-    MainScreen()
+    NavScreen()
 }

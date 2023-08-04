@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.presentaion.packing_screen
+package com.example.pharmamanufacturer.presentation.packing_screen
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.presentaion.home_screen
+package com.example.pharmamanufacturer.presentation.home_screen
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -7,10 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.rememberNavController
 import com.example.pharmamanufacturer.R
 import com.example.pharmamanufacturer.data.models.BottomNavItem
-import com.example.pharmamanufacturer.presentaion.Screen
+import com.example.pharmamanufacturer.presentation.Screen
 
 @Composable
 fun HomeScreen() {
@@ -37,7 +38,10 @@ fun HomeScreen() {
                 ),
                 navController = navController,
                 onItemClick = {
-                    navController.navigate(it.route)
+                    navController.navigate(it.route) {
+                        popUpTo(navController.graph.findStartDestination().id)
+                        launchSingleTop = true
+                    }
                 }
             )
         }
