@@ -22,7 +22,5 @@ fun ComponentsScreen() {
 @Preview(showBackground = true)
 @Composable
 fun ComponentsScreenPreview() {
-    ComposeTheme {
-        ComponentsScreen()
-    }
+    ComponentsScreen()
 }
