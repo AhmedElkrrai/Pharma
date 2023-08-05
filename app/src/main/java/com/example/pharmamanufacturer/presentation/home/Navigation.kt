@@ -2,10 +2,10 @@ package com.example.pharmamanufacturer.presentation.home
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.pharmamanufacturer.data.ComponentType
 import com.example.pharmamanufacturer.presentation.COMPONENT_DETAILS_KEY
 import com.example.pharmamanufacturer.presentation.Screen
 import com.example.pharmamanufacturer.presentation.componentdetails.ComponentDetailsScreen
@@ -25,7 +25,7 @@ fun Navigation(navController: NavHostController) {
         composable(Screen.ComponentsScreen.route) {
             ComponentsScreen { component ->
                 navController.navigate(
-                    Screen.ComponentDetailsScreen.withArgs(component)
+                    Screen.ComponentDetailsScreen.withArgs(component.toString())
                 )
             }
         }
@@ -37,7 +37,7 @@ fun Navigation(navController: NavHostController) {
             route = Screen.ComponentDetailsScreen.route + "/{$COMPONENT_DETAILS_KEY}",
             arguments = listOf(
                 navArgument(COMPONENT_DETAILS_KEY) {
-                    type = NavType.StringType
+                    type = ComponentType
                     nullable = false
                 }
             )

@@ -15,8 +15,11 @@ fun ComponentDetailsScreen() {
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        vm.selectedComponent?.let {
-            Text(text = it)
+        vm.selectedComponent?.let { component ->
+            Text(
+                text = "Name = ${component.name} \n" +
+                    "Amount = ${component.amount}"
+            )
         }
     }
 }
