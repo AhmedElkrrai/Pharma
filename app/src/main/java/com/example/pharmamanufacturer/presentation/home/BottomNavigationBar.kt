@@ -33,8 +33,10 @@ fun BottomNavigationBar(
     ) {
         items.forEach { item ->
             val selected = item.route == backStackEntry.value?.destination?.route
+            val detailsScreenSelected =
+                backStackEntry.value?.destination?.route?.contains(item.route) ?: false
             BottomNavigationItem(
-                selected = selected,
+                selected = selected || detailsScreenSelected,
                 onClick = { onItemClick(item) },
                 selectedContentColor = Color.White,
                 unselectedContentColor = Color.Unspecified,
@@ -46,7 +48,7 @@ fun BottomNavigationBar(
                             tint = Color.Unspecified,
                             modifier = Modifier.fillMaxHeight(0.6f)
                         )
-                        if (selected) {
+                        if (selected || detailsScreenSelected) {
                             Text(
                                 text = item.name,
                                 textAlign = TextAlign.Center,

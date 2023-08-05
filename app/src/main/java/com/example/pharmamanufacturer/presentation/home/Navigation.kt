@@ -17,30 +17,32 @@ import com.example.pharmamanufacturer.presentation.products.ProductsScreen
 fun Navigation(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = Screen.ProductsScreen.rout
+        startDestination = Screen.ProductsScreen.route
     ) {
-        composable(Screen.ProductsScreen.rout) {
+        composable(Screen.ProductsScreen.route) {
             ProductsScreen()
         }
-        composable(Screen.ComponentsScreen.rout) {
-            ComponentsScreen(navController)
+        composable(Screen.ComponentsScreen.route) {
+            ComponentsScreen { component ->
+                navController.navigate(
+                    Screen.ComponentDetailsScreen.withArgs(component)
+                )
+            }
         }
-        composable(Screen.PackingScreen.rout) {
+        composable(Screen.PackingScreen.route) {
             PackingScreen()
         }
 
         composable(
-            route = Screen.ComponentDetailsScreen.rout + "/{$COMPONENT_DETAILS_KEY}",
+            route = Screen.ComponentDetailsScreen.route + "/{$COMPONENT_DETAILS_KEY}",
             arguments = listOf(
                 navArgument(COMPONENT_DETAILS_KEY) {
                     type = NavType.StringType
                     nullable = false
                 }
             )
-        ) { entry ->
-            entry.arguments?.getString(COMPONENT_DETAILS_KEY)?.let { component ->
-                ComponentDetailsScreen(component)
-            }
+        ) {
+            ComponentDetailsScreen()
         }
     }
 }

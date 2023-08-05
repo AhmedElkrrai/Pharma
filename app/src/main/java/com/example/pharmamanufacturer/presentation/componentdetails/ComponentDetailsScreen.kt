@@ -6,13 +6,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
-fun ComponentDetailsScreen(component: String) {
+fun ComponentDetailsScreen() {
+    val vm: ComponentDetailsViewModel = viewModel()
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = component)
+        vm.selectedComponent?.let {
+            Text(text = it)
+        }
     }
 }

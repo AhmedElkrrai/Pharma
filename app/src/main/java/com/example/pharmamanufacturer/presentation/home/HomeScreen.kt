@@ -22,17 +22,17 @@ fun HomeScreen() {
                 items = listOf(
                     BottomNavItem(
                         name = stringResource(id = R.string.title_products),
-                        route = Screen.ProductsScreen.rout,
+                        route = Screen.ProductsScreen.route,
                         painter = painterResource(id = R.drawable.health_icon)
                     ),
                     BottomNavItem(
                         name = stringResource(id = R.string.title_components),
-                        route = Screen.ComponentsScreen.rout,
+                        route = Screen.ComponentsScreen.route,
                         painter = painterResource(id = R.drawable.ic_medicine_component),
                     ),
                     BottomNavItem(
                         name = stringResource(id = R.string.title_packing),
-                        route = Screen.PackingScreen.rout,
+                        route = Screen.PackingScreen.route,
                         painter = painterResource(id = R.drawable.ic_packing),
                     ),
                 ),
