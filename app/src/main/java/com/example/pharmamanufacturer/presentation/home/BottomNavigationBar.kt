@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.presentation.home_screen
+package com.example.pharmamanufacturer.presentation.home
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight

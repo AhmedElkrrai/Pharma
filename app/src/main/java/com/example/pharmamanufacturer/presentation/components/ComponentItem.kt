@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.presentation.components_screen
+package com.example.pharmamanufacturer.presentation.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -21,7 +21,7 @@ import com.example.pharmamanufacturer.presentation.theme.Green
 fun ComponentItem(
     component: ChemicalComponent,
     modifier: Modifier = Modifier,
-    onClick: (Int) -> Unit = {}
+    onClick: (ChemicalComponent) -> Unit = {}
 ) {
     Card(
         elevation = 2.dp,
@@ -29,7 +29,7 @@ fun ComponentItem(
         modifier = modifier
             .padding(10.dp)
             .clickable {
-                onClick(component.id)
+                onClick(component)
             }
     ) {
         Row(

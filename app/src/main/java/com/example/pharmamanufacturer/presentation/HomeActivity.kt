@@ -9,14 +9,14 @@ import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import com.example.pharmamanufacturer.presentation.home_screen.HomeScreen
+import com.example.pharmamanufacturer.presentation.home.HomeScreen
 
 class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
-            Box(modifier = Modifier.fillMaxSize()){
+            Box(modifier = Modifier.fillMaxSize()) {
                 HomeScreen()
             }
         }
@@ -34,10 +34,5 @@ class HomeActivity : AppCompatActivity() {
         controller.systemBarsBehavior =
             WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         controller.hide(WindowInsetsCompat.Type.systemBars())
-    }
-
-    private fun hideStatusBar() {
-        supportActionBar?.hide()
-        WindowCompat.setDecorFitsSystemWindows(window, false)
     }
 }

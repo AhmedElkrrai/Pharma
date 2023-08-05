@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.presentation.products_screen
+package com.example.pharmamanufacturer.presentation.packing
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,11 +8,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun ProductsScreen() {
+fun PackingScreen() {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = "Products screen")
+        Text(text = "Packing screen")
     }
 }
