@@ -9,7 +9,7 @@ import androidx.room.Update
 import com.example.pharmamanufacturer.data.local.entities.ChemicalComponent
 
 @Dao
-interface ChemicalComponentDAO {
+interface ChemicalComponentDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(content: ChemicalComponent)
 

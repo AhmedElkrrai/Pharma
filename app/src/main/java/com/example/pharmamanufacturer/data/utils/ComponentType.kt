@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.data
+package com.example.pharmamanufacturer.data.utils
 
 import android.os.Bundle
 import androidx.navigation.NavType
