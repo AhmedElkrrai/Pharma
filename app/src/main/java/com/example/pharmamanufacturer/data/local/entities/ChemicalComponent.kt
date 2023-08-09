@@ -11,7 +11,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 @Entity(tableName = ChemicalComponent.TABLE_CHEMICAL_COMPONENT)
 data class ChemicalComponent(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = COL_CHEMICAL_COMPONENT_ID)
     val id: Int?,
     @ColumnInfo(name = COL_CHEMICAL_COMPONENT_NAME)
