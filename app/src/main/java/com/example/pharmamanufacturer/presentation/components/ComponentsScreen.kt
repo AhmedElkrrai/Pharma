@@ -4,7 +4,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.pharmamanufacturer.data.models.ChemicalComponent
+import com.example.pharmamanufacturer.data.local.entities.ChemicalComponent
 
 @Composable
 fun ComponentsScreen(onItemClick: (ChemicalComponent) -> Unit) {

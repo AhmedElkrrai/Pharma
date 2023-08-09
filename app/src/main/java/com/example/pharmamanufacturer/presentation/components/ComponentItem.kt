@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.pharmamanufacturer.data.models.ChemicalComponent
+import com.example.pharmamanufacturer.data.local.entities.ChemicalComponent
 import com.example.pharmamanufacturer.presentation.theme.Blue
 import com.example.pharmamanufacturer.presentation.theme.Green
 

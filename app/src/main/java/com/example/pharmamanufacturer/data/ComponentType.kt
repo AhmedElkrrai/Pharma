@@ -2,7 +2,7 @@ package com.example.pharmamanufacturer.data
 
 import android.os.Bundle
 import androidx.navigation.NavType
-import com.example.pharmamanufacturer.data.models.ChemicalComponent
+import com.example.pharmamanufacturer.data.local.entities.ChemicalComponent
 import com.google.gson.Gson
 
 @JvmField

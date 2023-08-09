@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.example.pharmamanufacturer.data.models.ChemicalComponent
+import com.example.pharmamanufacturer.data.local.entities.ChemicalComponent
 
 class ComponentsViewModel : ViewModel() {
     var componentsState by mutableStateOf(getComponents())
