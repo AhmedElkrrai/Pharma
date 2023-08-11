@@ -184,7 +184,7 @@ fun ProfileSection(
                 "Want me to make your app? Send me an email!\n" +
                 "Subscribe to my YouTube channel!",
             url = "https://youtube.com/c/PhilippLackner",
-            followedBy = listOf("codinginflow", "miakhalifa"),
+            followedBy = listOf("salah", "aboutricka"),
             otherCount = 17
         )
     }
