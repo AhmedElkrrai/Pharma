@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.presentation
+package com.example.pharmamanufacturer.core
 
 const val COMPONENT_DETAILS_KEY = "component_details_key"
 const val DETAILS = "details"

@@ -81,7 +81,7 @@ fun DummyScreen(scope: CoroutineScope) {
             Spacer(modifier = Modifier.height(16.dp))
 
             Icon(
-                painter = painterResource(R.drawable.health_icon),
+                painter = painterResource(R.drawable.ic_health),
                 contentDescription = null,
                 tint = Color.Unspecified,
             )

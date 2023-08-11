@@ -11,7 +11,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.rememberNavController
 import com.example.pharmamanufacturer.R
 import com.example.pharmamanufacturer.data.models.BottomNavItem
-import com.example.pharmamanufacturer.presentation.Screen
+import com.example.pharmamanufacturer.core.Screen
 
 @Composable
 fun HomeScreen() {
@@ -23,12 +23,12 @@ fun HomeScreen() {
                     BottomNavItem(
                         name = stringResource(id = R.string.title_products),
                         route = Screen.ProductsScreen.route,
-                        painter = painterResource(id = R.drawable.health_icon)
+                        painter = painterResource(id = R.drawable.ic_health)
                     ),
                     BottomNavItem(
                         name = stringResource(id = R.string.title_components),
                         route = Screen.ComponentsScreen.route,
-                        painter = painterResource(id = R.drawable.ic_medicine_component),
+                        painter = painterResource(id = R.drawable.ic_medicine),
                     ),
                     BottomNavItem(
                         name = stringResource(id = R.string.title_packing),

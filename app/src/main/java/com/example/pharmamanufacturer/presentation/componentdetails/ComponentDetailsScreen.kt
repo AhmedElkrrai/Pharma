@@ -8,12 +8,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.pharmamanufacturer.presentation.UiDimensions
+import com.example.pharmamanufacturer.core.UiDimensions
+import com.example.pharmamanufacturer.core.round
 
 @Composable
 fun ComponentDetailsScreen(onBackClick: () -> Unit) {
-    val vm: ComponentDetailsViewModel = viewModel()
     Column(modifier = Modifier.fillMaxSize()) {
+        val vm: ComponentDetailsViewModel = viewModel()
         vm.selectedComponent?.let { component ->
             TopBar(
                 name = component.name,
@@ -23,7 +24,11 @@ fun ComponentDetailsScreen(onBackClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(UiDimensions.Medium_Padding))
 
-            ComponentAmountRow(component.amount.toString())
+            ComponentAmountRow(component.amount.round().toString())
+
+            Spacer(modifier = Modifier.height(UiDimensions.Medium_Padding))
+
+            ProductsSection()
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.presentation
+package com.example.pharmamanufacturer.core
 
 import androidx.compose.ui.unit.dp
 

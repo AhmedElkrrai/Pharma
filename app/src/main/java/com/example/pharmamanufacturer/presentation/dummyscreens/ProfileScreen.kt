@@ -61,19 +61,19 @@ fun ProfileScreen() {
         HighlightSection(
             highlights = listOf(
                 ImageWithText(
-                    image = painterResource(id = R.drawable.health_icon),
+                    image = painterResource(id = R.drawable.ic_health),
                     text = "YouTube"
                 ),
                 ImageWithText(
-                    image = painterResource(id = R.drawable.health_icon),
+                    image = painterResource(id = R.drawable.ic_health),
                     text = "Q&A"
                 ),
                 ImageWithText(
-                    image = painterResource(id = R.drawable.health_icon),
+                    image = painterResource(id = R.drawable.ic_health),
                     text = "Discord"
                 ),
                 ImageWithText(
-                    image = painterResource(id = R.drawable.health_icon),
+                    image = painterResource(id = R.drawable.ic_health),
                     text = "Telegram"
                 ),
             ),
@@ -85,19 +85,19 @@ fun ProfileScreen() {
         PostTabView(
             imageWithTexts = listOf(
                 ImageWithText(
-                    image = painterResource(id = R.drawable.health_icon),
+                    image = painterResource(id = R.drawable.ic_health),
                     text = "Posts"
                 ),
                 ImageWithText(
-                    image = painterResource(id = R.drawable.health_icon),
+                    image = painterResource(id = R.drawable.ic_health),
                     text = "Reels"
                 ),
                 ImageWithText(
-                    image = painterResource(id = R.drawable.health_icon),
+                    image = painterResource(id = R.drawable.ic_health),
                     text = "IGTV"
                 ),
                 ImageWithText(
-                    image = painterResource(id = R.drawable.health_icon),
+                    image = painterResource(id = R.drawable.ic_health),
                     text = "Profile"
                 ),
             )
@@ -144,13 +144,13 @@ fun TopBar(
             fontSize = 20.sp
         )
         Icon(
-            painter = painterResource(id = R.drawable.health_icon),
+            painter = painterResource(id = R.drawable.ic_health),
             contentDescription = "Back",
             tint = Color.Black,
             modifier = Modifier.size(24.dp)
         )
         Icon(
-            painter = painterResource(id = R.drawable.health_icon),
+            painter = painterResource(id = R.drawable.ic_health),
             contentDescription = "Back",
             tint = Color.Black,
             modifier = Modifier.size(20.dp)

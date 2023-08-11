@@ -2,7 +2,6 @@ package com.example.pharmamanufacturer.presentation.componentdetails
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
@@ -18,7 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.pharmamanufacturer.presentation.UiDimensions
+import com.example.pharmamanufacturer.core.UiDimensions
 import com.example.pharmamanufacturer.presentation.theme.Blue
 
 @Composable
@@ -27,33 +26,33 @@ fun TopBar(
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier.padding(top = UiDimensions.Small_Padding)
+    Box(
+        modifier = modifier.padding(top = UiDimensions.Small_Padding),
+        contentAlignment = Alignment.Center
     ) {
-        Icon(
-            imageVector = Icons.Default.ArrowBack,
-            contentDescription = "Back",
-            tint = Color.Black,
-            modifier = Modifier
-                .size(28.dp)
-                .padding(start = UiDimensions.Small_Padding)
-                .clickable {
-                    onBackClick.invoke()
-                }
+        Text(
+            text = name,
+            overflow = TextOverflow.Ellipsis,
+            fontWeight = FontWeight.Bold,
+            fontSize = 20.sp,
+            color = Blue,
+            style = MaterialTheme.typography.titleLarge
         )
 
-        Box(
-            modifier = modifier,
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = name,
-                overflow = TextOverflow.Ellipsis,
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
-                color = Blue,
-                style = MaterialTheme.typography.titleLarge
+        Box(modifier = modifier, contentAlignment = Alignment.TopStart) {
+            Icon(
+                imageVector = Icons.Default.ArrowBack,
+                contentDescription = "Back",
+                tint = Color.Black,
+                modifier = Modifier
+                    .size(28.dp)
+                    .padding(
+                        start = UiDimensions.Small_Padding,
+                        top = UiDimensions.Small_Padding
+                    )
+                    .clickable {
+                        onBackClick.invoke()
+                    }
             )
         }
     }

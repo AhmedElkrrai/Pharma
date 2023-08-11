@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.example.pharmamanufacturer.presentation.UiDimensions
+import com.example.pharmamanufacturer.core.UiDimensions
 import com.example.pharmamanufacturer.presentation.theme.Green
 
 @Composable
