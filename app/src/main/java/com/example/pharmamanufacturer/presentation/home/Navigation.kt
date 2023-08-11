@@ -42,7 +42,14 @@ fun Navigation(navController: NavHostController) {
                 }
             )
         ) {
-            ComponentDetailsScreen()
+            ComponentDetailsScreen {
+                val destinationRoute = Screen.ComponentsScreen.route
+                navController.navigate(destinationRoute) {
+                    popUpTo(destinationRoute) {
+                        inclusive = true
+                    }
+                }
+            }
         }
     }
 }

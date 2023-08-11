@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.presentation
+package com.example.pharmamanufacturer.presentation.dummyscreens
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
