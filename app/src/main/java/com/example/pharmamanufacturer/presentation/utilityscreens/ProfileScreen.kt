@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.presentation.dummyscreens
+package com.example.pharmamanufacturer.presentation.utilityscreens
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image

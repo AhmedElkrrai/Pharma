@@ -24,7 +24,7 @@ fun ComponentDetailsScreen(onBackClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(UiDimensions.Medium_Padding))
 
-            RowComponentAmount(component.amount.round().toString())
+            AmountDetails(component.amount.round().toString())
 
             Spacer(modifier = Modifier.height(UiDimensions.Medium_Padding))
 

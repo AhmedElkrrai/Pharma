@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.Color
 import com.example.pharmamanufacturer.core.UiDimensions
 
 @Composable
-fun RowComponentAmount(amount: String) {
+fun AmountDetails(amount: String) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
