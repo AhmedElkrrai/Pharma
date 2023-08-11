@@ -11,10 +11,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.example.pharmamanufacturer.core.UiDimensions
-import com.example.pharmamanufacturer.presentation.theme.Green
 
 @Composable
-fun ComponentAmountRow(amount: String) {
+fun RowComponentAmount(amount: String) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -28,11 +27,6 @@ fun ComponentAmountRow(amount: String) {
             style = MaterialTheme.typography.titleMedium
         )
 
-        StyledText(
-            amount = amount,
-            unit = " KG",
-            amountColor = Green,
-            unitColor = Color.Black
-        )
+        StyledText(amount = amount)
     }
 }

@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.pharmamanufacturer.R
 import com.example.pharmamanufacturer.core.UiDimensions
@@ -38,7 +39,8 @@ fun ComponentProductItem(
         ) {
             Text(
                 text = name,
-                color = Blue
+                color = Blue,
+                fontWeight = FontWeight.Bold
             )
 
             Box(

@@ -9,14 +9,15 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
+import com.example.pharmamanufacturer.presentation.theme.Green
 
 @Composable
 fun StyledText(
     modifier: Modifier = Modifier,
     amount: String,
-    unit: String,
-    amountColor: Color,
-    unitColor: Color
+    unit: String = " KG",
+    amountColor: Color = Green,
+    unitColor: Color = Color.Black
 ) {
     Text(
         modifier = modifier,

@@ -24,11 +24,15 @@ fun ComponentDetailsScreen(onBackClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(UiDimensions.Medium_Padding))
 
-            ComponentAmountRow(component.amount.round().toString())
+            RowComponentAmount(component.amount.round().toString())
 
             Spacer(modifier = Modifier.height(UiDimensions.Medium_Padding))
 
             ProductsSection()
+
+            Spacer(modifier = Modifier.height(UiDimensions.Medium_Padding))
+
+            SuppliersSection()
         }
     }
 }
