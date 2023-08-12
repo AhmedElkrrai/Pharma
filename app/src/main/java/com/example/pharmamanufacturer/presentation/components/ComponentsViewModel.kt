@@ -15,11 +15,12 @@ class ComponentsViewModel : ViewModel() {
 
     private val _componentsState = MutableStateFlow(emptyList<ChemicalComponent>())
     val componentsState: StateFlow<List<ChemicalComponent>>
-        get() = _componentsState.asStateFlow()
-
-    init {
-        viewModelScope.launch(Dispatchers.IO) { _componentsState.getAndUpdate { getAllChemicalComponents() } }
-    }
+        get() {
+            viewModelScope.launch(Dispatchers.IO) {
+                _componentsState.getAndUpdate { getAllChemicalComponents() }
+            }
+            return _componentsState.asStateFlow()
+        }
 
     private suspend fun getAllChemicalComponents(): MutableList<ChemicalComponent> {
         return DatabaseHandler.getAllChemicalComponents()

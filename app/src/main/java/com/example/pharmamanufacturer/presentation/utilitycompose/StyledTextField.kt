@@ -1,5 +1,6 @@
 package com.example.pharmamanufacturer.presentation.utilitycompose
 
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.TextFieldDefaults
@@ -11,7 +12,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.example.pharmamanufacturer.presentation.theme.Blue
@@ -24,6 +27,7 @@ fun styledTextField(
     keyboardType: KeyboardType
 ): String {
     var input by remember { mutableStateOf("") }
+    val focusManager = LocalFocusManager.current
 
     OutlinedTextField(
         modifier = modifier,
@@ -49,6 +53,11 @@ fun styledTextField(
         keyboardOptions = KeyboardOptions(
             keyboardType = keyboardType,
             imeAction = ImeAction.Done
+        ),
+        keyboardActions = KeyboardActions(
+            onDone  = {
+                focusManager.moveFocus(FocusDirection.Next)
+            }
         ),
         singleLine = true,
         maxLines = 1

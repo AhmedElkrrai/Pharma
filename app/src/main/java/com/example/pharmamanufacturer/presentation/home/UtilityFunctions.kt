@@ -10,5 +10,6 @@ internal fun navigateToParent(
         popUpTo(parentRoute) {
             inclusive = true
         }
+        launchSingleTop = true
     }
 }
