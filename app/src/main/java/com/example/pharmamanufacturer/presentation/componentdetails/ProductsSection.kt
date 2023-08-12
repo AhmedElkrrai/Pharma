@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import com.example.pharmamanufacturer.core.UiDimensions
 
 @Composable
-fun ProductsSection() {
+fun ProductsSection(products: List<String>) {
     Column(modifier = Modifier.fillMaxWidth()) {
 
         CenteredTitle(title = "Products")
@@ -19,7 +19,6 @@ fun ProductsSection() {
         Spacer(modifier = Modifier.height(UiDimensions.Medium_Padding))
 
         LazyColumn {
-            val products = listOf("Na", "Cl")
             items(products) { productName ->
                 ComponentProductItem(
                     modifier = Modifier.fillMaxWidth(),

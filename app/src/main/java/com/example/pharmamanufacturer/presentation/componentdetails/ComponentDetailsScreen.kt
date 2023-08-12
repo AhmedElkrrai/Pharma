@@ -28,11 +28,11 @@ fun ComponentDetailsScreen(onBackClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(UiDimensions.Medium_Padding))
 
-            ProductsSection()
+            ProductsSection(component.products)
 
             Spacer(modifier = Modifier.height(UiDimensions.Medium_Padding))
 
-            SuppliersSection()
+            SuppliersSection(component.suppliers)
         }
     }
 }

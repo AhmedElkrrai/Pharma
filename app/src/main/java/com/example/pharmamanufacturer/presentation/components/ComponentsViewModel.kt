@@ -24,10 +24,4 @@ class ComponentsViewModel : ViewModel() {
     private suspend fun getAllChemicalComponents(): MutableList<ChemicalComponent> {
         return DatabaseHandler.getAllChemicalComponents()
     }
-
-    fun addChemicalComponent(component: ChemicalComponent) {
-        viewModelScope.launch(Dispatchers.IO) {
-            DatabaseHandler.addChemicalComponent(component)
-        }
-    }
 }

@@ -8,6 +8,7 @@ import androidx.navigation.navArgument
 import com.example.pharmamanufacturer.core.ComponentType
 import com.example.pharmamanufacturer.core.COMPONENT_DETAILS_KEY
 import com.example.pharmamanufacturer.core.Screen
+import com.example.pharmamanufacturer.presentation.addcomponent.AddComponentScreen
 import com.example.pharmamanufacturer.presentation.componentdetails.ComponentDetailsScreen
 import com.example.pharmamanufacturer.presentation.components.ComponentsScreen
 import com.example.pharmamanufacturer.presentation.packing.PackingScreen
@@ -19,17 +20,24 @@ fun Navigation(navController: NavHostController) {
         navController = navController,
         startDestination = Screen.ProductsScreen.route
     ) {
-        composable(Screen.ProductsScreen.route) {
+        composable(route = Screen.ProductsScreen.route) {
             ProductsScreen()
         }
-        composable(Screen.ComponentsScreen.route) {
-            ComponentsScreen { component ->
-                navController.navigate(
-                    Screen.ComponentDetailsScreen.withArgs(component.toString())
-                )
-            }
+        composable(route = Screen.ComponentsScreen.route) {
+            ComponentsScreen(
+                onItemClick = { component ->
+                    navController.navigate(
+                        Screen.ComponentDetailsScreen.withArgs(component.toString())
+                    )
+                },
+                onAddClick = {
+                    navController.navigate(
+                        Screen.AddComponentScreen.route
+                    )
+                }
+            )
         }
-        composable(Screen.PackingScreen.route) {
+        composable(route = Screen.PackingScreen.route) {
             PackingScreen()
         }
 
@@ -50,6 +58,9 @@ fun Navigation(navController: NavHostController) {
                     }
                 }
             }
+        }
+        composable(route = Screen.AddComponentScreen.route) {
+            AddComponentScreen()
         }
     }
 }

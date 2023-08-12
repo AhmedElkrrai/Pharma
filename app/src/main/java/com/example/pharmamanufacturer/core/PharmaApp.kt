@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer
+package com.example.pharmamanufacturer.core
 
 import android.app.Application
 

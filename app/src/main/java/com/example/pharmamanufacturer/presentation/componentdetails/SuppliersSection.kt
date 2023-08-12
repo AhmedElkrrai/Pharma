@@ -13,7 +13,7 @@ import com.example.pharmamanufacturer.core.UiDimensions
 import com.example.pharmamanufacturer.data.local.entities.Supplier
 
 @Composable
-fun SuppliersSection() {
+fun SuppliersSection(suppliers: List<Supplier>) {
     Column(modifier = Modifier.fillMaxSize()) {
 
         CenteredTitle(title = "Suppliers")
@@ -24,12 +24,6 @@ fun SuppliersSection() {
             columns = GridCells.Fixed(2),
             modifier = Modifier.fillMaxHeight()
         ) {
-            val suppliers = listOf(
-                Supplier("Ahmed", 22.0),
-                Supplier("Ali", 31.0),
-                Supplier("Khalid", 18.0)
-            )
-
             items(suppliers.size) {
                 SupplierItem(supplier = suppliers[it])
             }

@@ -1,6 +1,6 @@
 package com.example.pharmamanufacturer.data.local.database
 
-import com.example.pharmamanufacturer.PharmaApp
+import com.example.pharmamanufacturer.core.PharmaApp
 import com.example.pharmamanufacturer.data.local.entities.ChemicalComponent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
