@@ -17,7 +17,7 @@ import com.example.pharmamanufacturer.data.local.entities.Supplier
 import com.example.pharmamanufacturer.presentation.theme.Blue
 
 @Composable
-fun AddComponentScreen() {
+fun AddComponentScreen(navigateBack: () -> Unit) {
     val viewModel: AddComponentViewModel = viewModel()
 
     Box(
@@ -29,7 +29,6 @@ fun AddComponentScreen() {
         FloatingActionButton(
             onClick = {
                 val component = ChemicalComponent(
-                    id = 12,
                     name = "BatMan",
                     amount = 12.0,
                     products = listOf("Watah", "poison"),
@@ -40,6 +39,7 @@ fun AddComponentScreen() {
                     )
                 )
                 viewModel.addComponent(component)
+                navigateBack.invoke()
             },
             backgroundColor = Blue,
         ) {

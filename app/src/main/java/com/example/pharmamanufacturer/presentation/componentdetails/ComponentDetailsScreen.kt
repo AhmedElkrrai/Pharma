@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pharmamanufacturer.core.UiDimensions
 import com.example.pharmamanufacturer.core.round
+import com.example.pharmamanufacturer.presentation.utilitycompose.TopBar
 
 @Composable
 fun ComponentDetailsScreen(onBackClick: () -> Unit) {

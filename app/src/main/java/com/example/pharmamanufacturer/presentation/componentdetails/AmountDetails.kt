@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.example.pharmamanufacturer.core.UiDimensions
+import com.example.pharmamanufacturer.presentation.utilitycompose.StyledText
 
 @Composable
 fun AmountDetails(amount: String) {

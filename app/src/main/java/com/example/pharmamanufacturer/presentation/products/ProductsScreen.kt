@@ -2,7 +2,7 @@ package com.example.pharmamanufacturer.presentation.products
 
 import androidx.compose.runtime.Composable
 import com.example.pharmamanufacturer.R
-import com.example.pharmamanufacturer.presentation.utilityscreens.EmptyContentScreen
+import com.example.pharmamanufacturer.presentation.utilitycompose.EmptyContentScreen
 
 @Composable
 fun ProductsScreen() {

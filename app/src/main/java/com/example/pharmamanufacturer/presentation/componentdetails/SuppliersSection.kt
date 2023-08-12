@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.example.pharmamanufacturer.core.UiDimensions
 import com.example.pharmamanufacturer.data.local.entities.Supplier
+import com.example.pharmamanufacturer.presentation.utilitycompose.CenteredTitle
 
 @Composable
 fun SuppliersSection(suppliers: List<Supplier>) {

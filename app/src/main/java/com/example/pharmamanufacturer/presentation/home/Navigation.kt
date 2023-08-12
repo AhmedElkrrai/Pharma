@@ -51,16 +51,19 @@ fun Navigation(navController: NavHostController) {
             )
         ) {
             ComponentDetailsScreen {
-                val destinationRoute = Screen.ComponentsScreen.route
-                navController.navigate(destinationRoute) {
-                    popUpTo(destinationRoute) {
-                        inclusive = true
-                    }
-                }
+                navigateToParent(
+                    controller = navController,
+                    parentRoute = Screen.ComponentsScreen.route
+                )
             }
         }
         composable(route = Screen.AddComponentScreen.route) {
-            AddComponentScreen()
+            AddComponentScreen {
+                navigateToParent(
+                    controller = navController,
+                    parentRoute = Screen.ComponentsScreen.route
+                )
+            }
         }
     }
 }

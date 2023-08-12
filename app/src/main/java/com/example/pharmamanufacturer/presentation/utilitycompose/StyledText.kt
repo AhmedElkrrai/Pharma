@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.presentation.componentdetails
+package com.example.pharmamanufacturer.presentation.utilitycompose
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

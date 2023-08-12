@@ -16,6 +16,8 @@ import com.example.pharmamanufacturer.core.UiDimensions
 import com.example.pharmamanufacturer.core.round
 import com.example.pharmamanufacturer.data.local.entities.Supplier
 import com.example.pharmamanufacturer.presentation.theme.Blue
+import com.example.pharmamanufacturer.presentation.utilitycompose.CenteredTitle
+import com.example.pharmamanufacturer.presentation.utilitycompose.StyledText
 
 @Composable
 fun SupplierItem(

@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.presentation.componentdetails
+package com.example.pharmamanufacturer.presentation.utilitycompose
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box

@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.presentation.utilityscreens
+package com.example.pharmamanufacturer.presentation.utilitycompose
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -48,7 +48,7 @@ fun ProfileScreen() {
         mutableIntStateOf(0)
     }
     Column(modifier = Modifier.fillMaxSize()) {
-        TopBar(
+        Bar(
             name = "philipplackner_official",
             modifier = Modifier
                 .padding(10.dp)
@@ -121,7 +121,7 @@ fun ProfileScreen() {
 }
 
 @Composable
-fun TopBar(
+fun Bar(
     name: String,
     modifier: Modifier = Modifier
 ) {

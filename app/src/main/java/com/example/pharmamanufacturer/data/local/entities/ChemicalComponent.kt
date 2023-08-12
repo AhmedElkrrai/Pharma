@@ -13,7 +13,7 @@ import kotlinx.parcelize.Parcelize
 data class ChemicalComponent(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = COL_CHEMICAL_COMPONENT_ID)
-    val id: Int?,
+    val id: Int? = null,
     @ColumnInfo(name = COL_CHEMICAL_COMPONENT_NAME)
     val name: String,
     @ColumnInfo(name = COL_CHEMICAL_COMPONENT_AMOUNT)
