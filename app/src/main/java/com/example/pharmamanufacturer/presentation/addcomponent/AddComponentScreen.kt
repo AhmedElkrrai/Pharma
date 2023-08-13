@@ -43,8 +43,6 @@ fun AddComponentScreen(navigateBack: () -> Unit) {
     Column(modifier = Modifier.fillMaxSize()) {
         val viewModel: AddComponentViewModel = viewModel()
 
-        var name by remember { mutableStateOf("") }
-        var amount by remember { mutableStateOf("") }
         var suppliers by remember { mutableStateOf(listOf<Supplier>()) }
 
         Spacer(modifier = Modifier.height(UiDimensions.Medium_Padding))
@@ -65,7 +63,7 @@ fun AddComponentScreen(navigateBack: () -> Unit) {
                 .padding(UiDimensions.Medium_Padding)
         ) {
 
-            name = styledTextField(
+            val componentName = styledTextField(
                 modifier = Modifier
                     .padding(UiDimensions.Medium_Padding)
                     .weight(0.3f),
@@ -74,7 +72,9 @@ fun AddComponentScreen(navigateBack: () -> Unit) {
                 keyboardType = Text
             )
 
-            amount = styledTextField(
+            viewModel.updateComponentName(componentName)
+
+            val componentAmount = styledTextField(
                 modifier = Modifier
                     .padding(UiDimensions.Medium_Padding)
                     .weight(0.3f),
@@ -82,6 +82,8 @@ fun AddComponentScreen(navigateBack: () -> Unit) {
                 label = "Amount",
                 keyboardType = Decimal
             )
+
+            viewModel.updateComponentAmount(componentAmount)
         }
 
         Spacer(modifier = Modifier.height(UiDimensions.Medium_Padding))
@@ -157,8 +159,8 @@ fun AddComponentScreen(navigateBack: () -> Unit) {
         BottomFloatingButton(
             onClick = {
                 val component = ChemicalComponent(
-                    name = name,
-                    amount = amount.toDouble(),
+                    name = viewModel.componentName.value,
+                    amount = viewModel.componentAmount.value,
                     products = listOf("Wottah", "poison"),
                     suppliers = suppliers
                 )
