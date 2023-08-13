@@ -24,10 +24,13 @@ fun styledTextField(
     modifier: Modifier = Modifier,
     placeHolderText: String,
     label: String,
-    keyboardType: KeyboardType
+    keyboardType: KeyboardType,
+    clearInput: Boolean = false
 ): String {
     var input by remember { mutableStateOf("") }
     val focusManager = LocalFocusManager.current
+
+    if (clearInput) input = ""
 
     OutlinedTextField(
         modifier = modifier,
@@ -55,7 +58,7 @@ fun styledTextField(
             imeAction = ImeAction.Done
         ),
         keyboardActions = KeyboardActions(
-            onDone  = {
+            onDone = {
                 focusManager.moveFocus(FocusDirection.Next)
             }
         ),

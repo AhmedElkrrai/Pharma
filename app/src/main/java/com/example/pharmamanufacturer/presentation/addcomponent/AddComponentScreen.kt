@@ -100,6 +100,8 @@ fun AddComponentScreen(navigateBack: () -> Unit) {
             var supplierName by remember { mutableStateOf("") }
             var capacity by remember { mutableStateOf("") }
 
+            var isBtnClicked by remember { mutableStateOf(false) }
+
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
@@ -113,7 +115,9 @@ fun AddComponentScreen(navigateBack: () -> Unit) {
                         .weight(0.3f),
                     placeHolderText = "Name",
                     label = "Name",
-                    keyboardType = Text
+                    keyboardType = Text,
+                    clearInput =
+                    isBtnClicked.takeIf { it } ?: false
                 )
 
                 capacity = styledTextField(
@@ -122,7 +126,9 @@ fun AddComponentScreen(navigateBack: () -> Unit) {
                         .weight(0.3f),
                     placeHolderText = "Capacity",
                     label = "Capacity",
-                    keyboardType = Decimal
+                    keyboardType = Decimal,
+                    clearInput =
+                    isBtnClicked.takeIf { it }.also { isBtnClicked = false } ?: false
                 )
             }
 
@@ -145,6 +151,8 @@ fun AddComponentScreen(navigateBack: () -> Unit) {
                                 capacity = capacity.toDouble().round()
                             )
                         )
+
+                        isBtnClicked = true
                     }
                 ) {
                     Text(
