@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.pharmamanufacturer.data.models.BottomNavItem
+import com.example.pharmamanufacturer.presentation.models.BottomNavItem
 import com.example.pharmamanufacturer.presentation.theme.DeepBlue
 
 @Composable

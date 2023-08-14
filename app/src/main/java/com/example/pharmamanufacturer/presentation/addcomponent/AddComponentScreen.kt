@@ -44,6 +44,8 @@ fun AddComponentScreen(navigateBack: () -> Unit) {
         val viewModel: AddComponentViewModel = viewModel()
 
         var suppliers by remember { mutableStateOf(listOf<Supplier>()) }
+        var invalidNameInput by remember { mutableStateOf(false) }
+        var invalidAmountInput by remember { mutableStateOf(false) }
 
         Spacer(modifier = Modifier.height(UiDimensions.Medium_Padding))
 
@@ -69,7 +71,8 @@ fun AddComponentScreen(navigateBack: () -> Unit) {
                     .weight(0.3f),
                 placeHolderText = "Name",
                 label = "Name",
-                keyboardType = Text
+                keyboardType = Text,
+                invalidInput = invalidNameInput
             )
 
             viewModel.updateComponentName(componentName)
@@ -80,10 +83,11 @@ fun AddComponentScreen(navigateBack: () -> Unit) {
                     .weight(0.3f),
                 placeHolderText = "Available Amount",
                 label = "Amount",
-                keyboardType = Decimal
+                keyboardType = Decimal,
+                invalidInput = invalidAmountInput
             )
 
-            viewModel.updateComponentAmount(componentAmount)
+            viewModel.updateComponentAmount(componentAmount.takeIf { it.isNotBlank() } ?: "0")
         }
 
         Spacer(modifier = Modifier.height(UiDimensions.Medium_Padding))
@@ -116,8 +120,7 @@ fun AddComponentScreen(navigateBack: () -> Unit) {
                     placeHolderText = "Name",
                     label = "Name",
                     keyboardType = Text,
-                    clearInput =
-                    isBtnClicked.takeIf { it } ?: false
+                    clearInput = isBtnClicked
                 )
 
                 capacity = styledTextField(
@@ -145,12 +148,17 @@ fun AddComponentScreen(navigateBack: () -> Unit) {
                     shape = RectangleShape,
                     colors = ButtonDefaults.buttonColors(backgroundColor = Blue),
                     onClick = {
-                        suppliers = suppliers + listOf(
-                            Supplier(
-                                name = supplierName,
-                                capacity = capacity.toDouble().round()
+                        val supplierCapacity =
+                            capacity.takeIf { it.isNotBlank() }?.toDouble()?.round() ?: 0.0
+
+                        if (supplierCapacity != 0.0 && supplierName.isNotBlank()) {
+                            suppliers = suppliers + listOf(
+                                Supplier(
+                                    name = supplierName,
+                                    capacity = supplierCapacity
+                                )
                             )
-                        )
+                        }
 
                         isBtnClicked = true
                     }
@@ -166,10 +174,27 @@ fun AddComponentScreen(navigateBack: () -> Unit) {
 
         BottomFloatingButton(
             onClick = {
+                val name = viewModel.componentName.value
+                val amount = viewModel.componentAmount.value
+
+                var invalidEntry = false
+
+                if (name.isBlank()) {
+                    invalidNameInput = true
+                    invalidEntry = true
+                } else invalidNameInput = false
+
+                if (amount == 0.0) {
+                    invalidAmountInput = true
+                    invalidEntry = true
+                } else invalidAmountInput = false
+
+                if (invalidEntry) return@BottomFloatingButton
+
                 val component = ChemicalComponent(
-                    name = viewModel.componentName.value,
-                    amount = viewModel.componentAmount.value,
-                    products = listOf("Wottah", "poison"),
+                    name = name,
+                    amount = amount,
+                    products = listOf(),
                     suppliers = suppliers
                 )
                 viewModel.addComponent(component)

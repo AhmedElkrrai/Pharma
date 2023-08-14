@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.data.models
+package com.example.pharmamanufacturer.presentation.models
 
 import androidx.compose.ui.graphics.painter.Painter
 

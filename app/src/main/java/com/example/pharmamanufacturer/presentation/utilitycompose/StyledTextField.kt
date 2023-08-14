@@ -1,5 +1,6 @@
 package com.example.pharmamanufacturer.presentation.utilitycompose
 
+import android.util.Log
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.OutlinedTextField
@@ -18,6 +19,9 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.example.pharmamanufacturer.presentation.theme.Blue
+import com.example.pharmamanufacturer.presentation.theme.Red
+
+private const val INVALID_INPUT_MESSAGE = "Invalid Input"
 
 @Composable
 fun styledTextField(
@@ -25,32 +29,51 @@ fun styledTextField(
     placeHolderText: String,
     label: String,
     keyboardType: KeyboardType,
+    fieldColor: Color = Blue,
+    invalidInput: Boolean = false,
     clearInput: Boolean = false
 ): String {
     var input by remember { mutableStateOf("") }
+    var placeHolder by remember { mutableStateOf(placeHolderText) }
+    var color by remember { mutableStateOf(fieldColor) }
+
     val focusManager = LocalFocusManager.current
 
     if (clearInput) input = ""
 
+    if (invalidInput) {
+        color = Red
+        placeHolder = INVALID_INPUT_MESSAGE
+    } else {
+        color = Blue
+        placeHolder = placeHolderText
+    }
+
+    Log.d("taggs", "invalidInput = $invalidInput, color = $color")
+
     OutlinedTextField(
         modifier = modifier,
         value = input,
-        onValueChange = { text -> input = text },
+        onValueChange = { text ->
+            color = Blue
+            input = text
+        },
         colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = Blue,
+            focusedBorderColor = color,
+            unfocusedBorderColor = if (invalidInput) Red else Color.LightGray,
             cursorColor = Color.Transparent
         ),
         placeholder = {
             Text(
                 modifier = Modifier.alpha(0.5f),
-                text = placeHolderText,
+                text = placeHolder,
                 color = Color.LightGray,
             )
         },
         label = {
             Text(
                 text = label,
-                color = Blue
+                color = color
             )
         },
         keyboardOptions = KeyboardOptions(
@@ -59,7 +82,11 @@ fun styledTextField(
         ),
         keyboardActions = KeyboardActions(
             onDone = {
-                focusManager.moveFocus(FocusDirection.Next)
+                if (input.isBlank()) {
+                    color = Red
+                    placeHolder = INVALID_INPUT_MESSAGE
+                } else
+                    focusManager.moveFocus(FocusDirection.Next)
             }
         ),
         singleLine = true,

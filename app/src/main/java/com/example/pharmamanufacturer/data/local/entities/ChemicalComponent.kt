@@ -21,7 +21,7 @@ data class ChemicalComponent(
     @ColumnInfo(name = COL_COMPONENT_PRODUCTS)
     val products: List<String>,
     @ColumnInfo(name = COL_SUPPLIERS)
-    val suppliers: List<Supplier>
+    val suppliers: List<Supplier>? = null
 ) : Parcelable {
     override fun toString(): String {
         return Uri.encode(Gson().toJson(this))

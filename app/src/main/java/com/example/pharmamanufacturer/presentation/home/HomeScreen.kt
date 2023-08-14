@@ -10,7 +10,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.rememberNavController
 import com.example.pharmamanufacturer.R
-import com.example.pharmamanufacturer.data.models.BottomNavItem
+import com.example.pharmamanufacturer.presentation.models.BottomNavItem
 import com.example.pharmamanufacturer.core.Screen
 
 @Composable

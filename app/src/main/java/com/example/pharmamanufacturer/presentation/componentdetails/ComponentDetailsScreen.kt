@@ -29,11 +29,13 @@ fun ComponentDetailsScreen(onBackClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(UiDimensions.Medium_Padding))
 
-            ProductsSection(component.products)
+            if (component.products.isNotEmpty()) {
+                ProductsSection(component.products)
+            }
 
             Spacer(modifier = Modifier.height(UiDimensions.Medium_Padding))
 
-            SuppliersSection(component.suppliers)
+            component.suppliers?.let { SuppliersSection(it) }
         }
     }
 }

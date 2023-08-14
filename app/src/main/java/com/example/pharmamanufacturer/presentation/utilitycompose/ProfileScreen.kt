@@ -39,7 +39,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.pharmamanufacturer.data.models.ImageWithText
+import com.example.pharmamanufacturer.presentation.models.ImageWithText
 
 @ExperimentalFoundationApi
 @Composable
