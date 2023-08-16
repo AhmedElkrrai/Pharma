@@ -25,7 +25,7 @@ fun styledTextField(
     label: String,
     keyboardType: KeyboardType,
     viewState: FieldTextViewState,
-    onDone: () -> Unit
+    showInvalidInput: () -> Unit
 ): String {
     var input by remember { mutableStateOf("") }
     val focusManager = LocalFocusManager.current
@@ -62,8 +62,10 @@ fun styledTextField(
         ),
         keyboardActions = KeyboardActions(
             onDone = {
-                onDone.invoke()
-                focusManager.moveFocus(FocusDirection.Next)
+                if (input.isBlank())
+                    showInvalidInput.invoke()
+                else
+                    focusManager.moveFocus(FocusDirection.Next)
             }
         ),
         singleLine = true,

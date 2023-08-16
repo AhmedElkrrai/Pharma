@@ -1,7 +1,13 @@
 package com.example.pharmamanufacturer.presentation.addcomponent.state
 
-internal sealed interface AddComponentEventState {
+sealed interface AddComponentEventState {
     object FieldValueChanged : AddComponentEventState
-    object InvalidInput : AddComponentEventState
+    data class InvalidInputState(
+        val name: Boolean = false,
+        val amount: Boolean = false,
+        val supplierName: Boolean = false,
+        val capacity: Boolean = false
+    ) : AddComponentEventState
+
     object ClearSupplierInputs : AddComponentEventState
 }

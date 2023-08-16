@@ -9,6 +9,7 @@ import com.example.pharmamanufacturer.presentation.addcomponent.action.AddCompon
 import com.example.pharmamanufacturer.presentation.addcomponent.state.AddComponentEventState
 import com.example.pharmamanufacturer.presentation.addcomponent.state.AddComponentScreenViewState
 import com.example.pharmamanufacturer.presentation.addcomponent.state.FieldTextViewState.Companion.CLEARED_FIELD
+import com.example.pharmamanufacturer.presentation.addcomponent.state.shouldEnterErrorState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -65,9 +66,9 @@ class AddComponentViewModel(
         viewModelScope.launch(mainContext) {
             events.collect { event ->
                 when (event) {
-                    AddComponentEventState.ClearSupplierInputs -> clearSupplierInputs()
-                    AddComponentEventState.FieldValueChanged -> onValueChanged()
-                    AddComponentEventState.InvalidInput -> handleInvalidInput()
+                    is AddComponentEventState.ClearSupplierInputs -> clearSupplierInputs()
+                    is AddComponentEventState.FieldValueChanged -> onValueChanged()
+                    is AddComponentEventState.InvalidInputState -> handleInvalidInput(event)
                 }
             }
         }
@@ -77,6 +78,15 @@ class AddComponentViewModel(
         viewModelScope.launch(ioContext) {
             val name = viewState.value.name.input
             val amount = viewState.value.amount.input
+            if (name.isBlank() || amount.isBlank()) {
+                _events.send(
+                    AddComponentEventState.InvalidInputState(
+                        name = name.isBlank(),
+                        amount = amount.isBlank()
+                    )
+                )
+                return@launch
+            }
 
             val component = ChemicalComponent(
                 name = name,
@@ -92,7 +102,15 @@ class AddComponentViewModel(
         val name = viewState.value.supplierName.input
         val capacity = viewState.value.capacity.input
 
-        if (name.isBlank() || capacity.isBlank()) return
+        if (name.isBlank() || capacity.isBlank()) {
+            _events.send(
+                AddComponentEventState.InvalidInputState(
+                    supplierName = name.isBlank(),
+                    capacity = capacity.isBlank()
+                )
+            )
+            return
+        }
 
         val supplier = Supplier(
             name = name,
@@ -103,23 +121,18 @@ class AddComponentViewModel(
         _events.send(AddComponentEventState.ClearSupplierInputs)
     }
 
-    private suspend fun onKeyboardDone(invalidInput: Boolean) {
-        if (invalidInput) _events.send(AddComponentEventState.InvalidInput)
+    private suspend fun onKeyboardDone(invalidInputState: AddComponentEventState.InvalidInputState) {
+        _events.send(
+            AddComponentEventState.InvalidInputState(
+                name = invalidInputState.name,
+                amount = invalidInputState.amount,
+                supplierName = invalidInputState.supplierName,
+                capacity = invalidInputState.capacity
+            )
+        )
     }
 
     private fun clearSupplierInputs() {
-/*        viewModelScope.launch {
-            _viewState.emit(
-                _viewState.value.copy(
-                    supplierName = _viewState.value.supplierName.copy(
-                        input = ""
-                    ),
-                    capacity = _viewState.value.capacity.copy(
-                        input = ""
-                    )
-                )
-            )
-        }*/
         updateState {
             it.copy(
                 supplierName = it.supplierName.copy(
@@ -137,9 +150,10 @@ class AddComponentViewModel(
         viewState.value.capacity.input = "Weeeee"
     }
 
-    private fun handleInvalidInput() {
-        viewState.value.supplierName.input = "Weeeee"
-        viewState.value.capacity.input = "Weeeee"
+    private fun handleInvalidInput(invalidInputState: AddComponentEventState.InvalidInputState) {
+        updateState {
+            viewState.value.shouldEnterErrorState(invalidInputState)
+        }
     }
 
     internal fun sendAction(action: AddComponentAction) {
