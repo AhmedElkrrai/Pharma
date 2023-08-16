@@ -38,7 +38,8 @@ import com.example.pharmamanufacturer.presentation.utilitycompose.styledTextFiel
 @Composable
 fun AddComponentScreen(navigateBack: () -> Unit) {
     Column(modifier = Modifier.fillMaxSize()) {
-        val viewModel: AddComponentViewModel = viewModel()
+        val viewModel: AddComponentViewModel =
+            viewModel(factory = AddComponentViewModel.Factory(navigateBack))
 
         val viewState by viewModel.viewState.collectAsStateWithLifecycle()
 
@@ -168,7 +169,6 @@ fun AddComponentScreen(navigateBack: () -> Unit) {
         BottomFloatingButton(
             onClick = {
                 viewModel.sendAction(AddComponentAction.INSERT)
-                navigateBack.invoke()
             }
         )
     }

@@ -1,6 +1,7 @@
 package com.example.pharmamanufacturer.presentation.addcomponent
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.pharmamanufacturer.data.local.database.DatabaseHandler
 import com.example.pharmamanufacturer.data.local.entities.ChemicalComponent
@@ -18,11 +19,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 
 class AddComponentViewModel(
     private val ioContext: CoroutineContext = Dispatchers.IO,
-    private val mainContext: CoroutineContext = Dispatchers.Main
+    private val mainContext: CoroutineContext = Dispatchers.Main,
+    private val navigateBack: () -> Unit
 ) : ViewModel() {
     private val viewAction = Channel<AddComponentAction>()
 
@@ -56,7 +59,7 @@ class AddComponentViewModel(
                 when (action) {
                     is AddComponentAction.INSERT -> addComponent()
                     is AddComponentAction.AddSupplier -> addSupplier()
-                    is AddComponentAction.KEYBOARD -> onKeyboardDone(action.invalidInput)
+                    is AddComponentAction.KEYBOARD -> handleInvalidInput(action.invalidInput)
                 }
             }
         }
@@ -95,6 +98,10 @@ class AddComponentViewModel(
                 products = listOf()
             )
             DatabaseHandler.addChemicalComponent(component)
+
+            withContext(mainContext) {
+                navigateBack.invoke()
+            }
         }
     }
 
@@ -119,17 +126,6 @@ class AddComponentViewModel(
         suppliers.add(supplier)
 
         _events.send(AddComponentEventState.ClearSupplierInputs)
-    }
-
-    private suspend fun onKeyboardDone(invalidInputState: AddComponentEventState.InvalidInputState) {
-        _events.send(
-            AddComponentEventState.InvalidInputState(
-                name = invalidInputState.name,
-                amount = invalidInputState.amount,
-                supplierName = invalidInputState.supplierName,
-                capacity = invalidInputState.capacity
-            )
-        )
     }
 
     private fun clearSupplierInputs() {
@@ -164,5 +160,12 @@ class AddComponentViewModel(
 
     private fun updateState(newState: (AddComponentScreenViewState) -> AddComponentScreenViewState) {
         _viewState.update { oldState -> newState(oldState) }
+    }
+
+    class Factory(private val navigateBack: () -> Unit) :
+        ViewModelProvider.NewInstanceFactory() {
+        @Suppress("UNCHECKED_CAST")
+        override fun <T : ViewModel> create(modelClass: Class<T>): T =
+             AddComponentViewModel(navigateBack = navigateBack) as T
     }
 }

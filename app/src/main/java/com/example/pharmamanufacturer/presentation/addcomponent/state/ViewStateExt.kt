@@ -5,7 +5,7 @@ import com.example.pharmamanufacturer.presentation.theme.Red
 fun AddComponentScreenViewState.shouldEnterErrorState(
     invalidInputState: AddComponentEventState.InvalidInputState
 ): AddComponentScreenViewState {
-    return this.copy(
+    return AddComponentScreenViewState(
         name = this.name.enterErrorState(invalidInputState.name),
         amount = this.amount.enterErrorState(invalidInputState.amount),
         supplierName = this.supplierName.enterErrorState(invalidInputState.supplierName),
