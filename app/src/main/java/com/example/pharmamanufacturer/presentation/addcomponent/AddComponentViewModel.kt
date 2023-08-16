@@ -8,12 +8,14 @@ import com.example.pharmamanufacturer.data.local.entities.Supplier
 import com.example.pharmamanufacturer.presentation.addcomponent.action.AddComponentAction
 import com.example.pharmamanufacturer.presentation.addcomponent.state.AddComponentEventState
 import com.example.pharmamanufacturer.presentation.addcomponent.state.AddComponentScreenViewState
+import com.example.pharmamanufacturer.presentation.addcomponent.state.FieldTextViewState.Companion.CLEARED_FIELD
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
@@ -28,7 +30,7 @@ class AddComponentViewModel(
         get() = _viewState
 
     private val _events = Channel<AddComponentEventState>()
-    internal val events: Flow<AddComponentEventState>
+    private val events: Flow<AddComponentEventState>
         get() = _events.receiveAsFlow()
 
     private val suppliers = mutableListOf<Supplier>()
@@ -37,6 +39,7 @@ class AddComponentViewModel(
         viewModelScope.launch {
             initViewData()
             processActions()
+            processEvents()
         }
     }
 
@@ -58,6 +61,18 @@ class AddComponentViewModel(
         }
     }
 
+    private suspend fun processEvents() {
+        viewModelScope.launch(mainContext) {
+            events.collect { event ->
+                when (event) {
+                    AddComponentEventState.ClearSupplierInputs -> clearSupplierInputs()
+                    AddComponentEventState.FieldValueChanged -> onValueChanged()
+                    AddComponentEventState.InvalidInput -> handleInvalidInput()
+                }
+            }
+        }
+    }
+
     private fun addComponent() {
         viewModelScope.launch(ioContext) {
             val name = viewState.value.name.input
@@ -73,7 +88,7 @@ class AddComponentViewModel(
         }
     }
 
-    private fun addSupplier() {
+    private suspend fun addSupplier() {
         val name = viewState.value.supplierName.input
         val capacity = viewState.value.capacity.input
 
@@ -84,15 +99,56 @@ class AddComponentViewModel(
             capacity = capacity.toDouble()
         )
         suppliers.add(supplier)
+
+        _events.send(AddComponentEventState.ClearSupplierInputs)
     }
 
     private suspend fun onKeyboardDone(invalidInput: Boolean) {
         if (invalidInput) _events.send(AddComponentEventState.InvalidInput)
     }
 
+    private fun clearSupplierInputs() {
+/*        viewModelScope.launch {
+            _viewState.emit(
+                _viewState.value.copy(
+                    supplierName = _viewState.value.supplierName.copy(
+                        input = ""
+                    ),
+                    capacity = _viewState.value.capacity.copy(
+                        input = ""
+                    )
+                )
+            )
+        }*/
+        updateState {
+            it.copy(
+                supplierName = it.supplierName.copy(
+                    input = CLEARED_FIELD
+                ),
+                capacity = it.capacity.copy(
+                    input = CLEARED_FIELD
+                )
+            )
+        }
+    }
+
+    private fun onValueChanged() {
+        viewState.value.supplierName.input = "Weeeee"
+        viewState.value.capacity.input = "Weeeee"
+    }
+
+    private fun handleInvalidInput() {
+        viewState.value.supplierName.input = "Weeeee"
+        viewState.value.capacity.input = "Weeeee"
+    }
+
     internal fun sendAction(action: AddComponentAction) {
         viewModelScope.launch {
             viewAction.send(action)
         }
+    }
+
+    private fun updateState(newState: (AddComponentScreenViewState) -> AddComponentScreenViewState) {
+        _viewState.update { oldState -> newState(oldState) }
     }
 }

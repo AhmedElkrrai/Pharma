@@ -53,7 +53,7 @@ fun ComponentProductItem(
                     tint = Color.Unspecified,
                     modifier = Modifier
                         .size(28.dp)
-                        .padding(start = UiDimensions.Small_Padding)
+                        .padding(start = UiDimensions.Small_Space)
                 )
             }
         }

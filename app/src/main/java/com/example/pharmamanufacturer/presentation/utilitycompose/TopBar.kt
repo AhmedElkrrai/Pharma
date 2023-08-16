@@ -27,7 +27,7 @@ fun TopBar(
     onBackClick: () -> Unit
 ) {
     Box(
-        modifier = modifier.padding(top = UiDimensions.Small_Padding),
+        modifier = modifier.padding(top = UiDimensions.Small_Space),
         contentAlignment = Alignment.Center
     ) {
         Text(
@@ -47,8 +47,8 @@ fun TopBar(
                 modifier = Modifier
                     .size(28.dp)
                     .padding(
-                        start = UiDimensions.Small_Padding,
-                        top = UiDimensions.Small_Padding
+                        start = UiDimensions.Small_Space,
+                        top = UiDimensions.Small_Space
                     )
                     .clickable {
                         onBackClick.invoke()

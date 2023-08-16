@@ -36,7 +36,7 @@ fun CenteredTitleWithIcon(
         )
 
         Text(
-            modifier = Modifier.padding(start = UiDimensions.Small_Padding),
+            modifier = Modifier.padding(start = UiDimensions.Small_Space),
             text = title,
             color = titleColor,
             fontWeight = FontWeight.SemiBold,

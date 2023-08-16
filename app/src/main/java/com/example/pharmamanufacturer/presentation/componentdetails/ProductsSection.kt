@@ -17,7 +17,7 @@ fun ProductsSection(products: List<String>) {
 
         CenteredTitle(title = "Products")
 
-        Spacer(modifier = Modifier.height(UiDimensions.Medium_Padding))
+        Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
         LazyColumn {
             items(products) { productName ->

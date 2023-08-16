@@ -32,7 +32,11 @@ fun styledTextField(
 
     OutlinedTextField(
         modifier = modifier,
-        value = input,
+        value = input.takeIf { viewState.input != FieldTextViewState.CLEARED_FIELD }
+            ?: run {
+                input = ""
+                input
+            },
         onValueChange = { text -> input = text },
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = viewState.focusedBorderColor,

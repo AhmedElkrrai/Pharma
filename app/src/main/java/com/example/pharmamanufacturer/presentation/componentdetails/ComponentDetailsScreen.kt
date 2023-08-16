@@ -23,17 +23,17 @@ fun ComponentDetailsScreen(onBackClick: () -> Unit) {
                 onBackClick = onBackClick
             )
 
-            Spacer(modifier = Modifier.height(UiDimensions.Medium_Padding))
+            Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
             AmountDetails(component.amount.round().toString())
 
-            Spacer(modifier = Modifier.height(UiDimensions.Medium_Padding))
+            Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
             if (component.products.isNotEmpty()) {
                 ProductsSection(component.products)
             }
 
-            Spacer(modifier = Modifier.height(UiDimensions.Medium_Padding))
+            Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
             component.suppliers?.let { SuppliersSection(it) }
         }

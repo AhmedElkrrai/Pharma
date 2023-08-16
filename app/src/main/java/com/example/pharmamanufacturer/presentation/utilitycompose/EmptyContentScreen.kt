@@ -36,7 +36,7 @@ fun EmptyContentScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(UiDimensions.Medium_Padding),
+            .padding(UiDimensions.Medium_Space),
         contentAlignment = Alignment.BottomCenter
     ) {
         Text(

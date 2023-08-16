@@ -41,7 +41,7 @@ fun AddComponentScreen(navigateBack: () -> Unit) {
 
         val viewState by viewModel.viewState.collectAsStateWithLifecycle()
 
-        Spacer(modifier = Modifier.height(UiDimensions.Medium_Padding))
+        Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
         CenteredTitleWithIcon(
             modifier = Modifier.size(30.dp),
@@ -49,18 +49,18 @@ fun AddComponentScreen(navigateBack: () -> Unit) {
             painter = painterResource(id = R.drawable.ic_details)
         )
 
-        Spacer(modifier = Modifier.height(UiDimensions.Medium_Padding))
+        Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(UiDimensions.Medium_Padding)
+                .padding(UiDimensions.Medium_Space)
         ) {
             viewState.name.input = styledTextField(
                 modifier = Modifier
-                    .padding(UiDimensions.Medium_Padding)
+                    .padding(UiDimensions.Medium_Space)
                     .weight(0.3f),
                 label = "Name",
                 keyboardType = Text,
@@ -76,7 +76,7 @@ fun AddComponentScreen(navigateBack: () -> Unit) {
 
             viewState.amount.input = styledTextField(
                 modifier = Modifier
-                    .padding(UiDimensions.Medium_Padding)
+                    .padding(UiDimensions.Medium_Space)
                     .weight(0.3f),
                 label = "Amount",
                 keyboardType = Decimal,
@@ -91,7 +91,7 @@ fun AddComponentScreen(navigateBack: () -> Unit) {
             )
         }
 
-        Spacer(modifier = Modifier.height(UiDimensions.Medium_Padding))
+        Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
         CenteredTitleWithIcon(
             modifier = Modifier.size(30.dp),
@@ -99,19 +99,19 @@ fun AddComponentScreen(navigateBack: () -> Unit) {
             painter = painterResource(id = R.drawable.ic_doctor)
         )
 
-        Spacer(modifier = Modifier.height(UiDimensions.Medium_Padding))
+        Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(UiDimensions.Medium_Padding)
+                .padding(UiDimensions.Medium_Space)
         ) {
 
             viewState.supplierName.input = styledTextField(
                 modifier = Modifier
-                    .padding(UiDimensions.Medium_Padding)
+                    .padding(UiDimensions.Medium_Space)
                     .weight(0.3f),
                 label = "Name",
                 keyboardType = Text,
@@ -127,7 +127,7 @@ fun AddComponentScreen(navigateBack: () -> Unit) {
 
             viewState.capacity.input = styledTextField(
                 modifier = Modifier
-                    .padding(UiDimensions.Medium_Padding)
+                    .padding(UiDimensions.Medium_Space)
                     .weight(0.3f),
                 label = "Capacity",
                 keyboardType = Decimal,
@@ -142,7 +142,7 @@ fun AddComponentScreen(navigateBack: () -> Unit) {
             )
         }
 
-        Spacer(modifier = Modifier.height(UiDimensions.Small_Padding))
+        Spacer(modifier = Modifier.height(UiDimensions.Small_Space))
 
         Box(
             modifier = Modifier.fillMaxWidth(),

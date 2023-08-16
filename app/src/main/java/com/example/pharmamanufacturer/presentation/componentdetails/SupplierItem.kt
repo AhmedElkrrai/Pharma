@@ -33,19 +33,19 @@ fun SupplierItem(
     ) {
         Column {
             CenteredTitle(
-                modifier = Modifier.padding(UiDimensions.Small_Padding),
+                modifier = Modifier.padding(UiDimensions.Small_Space),
                 title = supplier.name,
                 titleColor = Blue
             )
 
-            Spacer(modifier = Modifier.height(UiDimensions.Medium_Padding))
+            Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
             Box(
                 modifier = modifier.fillMaxSize(),
                 contentAlignment = Alignment.BottomCenter
             ) {
                 StyledText(
-                    modifier = Modifier.padding(bottom = UiDimensions.Small_Padding),
+                    modifier = Modifier.padding(bottom = UiDimensions.Small_Space),
                     amount = supplier.capacity.round().toString()
                 )
             }

@@ -12,6 +12,8 @@ data class FieldTextViewState(
     val unfocusedBorderColor: Color
 ) {
     companion object {
+        const val CLEARED_FIELD = " "
+
         fun initState(hint: String = ""): FieldTextViewState {
             return FieldTextViewState(
                 input = "",

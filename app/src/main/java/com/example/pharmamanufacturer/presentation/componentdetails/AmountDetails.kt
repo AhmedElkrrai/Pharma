@@ -20,7 +20,7 @@ fun AmountDetails(amount: String) {
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(UiDimensions.Medium_Padding)
+            .padding(UiDimensions.Medium_Space)
     ) {
         Text(
             text = "Available:",

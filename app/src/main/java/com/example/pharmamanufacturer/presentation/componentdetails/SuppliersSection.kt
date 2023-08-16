@@ -19,7 +19,7 @@ fun SuppliersSection(suppliers: List<Supplier>) {
 
         CenteredTitle(title = "Suppliers")
 
-        Spacer(modifier = Modifier.height(UiDimensions.Medium_Padding))
+        Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
