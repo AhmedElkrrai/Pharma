@@ -29,7 +29,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pharmamanufacturer.R
 import com.example.pharmamanufacturer.core.UiDimensions
 import com.example.pharmamanufacturer.presentation.addcomponent.action.AddComponentAction
-import com.example.pharmamanufacturer.presentation.addcomponent.state.AddComponentEventState
+import com.example.pharmamanufacturer.presentation.addcomponent.action.TextField
 import com.example.pharmamanufacturer.presentation.theme.Blue
 import com.example.pharmamanufacturer.presentation.utilitycompose.BottomFloatingButton
 import com.example.pharmamanufacturer.presentation.utilitycompose.CenteredTitleWithIcon
@@ -67,11 +67,10 @@ fun AddComponentScreen(navigateBack: () -> Unit) {
                 label = "Name",
                 keyboardType = Text,
                 viewState = viewState.name,
+                exitErrorState = {},
                 showInvalidInput = {
                     viewModel.sendAction(
-                        AddComponentAction.KEYBOARD(
-                            invalidInput = AddComponentEventState.InvalidInputState(name = true)
-                        )
+                        AddComponentAction.KEYBOARD(TextField.Name)
                     )
                 }
             )
@@ -83,11 +82,10 @@ fun AddComponentScreen(navigateBack: () -> Unit) {
                 label = "Amount",
                 keyboardType = Decimal,
                 viewState = viewState.amount,
+                exitErrorState = {},
                 showInvalidInput = {
                     viewModel.sendAction(
-                        AddComponentAction.KEYBOARD(
-                            invalidInput = AddComponentEventState.InvalidInputState(amount = true)
-                        )
+                        AddComponentAction.KEYBOARD(TextField.Amount)
                     )
                 }
             )
@@ -118,11 +116,10 @@ fun AddComponentScreen(navigateBack: () -> Unit) {
                 label = "Name",
                 keyboardType = Text,
                 viewState = viewState.supplierName,
+                exitErrorState = {},
                 showInvalidInput = {
                     viewModel.sendAction(
-                        AddComponentAction.KEYBOARD(
-                            invalidInput = AddComponentEventState.InvalidInputState(supplierName = true)
-                        )
+                        AddComponentAction.KEYBOARD(TextField.SupplierName)
                     )
                 }
             )
@@ -134,11 +131,10 @@ fun AddComponentScreen(navigateBack: () -> Unit) {
                 label = "Capacity",
                 keyboardType = Decimal,
                 viewState = viewState.capacity,
+                exitErrorState = {},
                 showInvalidInput = {
                     viewModel.sendAction(
-                        AddComponentAction.KEYBOARD(
-                            invalidInput = AddComponentEventState.InvalidInputState(capacity = true)
-                        )
+                        AddComponentAction.KEYBOARD(TextField.Capacity)
                     )
                 }
             )

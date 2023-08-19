@@ -1,13 +1,9 @@
 package com.example.pharmamanufacturer.presentation.addcomponent.state
 
-sealed interface AddComponentEventState {
-    object FieldValueChanged : AddComponentEventState
-    data class InvalidInputState(
-        val name: Boolean = false,
-        val amount: Boolean = false,
-        val supplierName: Boolean = false,
-        val capacity: Boolean = false
-    ) : AddComponentEventState
+import com.example.pharmamanufacturer.presentation.addcomponent.action.TextField
 
+sealed interface AddComponentEventState {
+    data class FieldValueChanged(val textField: TextField) : AddComponentEventState
+    data class InvalidInput(val textField: TextField) : AddComponentEventState
     object ClearSupplierInputs : AddComponentEventState
 }

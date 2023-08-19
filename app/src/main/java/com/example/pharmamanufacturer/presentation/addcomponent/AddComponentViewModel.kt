@@ -9,8 +9,10 @@ import com.example.pharmamanufacturer.data.local.entities.Supplier
 import com.example.pharmamanufacturer.presentation.addcomponent.action.AddComponentAction
 import com.example.pharmamanufacturer.presentation.addcomponent.state.AddComponentEventState
 import com.example.pharmamanufacturer.presentation.addcomponent.state.AddComponentScreenViewState
+import com.example.pharmamanufacturer.presentation.addcomponent.state.FieldTextErrorEventState
 import com.example.pharmamanufacturer.presentation.addcomponent.state.FieldTextViewState.Companion.CLEARED_FIELD
-import com.example.pharmamanufacturer.presentation.addcomponent.state.shouldEnterErrorState
+import com.example.pharmamanufacturer.presentation.addcomponent.action.TextField
+import com.example.pharmamanufacturer.presentation.addcomponent.state.renderViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -27,6 +29,7 @@ class AddComponentViewModel(
     private val mainContext: CoroutineContext = Dispatchers.Main,
     private val navigateBack: () -> Unit
 ) : ViewModel() {
+
     private val viewAction = Channel<AddComponentAction>()
 
     private val _viewState = MutableStateFlow(AddComponentScreenViewState.INIT)
@@ -57,9 +60,17 @@ class AddComponentViewModel(
         viewModelScope.launch(ioContext) {
             viewAction.receiveAsFlow().collect { action ->
                 when (action) {
-                    is AddComponentAction.INSERT -> addComponent()
-                    is AddComponentAction.AddSupplier -> addSupplier()
-                    is AddComponentAction.KEYBOARD -> handleInvalidInput(action.invalidInput)
+                    is AddComponentAction.INSERT ->
+                        addComponent()
+
+                    is AddComponentAction.AddSupplier ->
+                        addSupplier()
+
+                    is AddComponentAction.KEYBOARD ->
+                        renderTextFieldViewState(
+                            action.textField,
+                            FieldTextErrorEventState.ENTER
+                        )
                 }
             }
         }
@@ -69,9 +80,20 @@ class AddComponentViewModel(
         viewModelScope.launch(mainContext) {
             events.collect { event ->
                 when (event) {
-                    is AddComponentEventState.ClearSupplierInputs -> clearSupplierInputs()
-                    is AddComponentEventState.FieldValueChanged -> onValueChanged()
-                    is AddComponentEventState.InvalidInputState -> handleInvalidInput(event)
+                    is AddComponentEventState.ClearSupplierInputs ->
+                        clearSupplierInputs()
+
+                    is AddComponentEventState.FieldValueChanged ->
+                        renderTextFieldViewState(
+                            event.textField,
+                            FieldTextErrorEventState.EXIT
+                        )
+
+                    is AddComponentEventState.InvalidInput ->
+                        renderTextFieldViewState(
+                            event.textField,
+                            FieldTextErrorEventState.ENTER
+                        )
                 }
             }
         }
@@ -82,12 +104,16 @@ class AddComponentViewModel(
             val name = viewState.value.name.input
             val amount = viewState.value.amount.input
             if (name.isBlank() || amount.isBlank()) {
-                _events.send(
-                    AddComponentEventState.InvalidInputState(
-                        name = name.isBlank(),
-                        amount = amount.isBlank()
+                if (name.isBlank()) {
+                    _events.send(
+                        AddComponentEventState.InvalidInput(TextField.Name)
                     )
-                )
+                }
+                if (amount.isBlank()) {
+                    _events.send(
+                        AddComponentEventState.InvalidInput(TextField.Amount)
+                    )
+                }
                 return@launch
             }
 
@@ -110,12 +136,17 @@ class AddComponentViewModel(
         val capacity = viewState.value.capacity.input
 
         if (name.isBlank() || capacity.isBlank()) {
-            _events.send(
-                AddComponentEventState.InvalidInputState(
-                    supplierName = name.isBlank(),
-                    capacity = capacity.isBlank()
+            if (name.isBlank()) {
+                _events.send(
+                    AddComponentEventState.InvalidInput(TextField.SupplierName)
                 )
-            )
+            }
+
+            if (capacity.isBlank()) {
+                _events.send(
+                    AddComponentEventState.InvalidInput(TextField.Capacity)
+                )
+            }
             return
         }
 
@@ -141,14 +172,15 @@ class AddComponentViewModel(
         }
     }
 
-    private fun onValueChanged() {
-        viewState.value.supplierName.input = "Weeeee"
-        viewState.value.capacity.input = "Weeeee"
-    }
-
-    private fun handleInvalidInput(invalidInputState: AddComponentEventState.InvalidInputState) {
+    private fun renderTextFieldViewState(
+        textField: TextField,
+        errorEventState: FieldTextErrorEventState,
+    ) {
         updateState {
-            viewState.value.shouldEnterErrorState(invalidInputState)
+            viewState.value.renderViewState(
+                textField,
+                errorEventState
+            )
         }
     }
 
@@ -166,6 +198,6 @@ class AddComponentViewModel(
         ViewModelProvider.NewInstanceFactory() {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T =
-             AddComponentViewModel(navigateBack = navigateBack) as T
+            AddComponentViewModel(navigateBack = navigateBack) as T
     }
 }

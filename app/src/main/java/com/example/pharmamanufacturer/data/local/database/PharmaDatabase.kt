@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.pharmamanufacturer.data.local.entities.ChemicalComponent
-import com.example.pharmamanufacturer.data.local.utils.Converters
+import com.example.pharmamanufacturer.data.utils.Converters
 
 @Database(
     entities = [ChemicalComponent::class],

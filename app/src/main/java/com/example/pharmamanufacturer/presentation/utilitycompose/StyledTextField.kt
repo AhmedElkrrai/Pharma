@@ -25,6 +25,7 @@ fun styledTextField(
     label: String,
     keyboardType: KeyboardType,
     viewState: FieldTextViewState,
+    exitErrorState: () -> Unit,
     showInvalidInput: () -> Unit
 ): String {
     var input by remember { mutableStateOf("") }
@@ -37,7 +38,11 @@ fun styledTextField(
                 input = ""
                 input
             },
-        onValueChange = { text -> input = text },
+        onValueChange = { text ->
+            if (input.isBlank())
+                exitErrorState()
+            input = text
+        },
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = viewState.focusedBorderColor,
             unfocusedBorderColor = viewState.unfocusedBorderColor,

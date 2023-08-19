@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.data.local.utils
+package com.example.pharmamanufacturer.data.utils
 
 import androidx.room.TypeConverter
 import com.example.pharmamanufacturer.data.local.entities.Supplier
