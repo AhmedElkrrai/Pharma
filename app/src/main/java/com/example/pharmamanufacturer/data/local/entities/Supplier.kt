@@ -6,5 +6,5 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Supplier(
     val name: String,
-    val capacity: Double
+    val `package`: Double
 ) : Parcelable

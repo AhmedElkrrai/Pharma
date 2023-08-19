@@ -133,18 +133,18 @@ class AddComponentViewModel(
 
     private suspend fun addSupplier() {
         val name = viewState.value.supplierName.input
-        val capacity = viewState.value.capacity.input
+        val `package` = viewState.value.`package`.input
 
-        if (name.isBlank() || capacity.isBlank()) {
+        if (name.isBlank() || `package`.isBlank()) {
             if (name.isBlank()) {
                 _events.send(
                     AddComponentEventState.InvalidInput(TextField.SupplierName)
                 )
             }
 
-            if (capacity.isBlank()) {
+            if (`package`.isBlank()) {
                 _events.send(
-                    AddComponentEventState.InvalidInput(TextField.Capacity)
+                    AddComponentEventState.InvalidInput(TextField.Package)
                 )
             }
             return
@@ -152,7 +152,7 @@ class AddComponentViewModel(
 
         val supplier = Supplier(
             name = name,
-            capacity = capacity.toDouble()
+            `package` = `package`.toDouble()
         )
         suppliers.add(supplier)
 
@@ -165,7 +165,7 @@ class AddComponentViewModel(
                 supplierName = it.supplierName.copy(
                     input = CLEARED_FIELD
                 ),
-                capacity = it.capacity.copy(
+                `package` = it.`package`.copy(
                     input = CLEARED_FIELD
                 )
             )

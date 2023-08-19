@@ -4,7 +4,7 @@ data class AddComponentScreenViewState(
     val name: FieldTextViewState,
     val amount: FieldTextViewState,
     val supplierName: FieldTextViewState,
-    val capacity: FieldTextViewState
+    val `package`: FieldTextViewState
 ) {
     companion object {
         val INIT: AddComponentScreenViewState by lazy {
@@ -12,7 +12,7 @@ data class AddComponentScreenViewState(
                 name = FieldTextViewState.initState("Name"),
                 amount = FieldTextViewState.initState("Available"),
                 supplierName = FieldTextViewState.initState("Name"),
-                capacity = FieldTextViewState.initState("Capacity")
+                `package` = FieldTextViewState.initState("Package")
             )
         }
     }

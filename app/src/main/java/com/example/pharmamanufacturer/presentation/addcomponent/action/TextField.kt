@@ -4,5 +4,5 @@ sealed interface TextField {
     object Name : TextField
     object Amount : TextField
     object SupplierName : TextField
-    object Capacity : TextField
+    object Package : TextField
 }

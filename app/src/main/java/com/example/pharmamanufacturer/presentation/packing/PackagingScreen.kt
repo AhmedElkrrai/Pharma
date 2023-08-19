@@ -5,7 +5,7 @@ import com.example.pharmamanufacturer.R
 import com.example.pharmamanufacturer.presentation.utilitycompose.EmptyContentScreen
 
 @Composable
-fun PackingScreen() {
+fun PackagingScreen() {
     EmptyContentScreen(
         message = "Please Start Production..",
         animationResource = R.raw.waiting

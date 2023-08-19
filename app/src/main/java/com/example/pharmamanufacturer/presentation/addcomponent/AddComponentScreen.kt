@@ -104,7 +104,7 @@ fun AddComponentScreen(navigateBack: () -> Unit) {
         CenteredTitleWithIcon(
             modifier = Modifier.size(30.dp),
             title = "Suppliers",
-            painter = painterResource(id = R.drawable.ic_doctor)
+            painter = painterResource(id = R.drawable.ic_supplier)
         )
 
         Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
@@ -136,21 +136,21 @@ fun AddComponentScreen(navigateBack: () -> Unit) {
                 }
             )
 
-            viewState.capacity.input = styledTextField(
+            viewState.`package`.input = styledTextField(
                 modifier = Modifier
                     .padding(UiDimensions.Medium_Space)
                     .weight(0.3f),
-                label = "Capacity",
+                label = "Package",
                 keyboardType = Decimal,
-                viewState = viewState.capacity,
+                viewState = viewState.`package`,
                 exitErrorState = {
                     viewModel.sendAction(
-                        AddComponentAction.RetrieveInitialState(TextField.Capacity)
+                        AddComponentAction.RetrieveInitialState(TextField.Package)
                     )
                 },
                 showInvalidInput = {
                     viewModel.sendAction(
-                        AddComponentAction.KEYBOARD(TextField.Capacity)
+                        AddComponentAction.KEYBOARD(TextField.Package)
                     )
                 }
             )

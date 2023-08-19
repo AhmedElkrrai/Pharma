@@ -37,10 +37,10 @@ fun AddComponentScreenViewState.renderViewState(
             )
         }
 
-        TextField.Capacity -> {
+        TextField.Package -> {
             this.copy(
-                capacity = renderFieldTextViewState(
-                    this.capacity,
+                `package` = renderFieldTextViewState(
+                    this.`package`,
                     textFieldErrorState
                 )
             )

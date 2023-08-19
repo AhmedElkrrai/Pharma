@@ -11,7 +11,7 @@ import com.example.pharmamanufacturer.core.Screen
 import com.example.pharmamanufacturer.presentation.addcomponent.AddComponentScreen
 import com.example.pharmamanufacturer.presentation.componentdetails.ComponentDetailsScreen
 import com.example.pharmamanufacturer.presentation.components.ComponentsScreen
-import com.example.pharmamanufacturer.presentation.packing.PackingScreen
+import com.example.pharmamanufacturer.presentation.packing.PackagingScreen
 import com.example.pharmamanufacturer.presentation.products.ProductsScreen
 
 @Composable
@@ -37,8 +37,8 @@ fun Navigation(navController: NavHostController) {
                 }
             )
         }
-        composable(route = Screen.PackingScreen.route) {
-            PackingScreen()
+        composable(route = Screen.PackagingScreen.route) {
+            PackagingScreen()
         }
 
         composable(
