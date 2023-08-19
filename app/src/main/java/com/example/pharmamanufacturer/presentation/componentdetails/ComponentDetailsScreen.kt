@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.pharmamanufacturer.R
 import com.example.pharmamanufacturer.core.UiDimensions
 import com.example.pharmamanufacturer.core.round
+import com.example.pharmamanufacturer.presentation.utilitycompose.EmptyContentScreen
 import com.example.pharmamanufacturer.presentation.utilitycompose.TopBar
 
 @Composable
@@ -35,7 +37,13 @@ fun ComponentDetailsScreen(onBackClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
-            component.suppliers?.let { SuppliersSection(it) }
+            if (component.suppliers.isNullOrEmpty()){
+                EmptyContentScreen(
+                    message = "Please Add a Supplier..",
+                    animationResource = R.raw.tumbleweed
+                )
+            } else
+                SuppliersSection(component.suppliers)
         }
     }
 }

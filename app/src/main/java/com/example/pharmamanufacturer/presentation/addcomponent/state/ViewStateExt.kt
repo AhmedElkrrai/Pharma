@@ -58,24 +58,20 @@ private fun renderFieldTextViewState(
     }
 }
 
-fun FieldTextViewState.enterErrorState(shouldEnterErrorState: Boolean = true): FieldTextViewState {
-    return if (shouldEnterErrorState) {
-        this.copy(
-            hint = FieldTextViewState.INVALID_INPUT_HINT,
-            labelColor = Red,
-            focusedBorderColor = Red,
-            unfocusedBorderColor = Red
-        )
-    } else this
+fun FieldTextViewState.enterErrorState(): FieldTextViewState {
+    return this.copy(
+        hint = FieldTextViewState.INVALID_INPUT_HINT,
+        labelColor = Red,
+        focusedBorderColor = Red,
+        unfocusedBorderColor = Red
+    )
 }
 
-fun FieldTextViewState.exitErrorState(shouldExitErrorState: Boolean = true): FieldTextViewState {
-    return if (shouldExitErrorState) {
-        this.copy(
-            hint = "",
-            labelColor = Blue,
-            focusedBorderColor = Blue,
-            unfocusedBorderColor = Color.LightGray
-        )
-    } else this
+fun FieldTextViewState.exitErrorState(): FieldTextViewState {
+    return this.copy(
+        hint = "",
+        labelColor = Blue,
+        focusedBorderColor = Blue,
+        unfocusedBorderColor = Color.LightGray
+    )
 }

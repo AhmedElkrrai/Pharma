@@ -18,11 +18,12 @@ import com.example.pharmamanufacturer.presentation.theme.AquaBlue
 
 @Composable
 fun EmptyContentScreen(
+    modifier: Modifier = Modifier,
     message: String,
     animationResource: Int
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .fillMaxSize(0.75f),
         contentAlignment = Alignment.Center
