@@ -67,7 +67,11 @@ fun AddComponentScreen(navigateBack: () -> Unit) {
                 label = "Name",
                 keyboardType = Text,
                 viewState = viewState.name,
-                exitErrorState = {},
+                exitErrorState = {
+                    viewModel.sendAction(
+                        AddComponentAction.RetrieveInitialState(TextField.Name)
+                    )
+                },
                 showInvalidInput = {
                     viewModel.sendAction(
                         AddComponentAction.KEYBOARD(TextField.Name)
@@ -82,7 +86,11 @@ fun AddComponentScreen(navigateBack: () -> Unit) {
                 label = "Amount",
                 keyboardType = Decimal,
                 viewState = viewState.amount,
-                exitErrorState = {},
+                exitErrorState = {
+                    viewModel.sendAction(
+                        AddComponentAction.RetrieveInitialState(TextField.Amount)
+                    )
+                },
                 showInvalidInput = {
                     viewModel.sendAction(
                         AddComponentAction.KEYBOARD(TextField.Amount)
@@ -116,7 +124,11 @@ fun AddComponentScreen(navigateBack: () -> Unit) {
                 label = "Name",
                 keyboardType = Text,
                 viewState = viewState.supplierName,
-                exitErrorState = {},
+                exitErrorState = {
+                    viewModel.sendAction(
+                        AddComponentAction.RetrieveInitialState(TextField.SupplierName)
+                    )
+                },
                 showInvalidInput = {
                     viewModel.sendAction(
                         AddComponentAction.KEYBOARD(TextField.SupplierName)
@@ -131,7 +143,11 @@ fun AddComponentScreen(navigateBack: () -> Unit) {
                 label = "Capacity",
                 keyboardType = Decimal,
                 viewState = viewState.capacity,
-                exitErrorState = {},
+                exitErrorState = {
+                    viewModel.sendAction(
+                        AddComponentAction.RetrieveInitialState(TextField.Capacity)
+                    )
+                },
                 showInvalidInput = {
                     viewModel.sendAction(
                         AddComponentAction.KEYBOARD(TextField.Capacity)

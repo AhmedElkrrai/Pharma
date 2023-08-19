@@ -71,6 +71,12 @@ class AddComponentViewModel(
                             action.textField,
                             FieldTextErrorEventState.ENTER
                         )
+
+                    is AddComponentAction.RetrieveInitialState ->
+                        renderTextFieldViewState(
+                            action.textField,
+                            FieldTextErrorEventState.EXIT
+                        )
                 }
             }
         }
@@ -82,12 +88,6 @@ class AddComponentViewModel(
                 when (event) {
                     is AddComponentEventState.ClearSupplierInputs ->
                         clearSupplierInputs()
-
-                    is AddComponentEventState.FieldValueChanged ->
-                        renderTextFieldViewState(
-                            event.textField,
-                            FieldTextErrorEventState.EXIT
-                        )
 
                     is AddComponentEventState.InvalidInput ->
                         renderTextFieldViewState(
