@@ -25,4 +25,10 @@ class Converters {
 
     @TypeConverter
     fun jsonToChemicalComponent(value: String) = Gson().fromJson(value, Array<ChemicalComponent>::class.java).toList()
+
+    @TypeConverter
+    fun productsToJson(value: List<Product>?): String = Gson().toJson(value)
+
+    @TypeConverter
+    fun jsonToProduct(value: String) = Gson().fromJson(value, Array<Product>::class.java).toList()
 }

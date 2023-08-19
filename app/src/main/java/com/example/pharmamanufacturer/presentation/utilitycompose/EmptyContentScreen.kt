@@ -23,9 +23,7 @@ fun EmptyContentScreen(
     animationResource: Int
 ) {
     Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .fillMaxSize(0.75f),
+        modifier = modifier,
         contentAlignment = Alignment.Center
     ) {
         val composition by rememberLottieComposition(
@@ -35,8 +33,7 @@ fun EmptyContentScreen(
     }
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = modifier
             .padding(UiDimensions.Medium_Space),
         contentAlignment = Alignment.BottomCenter
     ) {

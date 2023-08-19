@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.presentation.componentdetails
+package com.example.pharmamanufacturer.presentation.utilitycompose
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -17,12 +17,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.pharmamanufacturer.R
 import com.example.pharmamanufacturer.core.UiDimensions
+import com.example.pharmamanufacturer.data.local.entities.Product
 import com.example.pharmamanufacturer.presentation.theme.Blue
 
 @Composable
-fun ComponentProductItem(
+fun ProductItem(
     modifier: Modifier = Modifier,
-    name: String
+    product: Product,
+    onItemClick: (() -> Unit)? = null
 ) {
     Card(
         elevation = 2.dp,
@@ -38,7 +40,7 @@ fun ComponentProductItem(
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = name,
+                text = product.name,
                 color = Blue,
                 fontWeight = FontWeight.Bold
             )

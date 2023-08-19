@@ -22,7 +22,7 @@ data class ChemicalComponent(
     var amount: Double,
 
     @ColumnInfo(name = COL_COMPONENT_PRODUCTS)
-    val products: List<String>,
+    val products: List<Product>? = null,
 
     @ColumnInfo(name = COL_CHEMICAL_COMPONENT_LOW_STOCK)
     var lowStock: Boolean = false,

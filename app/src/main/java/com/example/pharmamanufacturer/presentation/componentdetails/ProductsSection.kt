@@ -9,10 +9,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.example.pharmamanufacturer.core.UiDimensions
+import com.example.pharmamanufacturer.data.local.entities.Product
 import com.example.pharmamanufacturer.presentation.utilitycompose.CenteredTitle
+import com.example.pharmamanufacturer.presentation.utilitycompose.ProductItem
 
 @Composable
-fun ProductsSection(products: List<String>) {
+fun ProductsSection(products: List<Product>) {
     Column(modifier = Modifier.fillMaxWidth()) {
 
         CenteredTitle(title = "Products")
@@ -20,10 +22,10 @@ fun ProductsSection(products: List<String>) {
         Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
         LazyColumn {
-            items(products) { productName ->
-                ComponentProductItem(
+            items(products) { product ->
+                ProductItem(
                     modifier = Modifier.fillMaxWidth(),
-                    name = productName
+                    product = product
                 )
             }
         }

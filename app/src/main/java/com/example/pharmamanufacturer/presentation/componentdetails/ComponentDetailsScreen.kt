@@ -2,6 +2,7 @@ package com.example.pharmamanufacturer.presentation.componentdetails
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -31,14 +32,17 @@ fun ComponentDetailsScreen(onBackClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
-            if (component.products.isNotEmpty()) {
+            if (component.products?.isNotEmpty() == true) {
                 ProductsSection(component.products)
             }
 
             Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
-            if (component.suppliers.isNullOrEmpty()){
+            if (component.suppliers.isNullOrEmpty()) {
                 EmptyContentScreen(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(0.8f),
                     message = "Please Add a Supplier..",
                     animationResource = R.raw.tumbleweed
                 )
