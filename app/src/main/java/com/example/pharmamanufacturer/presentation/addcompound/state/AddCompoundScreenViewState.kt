@@ -2,7 +2,7 @@ package com.example.pharmamanufacturer.presentation.addcompound.state
 
 import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.TextFieldViewState
 
-data class AddCompoundScreenViewState(
+internal data class AddCompoundScreenViewState(
     val name: TextFieldViewState,
     val amount: TextFieldViewState,
     val supplierName: TextFieldViewState,

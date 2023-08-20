@@ -19,7 +19,7 @@ data class Product(
     val name: String,
 
     @ColumnInfo(name = COL_PRODUCT_LOW_STOCK)
-    var lowStock: Boolean,
+    var lowStock: Boolean = false,
 
     @ColumnInfo(name = COL_PRODUCT_BATCHES)
     val batches: List<String>,

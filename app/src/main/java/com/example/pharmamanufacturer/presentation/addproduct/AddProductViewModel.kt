@@ -1,19 +1,19 @@
-package com.example.pharmamanufacturer.presentation.addcompound
+package com.example.pharmamanufacturer.presentation.addproduct
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.pharmamanufacturer.data.local.database.DatabaseHandler
 import com.example.pharmamanufacturer.data.local.entities.Compound
-import com.example.pharmamanufacturer.data.local.entities.Supplier
-import com.example.pharmamanufacturer.presentation.addcompound.action.AddCompoundAction
-import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.TextFieldEventState
-import com.example.pharmamanufacturer.presentation.addcompound.state.AddCompoundScreenViewState
-import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.TextFieldErrorEventState
-import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.TextFieldViewState.Companion.CLEARED_FIELD
-import com.example.pharmamanufacturer.presentation.addcompound.state.AddCompoundTextField
-import com.example.pharmamanufacturer.presentation.addcompound.state.renderViewState
+import com.example.pharmamanufacturer.data.local.entities.Product
+import com.example.pharmamanufacturer.presentation.addproduct.action.AddProductAction
+import com.example.pharmamanufacturer.presentation.addproduct.state.AddProductScreenViewState
+import com.example.pharmamanufacturer.presentation.addproduct.state.AddProductTextField
+import com.example.pharmamanufacturer.presentation.addproduct.state.renderViewState
 import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.TextField
+import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.TextFieldErrorEventState
+import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.TextFieldEventState
+import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.TextFieldViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -25,23 +25,23 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 
-internal class AddCompoundViewModel(
+class AddProductViewModel(
     private val ioContext: CoroutineContext = Dispatchers.IO,
     private val mainContext: CoroutineContext = Dispatchers.Main,
     private val navigateBack: () -> Unit
 ) : ViewModel() {
 
-    private val viewAction = Channel<AddCompoundAction>()
+    private val viewAction = Channel<AddProductAction>()
 
-    private val _viewState = MutableStateFlow(AddCompoundScreenViewState.INIT)
-    internal val viewState: StateFlow<AddCompoundScreenViewState>
+    private val _viewState = MutableStateFlow(AddProductScreenViewState.INIT)
+    internal val viewState: StateFlow<AddProductScreenViewState>
         get() = _viewState
 
     private val _events = Channel<TextFieldEventState>()
     private val events: Flow<TextFieldEventState>
         get() = _events.receiveAsFlow()
 
-    private val suppliers = mutableListOf<Supplier>()
+    private val compounds = mutableListOf<Compound>()
 
     init {
         viewModelScope.launch {
@@ -53,7 +53,7 @@ internal class AddCompoundViewModel(
 
     private fun initViewData() {
         viewModelScope.launch(mainContext) {
-            _viewState.value = AddCompoundScreenViewState.INIT
+            _viewState.value = AddProductScreenViewState.INIT
         }
     }
 
@@ -61,19 +61,19 @@ internal class AddCompoundViewModel(
         viewModelScope.launch(ioContext) {
             viewAction.receiveAsFlow().collect { action ->
                 when (action) {
-                    is AddCompoundAction.INSERT ->
+                    is AddProductAction.INSERT ->
+                        addProduct()
+
+                    is AddProductAction.AddCompound ->
                         addCompound()
 
-                    is AddCompoundAction.AddSupplier ->
-                        addSupplier()
-
-                    is AddCompoundAction.KEYBOARD ->
+                    is AddProductAction.KEYBOARD ->
                         renderTextFieldViewState(
                             action.textField,
                             TextFieldErrorEventState.ENTER
                         )
 
-                    is AddCompoundAction.RetrieveInitialState ->
+                    is AddProductAction.RetrieveInitialState ->
                         renderTextFieldViewState(
                             action.textField,
                             TextFieldErrorEventState.EXIT
@@ -88,7 +88,7 @@ internal class AddCompoundViewModel(
             events.collect { event ->
                 when (event) {
                     is TextFieldEventState.ClearSubInputs ->
-                        clearSupplierInputs()
+                        clearCompoundInputs()
 
                     is TextFieldEventState.InvalidInput ->
                         renderTextFieldViewState(
@@ -100,31 +100,24 @@ internal class AddCompoundViewModel(
         }
     }
 
-    private fun addCompound() {
+    private fun addProduct() {
         viewModelScope.launch(ioContext) {
             val name = viewState.value.name.input
-            val amount = viewState.value.amount.input
-            if (name.isBlank() || amount.isBlank()) {
+            if (name.isBlank()) {
                 if (name.isBlank()) {
                     _events.send(
-                        TextFieldEventState.InvalidInput(AddCompoundTextField.Name)
-                    )
-                }
-                if (amount.isBlank()) {
-                    _events.send(
-                        TextFieldEventState.InvalidInput(AddCompoundTextField.Amount)
+                        TextFieldEventState.InvalidInput(AddProductTextField.Name)
                     )
                 }
                 return@launch
             }
 
-            val compound = Compound(
+            val product = Product(
                 name = name,
-                amount = amount.toDouble(),
-                suppliers = suppliers.toList(),
-                products = listOf()
+                compounds = compounds,
+                batches = listOf()
             )
-            DatabaseHandler.addCompound(compound)
+            DatabaseHandler.addProduct(product)
 
             withContext(mainContext) {
                 navigateBack.invoke()
@@ -132,42 +125,42 @@ internal class AddCompoundViewModel(
         }
     }
 
-    private suspend fun addSupplier() {
-        val name = viewState.value.supplierName.input
-        val `package` = viewState.value.`package`.input
+    private suspend fun addCompound() {
+        val name = viewState.value.compoundName.input
+        val concentration = viewState.value.concentration.input
 
-        if (name.isBlank() || `package`.isBlank()) {
+        if (name.isBlank() || concentration.isBlank()) {
             if (name.isBlank()) {
                 _events.send(
-                    TextFieldEventState.InvalidInput(AddCompoundTextField.SupplierName)
+                    TextFieldEventState.InvalidInput(AddProductTextField.CompoundName)
                 )
             }
 
-            if (`package`.isBlank()) {
+            if (concentration.isBlank()) {
                 _events.send(
-                    TextFieldEventState.InvalidInput(AddCompoundTextField.Package)
+                    TextFieldEventState.InvalidInput(AddProductTextField.Concentration)
                 )
             }
             return
         }
 
-        val supplier = Supplier(
+        val compound = Compound(
             name = name,
-            `package` = `package`.toDouble()
+            amount = concentration.toDouble()
         )
-        suppliers.add(supplier)
+        compounds.add(compound)
 
         _events.send(TextFieldEventState.ClearSubInputs)
     }
 
-    private fun clearSupplierInputs() {
+    private fun clearCompoundInputs() {
         updateState {
             it.copy(
-                supplierName = it.supplierName.copy(
-                    input = CLEARED_FIELD
+                compoundName = it.compoundName.copy(
+                    input = TextFieldViewState.CLEARED_FIELD
                 ),
-                `package` = it.`package`.copy(
-                    input = CLEARED_FIELD
+                concentration = it.concentration.copy(
+                    input = TextFieldViewState.CLEARED_FIELD
                 )
             )
         }
@@ -185,13 +178,13 @@ internal class AddCompoundViewModel(
         }
     }
 
-    internal fun sendAction(action: AddCompoundAction) {
+    internal fun sendAction(action: AddProductAction) {
         viewModelScope.launch {
             viewAction.send(action)
         }
     }
 
-    private fun updateState(newState: (AddCompoundScreenViewState) -> AddCompoundScreenViewState) {
+    private fun updateState(newState: (AddProductScreenViewState) -> AddProductScreenViewState) {
         _viewState.update { oldState -> newState(oldState) }
     }
 
@@ -199,6 +192,6 @@ internal class AddCompoundViewModel(
         ViewModelProvider.NewInstanceFactory() {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T =
-            AddCompoundViewModel(navigateBack = navigateBack) as T
+            AddProductViewModel(navigateBack = navigateBack) as T
     }
 }

@@ -1,6 +1,8 @@
 package com.example.pharmamanufacturer.presentation.addcompound.state
 
-sealed interface AddCompoundTextField {
+import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.TextField
+
+internal sealed interface AddCompoundTextField : TextField {
     object Name : AddCompoundTextField
     object Amount : AddCompoundTextField
     object SupplierName : AddCompoundTextField

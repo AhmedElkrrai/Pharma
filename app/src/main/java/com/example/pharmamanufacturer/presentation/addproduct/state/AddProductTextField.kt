@@ -1,8 +1,10 @@
 package com.example.pharmamanufacturer.presentation.addproduct.state
 
-sealed interface AddProductTextField {
+import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.TextField
+
+sealed interface AddProductTextField : TextField {
     object Name : AddProductTextField
 
     object CompoundName : AddProductTextField
-    object Amount : AddProductTextField
+    object Concentration : AddProductTextField
 }

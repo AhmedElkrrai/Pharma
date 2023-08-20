@@ -27,9 +27,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pharmamanufacturer.R
 import com.example.pharmamanufacturer.core.UiDimensions
-import com.example.pharmamanufacturer.presentation.addcompound.AddCompoundViewModel
-import com.example.pharmamanufacturer.presentation.addcompound.action.AddCompoundAction
-import com.example.pharmamanufacturer.presentation.addcompound.state.AddCompoundTextField
+import com.example.pharmamanufacturer.presentation.addproduct.action.AddProductAction
+import com.example.pharmamanufacturer.presentation.addproduct.state.AddProductTextField
 import com.example.pharmamanufacturer.presentation.theme.Blue
 import com.example.pharmamanufacturer.presentation.utilitycompose.BottomFloatingButton
 import com.example.pharmamanufacturer.presentation.utilitycompose.CenteredTitleWithIcon
@@ -38,8 +37,8 @@ import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.styl
 @Composable
 fun AddProductScreen(navigateBack: () -> Unit) {
     Column(modifier = Modifier.fillMaxSize()) {
-        val viewModel: AddCompoundViewModel =
-            viewModel(factory = AddCompoundViewModel.Factory(navigateBack))
+        val viewModel: AddProductViewModel =
+            viewModel(factory = AddProductViewModel.Factory(navigateBack))
 
         val viewState by viewModel.viewState.collectAsStateWithLifecycle()
 
@@ -65,12 +64,12 @@ fun AddProductScreen(navigateBack: () -> Unit) {
                 viewState = viewState.name,
                 exitErrorState = {
                     viewModel.sendAction(
-                        AddCompoundAction.RetrieveInitialState(AddCompoundTextField.Name)
+                        AddProductAction.RetrieveInitialState(AddProductTextField.Name)
                     )
                 },
                 showInvalidInput = {
                     viewModel.sendAction(
-                        AddCompoundAction.KEYBOARD(AddCompoundTextField.Name)
+                        AddProductAction.KEYBOARD(AddProductTextField.Name)
                     )
                 }
             )
@@ -94,40 +93,40 @@ fun AddProductScreen(navigateBack: () -> Unit) {
                 .padding(UiDimensions.Medium_Space)
         ) {
 
-            viewState.supplierName.input = styledTextField(
+            viewState.compoundName.input = styledTextField(
                 modifier = Modifier
                     .padding(UiDimensions.Medium_Space)
                     .weight(0.3f),
                 label = "Name",
                 keyboardType = KeyboardType.Text,
-                viewState = viewState.supplierName,
+                viewState = viewState.compoundName,
                 exitErrorState = {
                     viewModel.sendAction(
-                        AddCompoundAction.RetrieveInitialState(AddCompoundTextField.SupplierName)
+                        AddProductAction.RetrieveInitialState(AddProductTextField.CompoundName)
                     )
                 },
                 showInvalidInput = {
                     viewModel.sendAction(
-                        AddCompoundAction.KEYBOARD(AddCompoundTextField.SupplierName)
+                        AddProductAction.KEYBOARD(AddProductTextField.CompoundName)
                     )
                 }
             )
 
-            viewState.`package`.input = styledTextField(
+            viewState.concentration.input = styledTextField(
                 modifier = Modifier
                     .padding(UiDimensions.Medium_Space)
                     .weight(0.3f),
-                label = "Amount",
+                label = "Concentration",
                 keyboardType = KeyboardType.Decimal,
-                viewState = viewState.`package`,
+                viewState = viewState.concentration,
                 exitErrorState = {
                     viewModel.sendAction(
-                        AddCompoundAction.RetrieveInitialState(AddCompoundTextField.Package)
+                        AddProductAction.RetrieveInitialState(AddProductTextField.Concentration)
                     )
                 },
                 showInvalidInput = {
                     viewModel.sendAction(
-                        AddCompoundAction.KEYBOARD(AddCompoundTextField.Package)
+                        AddProductAction.KEYBOARD(AddProductTextField.Concentration)
                     )
                 }
             )
@@ -145,7 +144,7 @@ fun AddProductScreen(navigateBack: () -> Unit) {
                     .width(200.dp),
                 shape = RectangleShape,
                 colors = ButtonDefaults.buttonColors(backgroundColor = Blue),
-                onClick = { viewModel.sendAction(AddCompoundAction.AddSupplier) }
+                onClick = { viewModel.sendAction(AddProductAction.AddCompound) }
             ) {
                 Text(
                     text = "Add Compound",
@@ -157,7 +156,7 @@ fun AddProductScreen(navigateBack: () -> Unit) {
 
         BottomFloatingButton(
             onClick = {
-                viewModel.sendAction(AddCompoundAction.INSERT)
+                viewModel.sendAction(AddProductAction.INSERT)
             }
         )
     }
