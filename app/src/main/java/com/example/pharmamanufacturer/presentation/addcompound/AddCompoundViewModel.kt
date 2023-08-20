@@ -104,17 +104,17 @@ internal class AddCompoundViewModel(
         viewModelScope.launch(ioContext) {
             val name = viewState.value.name.input
             val amount = viewState.value.amount.input
-            if (name.isBlank() || amount.isBlank()) {
-                if (name.isBlank()) {
-                    _events.send(
-                        TextFieldEventState.InvalidInput(AddCompoundTextField.Name)
-                    )
-                }
-                if (amount.isBlank()) {
-                    _events.send(
-                        TextFieldEventState.InvalidInput(AddCompoundTextField.Amount)
-                    )
-                }
+
+            if (name.isBlank()) {
+                _events.send(
+                    TextFieldEventState.InvalidInput(AddCompoundTextField.Name)
+                )
+                return@launch
+            }
+            if (amount.isBlank()) {
+                _events.send(
+                    TextFieldEventState.InvalidInput(AddCompoundTextField.Amount)
+                )
                 return@launch
             }
 
@@ -136,18 +136,17 @@ internal class AddCompoundViewModel(
         val name = viewState.value.supplierName.input
         val `package` = viewState.value.`package`.input
 
-        if (name.isBlank() || `package`.isBlank()) {
-            if (name.isBlank()) {
-                _events.send(
-                    TextFieldEventState.InvalidInput(AddCompoundTextField.SupplierName)
-                )
-            }
+        if (name.isBlank()) {
+            _events.send(
+                TextFieldEventState.InvalidInput(AddCompoundTextField.SupplierName)
+            )
+            return
+        }
 
-            if (`package`.isBlank()) {
-                _events.send(
-                    TextFieldEventState.InvalidInput(AddCompoundTextField.Package)
-                )
-            }
+        if (`package`.isBlank()) {
+            _events.send(
+                TextFieldEventState.InvalidInput(AddCompoundTextField.Package)
+            )
             return
         }
 

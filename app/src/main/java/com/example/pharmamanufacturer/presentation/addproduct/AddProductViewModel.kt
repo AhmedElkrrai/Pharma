@@ -103,13 +103,21 @@ class AddProductViewModel(
     private fun addProduct() {
         viewModelScope.launch(ioContext) {
             val name = viewState.value.name.input
+
             if (name.isBlank()) {
-                if (name.isBlank()) {
-                    _events.send(
-                        TextFieldEventState.InvalidInput(AddProductTextField.Name)
-                    )
-                }
+                _events.send(
+                    TextFieldEventState.InvalidInput(AddProductTextField.Name)
+                )
                 return@launch
+            }
+
+            if (compounds.isEmpty()) {
+                val incompleteEntry = checkCompoundEntry(
+                    compoundName = viewState.value.compoundName.input,
+                    concentration = viewState.value.concentration.input
+                )
+
+                if (incompleteEntry) return@launch
             }
 
             val product = Product(
@@ -129,20 +137,12 @@ class AddProductViewModel(
         val name = viewState.value.compoundName.input
         val concentration = viewState.value.concentration.input
 
-        if (name.isBlank() || concentration.isBlank()) {
-            if (name.isBlank()) {
-                _events.send(
-                    TextFieldEventState.InvalidInput(AddProductTextField.CompoundName)
-                )
-            }
+        val incompleteEntry = checkCompoundEntry(
+            compoundName = name,
+            concentration = concentration
+        )
 
-            if (concentration.isBlank()) {
-                _events.send(
-                    TextFieldEventState.InvalidInput(AddProductTextField.Concentration)
-                )
-            }
-            return
-        }
+        if (incompleteEntry) return
 
         val compound = Compound(
             name = name,
@@ -151,6 +151,24 @@ class AddProductViewModel(
         compounds.add(compound)
 
         _events.send(TextFieldEventState.ClearSubInputs)
+    }
+
+    private suspend fun checkCompoundEntry(
+        compoundName: String,
+        concentration: String
+    ): Boolean {
+        if (compoundName.isBlank()) {
+            _events.send(
+                TextFieldEventState.InvalidInput(AddProductTextField.CompoundName)
+            )
+        }
+
+        if (concentration.isBlank()) {
+            _events.send(
+                TextFieldEventState.InvalidInput(AddProductTextField.Concentration)
+            )
+        }
+        return compoundName.isBlank() || concentration.isBlank()
     }
 
     private fun clearCompoundInputs() {

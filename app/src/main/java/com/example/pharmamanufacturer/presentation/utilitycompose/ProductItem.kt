@@ -3,6 +3,7 @@ package com.example.pharmamanufacturer.presentation.utilitycompose
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Card
@@ -31,14 +32,14 @@ fun ProductItem(
         elevation = 2.dp,
         shape = RectangleShape,
         modifier = modifier
-            .padding(10.dp)
             .border(
                 width = 1.dp,
                 color = Color.LightGray,
             )
-            .clickable { onItemClick?.invoke()}
+            .clickable { onItemClick?.invoke() }
     ) {
         Box(
+            modifier = modifier,
             contentAlignment = Alignment.Center
         ) {
             Text(
@@ -48,7 +49,7 @@ fun ProductItem(
             )
 
             Box(
-                modifier = modifier,
+                modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.TopStart
             ) {
                 Icon(
