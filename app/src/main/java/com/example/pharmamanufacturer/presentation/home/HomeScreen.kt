@@ -26,8 +26,8 @@ fun HomeScreen() {
                         painter = painterResource(id = R.drawable.ic_health)
                     ),
                     BottomNavItem(
-                        name = stringResource(id = R.string.title_components),
-                        route = Screen.ComponentsScreen.route,
+                        name = stringResource(id = R.string.title_compounds),
+                        route = Screen.CompoundsScreen.route,
                         painter = painterResource(id = R.drawable.ic_medicine),
                     ),
                     BottomNavItem(

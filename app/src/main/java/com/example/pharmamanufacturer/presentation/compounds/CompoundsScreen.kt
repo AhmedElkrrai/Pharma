@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.presentation.products
+package com.example.pharmamanufacturer.presentation.compounds
 
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,25 +11,23 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pharmamanufacturer.R
-import com.example.pharmamanufacturer.data.local.entities.Product
+import com.example.pharmamanufacturer.data.local.entities.Compound
 import com.example.pharmamanufacturer.presentation.utilitycompose.BottomFloatingButton
 import com.example.pharmamanufacturer.presentation.utilitycompose.EmptyContentScreen
-import com.example.pharmamanufacturer.presentation.utilitycompose.ProductItem
 
 @Composable
-fun ProductsScreen(
-    onItemClick: (Product) -> Unit,
+fun CompoundsScreen(
+    onItemClick: (Compound) -> Unit,
     onAddClick: () -> Unit
 ) {
+    val viewModel: CompoundsViewModel = viewModel()
+    val compoundsState = viewModel.compoundsState.collectAsStateWithLifecycle()
 
-    val viewModel: ProductsViewModel = viewModel()
-    val productsState = viewModel.productsState.collectAsStateWithLifecycle()
-
-    if (productsState.value.isNotEmpty()) {
+    if (compoundsState.value.isNotEmpty()) {
         LazyColumn {
-            items(productsState.value) { product ->
-                ProductItem(product = product) {
-                    onItemClick(product)
+            items(compoundsState.value) { compound ->
+                CompoundItem(compound) {
+                    onItemClick(compound)
                 }
             }
         }
@@ -38,8 +36,8 @@ fun ProductsScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(0.85f),
-            message = "Please add a Product..",
-            animationResource = R.raw.cat
+            message = "Please add a Compound..",
+            animationResource = R.raw.tumbleweed
         )
     }
 

@@ -1,7 +1,7 @@
 package com.example.pharmamanufacturer.data.local.database
 
 import com.example.pharmamanufacturer.core.PharmaApp
-import com.example.pharmamanufacturer.data.local.entities.ChemicalComponent
+import com.example.pharmamanufacturer.data.local.entities.Compound
 import com.example.pharmamanufacturer.data.local.entities.Product
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -13,14 +13,14 @@ private val pharmaDatabase by lazy {
 
 object DatabaseHandler {
 
-    suspend fun getAllChemicalComponents(): MutableList<ChemicalComponent> {
+    suspend fun getAllCompounds(): MutableList<Compound> {
         return withContext(Dispatchers.IO) {
-            pharmaDatabase.chemicalComponentDao().getAll()
+            pharmaDatabase.compoundsDao().getAll()
         }.toMutableList()
     }
 
-    suspend fun addChemicalComponent(component: ChemicalComponent) {
-        pharmaDatabase.chemicalComponentDao().insert(component)
+    suspend fun addCompound(compound: Compound) {
+        pharmaDatabase.compoundsDao().insert(compound)
     }
 
     suspend fun getAllProducts(): MutableList<Product> {

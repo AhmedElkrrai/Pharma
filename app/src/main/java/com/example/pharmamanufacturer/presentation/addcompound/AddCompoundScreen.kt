@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.presentation.addproduct
+package com.example.pharmamanufacturer.presentation.addcompound
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,13 +21,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.KeyboardType.Companion.Decimal
+import androidx.compose.ui.text.input.KeyboardType.Companion.Text
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pharmamanufacturer.R
 import com.example.pharmamanufacturer.core.UiDimensions
-import com.example.pharmamanufacturer.presentation.addcompound.AddCompoundViewModel
 import com.example.pharmamanufacturer.presentation.addcompound.action.AddCompoundAction
 import com.example.pharmamanufacturer.presentation.addcompound.state.AddCompoundTextField
 import com.example.pharmamanufacturer.presentation.theme.Blue
@@ -36,7 +36,7 @@ import com.example.pharmamanufacturer.presentation.utilitycompose.CenteredTitleW
 import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.styledTextField
 
 @Composable
-fun AddProductScreen(navigateBack: () -> Unit) {
+fun AddCompoundScreen(navigateBack: () -> Unit) {
     Column(modifier = Modifier.fillMaxSize()) {
         val viewModel: AddCompoundViewModel =
             viewModel(factory = AddCompoundViewModel.Factory(navigateBack))
@@ -53,15 +53,19 @@ fun AddProductScreen(navigateBack: () -> Unit) {
 
         Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
-        Box(
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(UiDimensions.Medium_Space),
-            contentAlignment = Alignment.Center
+                .padding(UiDimensions.Medium_Space)
         ) {
             viewState.name.input = styledTextField(
+                modifier = Modifier
+                    .padding(UiDimensions.Medium_Space)
+                    .weight(0.3f),
                 label = "Name",
-                keyboardType = KeyboardType.Text,
+                keyboardType = Text,
                 viewState = viewState.name,
                 exitErrorState = {
                     viewModel.sendAction(
@@ -74,14 +78,33 @@ fun AddProductScreen(navigateBack: () -> Unit) {
                     )
                 }
             )
+
+            viewState.amount.input = styledTextField(
+                modifier = Modifier
+                    .padding(UiDimensions.Medium_Space)
+                    .weight(0.3f),
+                label = "Amount",
+                keyboardType = Decimal,
+                viewState = viewState.amount,
+                exitErrorState = {
+                    viewModel.sendAction(
+                        AddCompoundAction.RetrieveInitialState(AddCompoundTextField.Amount)
+                    )
+                },
+                showInvalidInput = {
+                    viewModel.sendAction(
+                        AddCompoundAction.KEYBOARD(AddCompoundTextField.Amount)
+                    )
+                }
+            )
         }
 
         Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
         CenteredTitleWithIcon(
             modifier = Modifier.size(30.dp),
-            title = "Compounds",
-            painter = painterResource(id = R.drawable.ic_compound)
+            title = "Suppliers",
+            painter = painterResource(id = R.drawable.ic_supplier)
         )
 
         Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
@@ -99,7 +122,7 @@ fun AddProductScreen(navigateBack: () -> Unit) {
                     .padding(UiDimensions.Medium_Space)
                     .weight(0.3f),
                 label = "Name",
-                keyboardType = KeyboardType.Text,
+                keyboardType = Text,
                 viewState = viewState.supplierName,
                 exitErrorState = {
                     viewModel.sendAction(
@@ -117,8 +140,8 @@ fun AddProductScreen(navigateBack: () -> Unit) {
                 modifier = Modifier
                     .padding(UiDimensions.Medium_Space)
                     .weight(0.3f),
-                label = "Amount",
-                keyboardType = KeyboardType.Decimal,
+                label = "Package",
+                keyboardType = Decimal,
                 viewState = viewState.`package`,
                 exitErrorState = {
                     viewModel.sendAction(
@@ -142,13 +165,13 @@ fun AddProductScreen(navigateBack: () -> Unit) {
             Button(
                 modifier = Modifier
                     .height(50.dp)
-                    .width(200.dp),
+                    .width(150.dp),
                 shape = RectangleShape,
                 colors = ButtonDefaults.buttonColors(backgroundColor = Blue),
                 onClick = { viewModel.sendAction(AddCompoundAction.AddSupplier) }
             ) {
                 Text(
-                    text = "Add Compound",
+                    text = "Add Supplier",
                     color = Color.White,
                     maxLines = 1
                 )

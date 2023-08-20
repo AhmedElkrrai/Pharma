@@ -1,6 +1,7 @@
 package com.example.pharmamanufacturer.presentation.utilitycompose
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -35,6 +36,7 @@ fun ProductItem(
                 width = 1.dp,
                 color = Color.LightGray,
             )
+            .clickable { onItemClick?.invoke()}
     ) {
         Box(
             contentAlignment = Alignment.Center

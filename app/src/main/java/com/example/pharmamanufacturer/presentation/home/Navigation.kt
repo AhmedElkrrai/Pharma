@@ -5,16 +5,16 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.pharmamanufacturer.core.ComponentType
+import com.example.pharmamanufacturer.core.CompoundType
 import com.example.pharmamanufacturer.core.ProductType
 import com.example.pharmamanufacturer.core.Screen
-import com.example.pharmamanufacturer.core.Screen.Companion.COMPONENT_DETAILS_KEY
+import com.example.pharmamanufacturer.core.Screen.Companion.COMPOUND_DETAILS_KEY
 import com.example.pharmamanufacturer.core.Screen.Companion.PRODUCT_DETAILS_KEY
 import com.example.pharmamanufacturer.presentation.addproduct.AddProductScreen
-import com.example.pharmamanufacturer.presentation.addcomponent.AddComponentScreen
-import com.example.pharmamanufacturer.presentation.componentdetails.ComponentDetailsScreen
-import com.example.pharmamanufacturer.presentation.components.ComponentsScreen
-import com.example.pharmamanufacturer.presentation.packing.PackagingScreen
+import com.example.pharmamanufacturer.presentation.addcompound.AddCompoundScreen
+import com.example.pharmamanufacturer.presentation.compounddetails.CompoundDetailsScreen
+import com.example.pharmamanufacturer.presentation.compounds.CompoundsScreen
+import com.example.pharmamanufacturer.presentation.packaging.PackagingScreen
 import com.example.pharmamanufacturer.presentation.productdetails.ProductDetailsScreen
 import com.example.pharmamanufacturer.presentation.products.ProductsScreen
 
@@ -38,16 +38,16 @@ fun Navigation(navController: NavHostController) {
                 }
             )
         }
-        composable(route = Screen.ComponentsScreen.route) {
-            ComponentsScreen(
-                onItemClick = { component ->
+        composable(route = Screen.CompoundsScreen.route) {
+            CompoundsScreen(
+                onItemClick = { compound ->
                     navController.navigate(
-                        Screen.ComponentDetailsScreen.withArgs(component.toString())
+                        Screen.CompoundDetailsScreen.withArgs(compound.toString())
                     )
                 },
                 onAddClick = {
                     navController.navigate(
-                        Screen.AddComponentScreen.route
+                        Screen.AddCompoundScreen.route
                     )
                 }
             )
@@ -83,26 +83,26 @@ fun Navigation(navController: NavHostController) {
         }
 
         composable(
-            route = Screen.ComponentDetailsScreen.route + "/{$COMPONENT_DETAILS_KEY}",
+            route = Screen.CompoundDetailsScreen.route + "/{$COMPOUND_DETAILS_KEY}",
             arguments = listOf(
-                navArgument(COMPONENT_DETAILS_KEY) {
-                    type = ComponentType
+                navArgument(COMPOUND_DETAILS_KEY) {
+                    type = CompoundType
                     nullable = false
                 }
             )
         ) {
-            ComponentDetailsScreen {
+            CompoundDetailsScreen {
                 navigateToParent(
                     controller = navController,
-                    parentRoute = Screen.ComponentsScreen.route
+                    parentRoute = Screen.CompoundsScreen.route
                 )
             }
         }
-        composable(route = Screen.AddComponentScreen.route) {
-            AddComponentScreen {
+        composable(route = Screen.AddCompoundScreen.route) {
+            AddCompoundScreen {
                 navigateToParent(
                     controller = navController,
-                    parentRoute = Screen.ComponentsScreen.route
+                    parentRoute = Screen.CompoundsScreen.route
                 )
             }
         }

@@ -2,6 +2,6 @@
     <string name="app_name">Pharma Manufacturer</string>
     <string name="title_products">Products</string>
     <string name="title_dashboard">Dashboard</string>
-    <string name="title_components">Components</string>
+    <string name="title_compounds">Compounds</string>
     <string name="title_packaging">Packaging</string>
 </resources>

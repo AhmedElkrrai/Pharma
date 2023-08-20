@@ -24,8 +24,8 @@ data class Product(
     @ColumnInfo(name = COL_PRODUCT_BATCHES)
     val batches: List<String>,
 
-    @ColumnInfo(name = COL_PRODUCT_COMPONENT)
-    val components: List<ChemicalComponent>
+    @ColumnInfo(name = COL_PRODUCT_COMPOUNDS)
+    val compounds: List<Compound>
 ) : Parcelable {
     override fun toString(): String {
         return Uri.encode(Gson().toJson(this))
@@ -38,6 +38,6 @@ data class Product(
         const val COL_PRODUCT_NAME = "product_name"
         const val COL_PRODUCT_LOW_STOCK = "product_low_stock"
         const val COL_PRODUCT_BATCHES = "batches"
-        const val COL_PRODUCT_COMPONENT = "components"
+        const val COL_PRODUCT_COMPOUNDS = "compounds"
     }
 }
