@@ -15,7 +15,6 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,11 +22,9 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pharmamanufacturer.R
 import com.example.pharmamanufacturer.core.UiDimensions
-import com.example.pharmamanufacturer.presentation.addproduct.action.AddProductAction
+import com.example.pharmamanufacturer.presentation.addproduct.state.AddProductScreenViewState
 import com.example.pharmamanufacturer.presentation.addproduct.state.AddProductTextField
 import com.example.pharmamanufacturer.presentation.theme.Blue
 import com.example.pharmamanufacturer.presentation.utilitycompose.BottomFloatingButton
@@ -35,13 +32,14 @@ import com.example.pharmamanufacturer.presentation.utilitycompose.CenteredTitleW
 import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.styledTextField
 
 @Composable
-fun AddProductScreen(navigateBack: () -> Unit) {
+fun AddProductScreen(
+    viewState: AddProductScreenViewState,
+    exitErrorState: (AddProductTextField) -> Unit,
+    showInvalidInput: (AddProductTextField) -> Unit,
+    addCompoundOnClick: () -> Unit,
+    addProductOnClick: () -> Unit
+) {
     Column(modifier = Modifier.fillMaxSize()) {
-        val viewModel: AddProductViewModel =
-            viewModel(factory = AddProductViewModel.Factory(navigateBack))
-
-        val viewState by viewModel.viewState.collectAsStateWithLifecycle()
-
         Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
         CenteredTitleWithIcon(
@@ -63,14 +61,10 @@ fun AddProductScreen(navigateBack: () -> Unit) {
                 keyboardType = KeyboardType.Text,
                 viewState = viewState.name,
                 exitErrorState = {
-                    viewModel.sendAction(
-                        AddProductAction.RetrieveInitialState(AddProductTextField.Name)
-                    )
+                    exitErrorState(AddProductTextField.Name)
                 },
                 showInvalidInput = {
-                    viewModel.sendAction(
-                        AddProductAction.KEYBOARD(AddProductTextField.Name)
-                    )
+                    showInvalidInput(AddProductTextField.Name)
                 }
             )
         }
@@ -101,14 +95,10 @@ fun AddProductScreen(navigateBack: () -> Unit) {
                 keyboardType = KeyboardType.Text,
                 viewState = viewState.compoundName,
                 exitErrorState = {
-                    viewModel.sendAction(
-                        AddProductAction.RetrieveInitialState(AddProductTextField.CompoundName)
-                    )
+                    exitErrorState(AddProductTextField.CompoundName)
                 },
                 showInvalidInput = {
-                    viewModel.sendAction(
-                        AddProductAction.KEYBOARD(AddProductTextField.CompoundName)
-                    )
+                    showInvalidInput(AddProductTextField.CompoundName)
                 }
             )
 
@@ -120,14 +110,10 @@ fun AddProductScreen(navigateBack: () -> Unit) {
                 keyboardType = KeyboardType.Decimal,
                 viewState = viewState.concentration,
                 exitErrorState = {
-                    viewModel.sendAction(
-                        AddProductAction.RetrieveInitialState(AddProductTextField.Concentration)
-                    )
+                    exitErrorState(AddProductTextField.Concentration)
                 },
                 showInvalidInput = {
-                    viewModel.sendAction(
-                        AddProductAction.KEYBOARD(AddProductTextField.Concentration)
-                    )
+                    showInvalidInput(AddProductTextField.Concentration)
                 }
             )
         }
@@ -144,7 +130,9 @@ fun AddProductScreen(navigateBack: () -> Unit) {
                     .width(200.dp),
                 shape = RectangleShape,
                 colors = ButtonDefaults.buttonColors(backgroundColor = Blue),
-                onClick = { viewModel.sendAction(AddProductAction.AddCompound) }
+                onClick = {
+                    addCompoundOnClick.invoke()
+                }
             ) {
                 Text(
                     text = "Add Compound",
@@ -156,7 +144,7 @@ fun AddProductScreen(navigateBack: () -> Unit) {
 
         BottomFloatingButton(
             onClick = {
-                viewModel.sendAction(AddProductAction.INSERT)
+                addProductOnClick.invoke()
             }
         )
     }

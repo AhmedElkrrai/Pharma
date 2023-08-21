@@ -25,6 +25,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 
+private const val MINIMUM_PRODUCT_COMPOUNDS = 2
+
 class AddProductViewModel(
     private val ioContext: CoroutineContext = Dispatchers.IO,
     private val mainContext: CoroutineContext = Dispatchers.Main,
@@ -111,13 +113,13 @@ class AddProductViewModel(
                 return@launch
             }
 
-            if (compounds.isEmpty()) {
-                val incompleteEntry = checkCompoundEntry(
+            if (compounds.size < MINIMUM_PRODUCT_COMPOUNDS) {
+                checkCompoundEntry(
                     compoundName = viewState.value.compoundName.input,
                     concentration = viewState.value.concentration.input
                 )
 
-                if (incompleteEntry) return@launch
+               return@launch
             }
 
             val product = Product(
@@ -168,6 +170,7 @@ class AddProductViewModel(
                 TextFieldEventState.InvalidInput(AddProductTextField.Concentration)
             )
         }
+
         return compoundName.isBlank() || concentration.isBlank()
     }
 
