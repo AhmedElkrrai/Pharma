@@ -17,8 +17,7 @@ import com.example.pharmamanufacturer.presentation.utilitycompose.EmptyContentSc
 
 @Composable
 fun CompoundsScreen(
-    onItemClick: (Compound) -> Unit,
-    onAddClick: () -> Unit
+    listener: CompoundsScreenListenerImpl
 ) {
     val viewModel: CompoundsViewModel = viewModel()
     val compoundsState = viewModel.compoundsState.collectAsStateWithLifecycle()
@@ -27,7 +26,7 @@ fun CompoundsScreen(
         LazyColumn {
             items(compoundsState.value) { compound ->
                 CompoundItem(compound) {
-                    onItemClick(compound)
+                    listener.onCompoundClick(compound)
                 }
             }
         }
@@ -42,7 +41,9 @@ fun CompoundsScreen(
     }
 
     BottomFloatingButton(
-        onClick = { onAddClick.invoke() },
+        onClick = {
+            listener.onAddClick()
+        },
         imageVector = Icons.Filled.Add
     )
 }

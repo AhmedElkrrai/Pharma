@@ -21,8 +21,7 @@ import com.example.pharmamanufacturer.presentation.utilitycompose.ProductItem
 
 @Composable
 fun ProductsScreen(
-    onItemClick: (Product) -> Unit,
-    onAddClick: () -> Unit
+    listener: ProductsScreenListener
 ) {
 
     val viewModel: ProductsViewModel = viewModel()
@@ -37,7 +36,7 @@ fun ProductsScreen(
                         .padding(14.dp),
                     product = product
                 ) {
-                    onItemClick(product)
+                    listener.onItemClick(product)
                 }
             }
         }
@@ -52,7 +51,9 @@ fun ProductsScreen(
     }
 
     BottomFloatingButton(
-        onClick = { onAddClick.invoke() },
+        onClick = {
+            listener.onAddClick()
+        },
         imageVector = Icons.Filled.Add
     )
 }
