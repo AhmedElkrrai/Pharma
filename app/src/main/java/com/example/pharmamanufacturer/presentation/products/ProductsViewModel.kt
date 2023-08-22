@@ -17,7 +17,11 @@ class ProductsViewModel : ViewModel() {
     val productsState: StateFlow<List<Product>>
         get() {
             viewModelScope.launch(Dispatchers.IO) {
-                _productsState.getAndUpdate { getAllProducts() }
+                _productsState.getAndUpdate {
+                    getAllProducts()
+                        .sortedBy { it.name.lowercase() }
+                        .reversed()
+                }
             }
             return _productsState.asStateFlow()
         }

@@ -34,10 +34,7 @@ import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.styl
 @Composable
 fun AddProductScreen(
     viewState: AddProductScreenViewState,
-    exitErrorState: (AddProductTextField) -> Unit,
-    showInvalidInput: (AddProductTextField) -> Unit,
-    addCompoundOnClick: () -> Unit,
-    addProductOnClick: () -> Unit
+    listener: AddProductScreenListener
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
@@ -61,10 +58,10 @@ fun AddProductScreen(
                 keyboardType = KeyboardType.Text,
                 viewState = viewState.name,
                 exitErrorState = {
-                    exitErrorState(AddProductTextField.Name)
+                    listener.exitErrorState(AddProductTextField.Name)
                 },
                 showInvalidInput = {
-                    showInvalidInput(AddProductTextField.Name)
+                    listener.showInvalidInput(AddProductTextField.Name)
                 }
             )
         }
@@ -95,10 +92,10 @@ fun AddProductScreen(
                 keyboardType = KeyboardType.Text,
                 viewState = viewState.compoundName,
                 exitErrorState = {
-                    exitErrorState(AddProductTextField.CompoundName)
+                    listener.exitErrorState(AddProductTextField.CompoundName)
                 },
                 showInvalidInput = {
-                    showInvalidInput(AddProductTextField.CompoundName)
+                    listener.showInvalidInput(AddProductTextField.CompoundName)
                 }
             )
 
@@ -110,10 +107,10 @@ fun AddProductScreen(
                 keyboardType = KeyboardType.Decimal,
                 viewState = viewState.concentration,
                 exitErrorState = {
-                    exitErrorState(AddProductTextField.Concentration)
+                    listener.exitErrorState(AddProductTextField.Concentration)
                 },
                 showInvalidInput = {
-                    showInvalidInput(AddProductTextField.Concentration)
+                    listener.showInvalidInput(AddProductTextField.Concentration)
                 }
             )
         }
@@ -131,7 +128,7 @@ fun AddProductScreen(
                 shape = RectangleShape,
                 colors = ButtonDefaults.buttonColors(backgroundColor = Blue),
                 onClick = {
-                    addCompoundOnClick.invoke()
+                    listener.addCompound()
                 }
             ) {
                 Text(
@@ -144,7 +141,7 @@ fun AddProductScreen(
 
         BottomFloatingButton(
             onClick = {
-                addProductOnClick.invoke()
+                listener.addProduct()
             }
         )
     }

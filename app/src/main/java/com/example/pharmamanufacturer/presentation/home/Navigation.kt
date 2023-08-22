@@ -21,8 +21,10 @@ import com.example.pharmamanufacturer.presentation.packaging.PackagingScreen
 import com.example.pharmamanufacturer.presentation.productdetails.ProductDetailsScreen
 import com.example.pharmamanufacturer.presentation.products.ProductsScreen
 import androidx.compose.runtime.getValue
-import com.example.pharmamanufacturer.presentation.addproduct.action.AddProductAction
-import com.example.pharmamanufacturer.presentation.addproduct.state.AddProductTextField
+import com.example.pharmamanufacturer.presentation.addcompound.AddCompoundScreenListener
+import com.example.pharmamanufacturer.presentation.addcompound.AddCompoundScreenListenerImpl
+import com.example.pharmamanufacturer.presentation.addcompound.AddCompoundViewModel
+import com.example.pharmamanufacturer.presentation.addproduct.AddProductScreenListenerImpl
 
 @Composable
 fun Navigation(navController: NavHostController) {
@@ -92,32 +94,9 @@ fun Navigation(navController: NavHostController) {
 
             val viewState by viewModel.viewState.collectAsStateWithLifecycle()
 
-            val exitErrorState: (AddProductTextField) -> Unit = { textField ->
-                viewModel.sendAction(
-                    AddProductAction.RetrieveInitialState(textField)
-                )
-            }
-
-            val showInvalidInput: (AddProductTextField) -> Unit = { textField ->
-                viewModel.sendAction(
-                    AddProductAction.KEYBOARD(textField)
-                )
-            }
-
-            val addCompoundOnClick: () -> Unit = {
-                viewModel.sendAction(AddProductAction.AddCompound)
-            }
-
-            val addProductOnClick: () -> Unit = {
-                viewModel.sendAction(AddProductAction.INSERT)
-            }
-
             AddProductScreen(
                 viewState = viewState,
-                exitErrorState = exitErrorState,
-                showInvalidInput = showInvalidInput,
-                addCompoundOnClick = addCompoundOnClick,
-                addProductOnClick = addProductOnClick
+                listener = AddProductScreenListenerImpl(viewModel)
             )
         }
 
@@ -138,12 +117,22 @@ fun Navigation(navController: NavHostController) {
             }
         }
         composable(route = Screen.AddCompoundScreen.route) {
-            AddCompoundScreen {
+            val navigateBack = {
                 navigateToParent(
                     controller = navController,
                     parentRoute = Screen.CompoundsScreen.route
                 )
             }
+
+            val viewModel: AddCompoundViewModel =
+                viewModel(factory = AddCompoundViewModel.Factory(navigateBack))
+
+            val viewState by viewModel.viewState.collectAsStateWithLifecycle()
+
+            AddCompoundScreen(
+                viewState = viewState,
+                listener = AddCompoundScreenListenerImpl(viewModel)
+            )
         }
     }
 }

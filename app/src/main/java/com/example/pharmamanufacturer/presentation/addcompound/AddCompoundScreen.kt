@@ -15,7 +15,6 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,11 +23,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType.Companion.Decimal
 import androidx.compose.ui.text.input.KeyboardType.Companion.Text
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pharmamanufacturer.R
 import com.example.pharmamanufacturer.core.UiDimensions
-import com.example.pharmamanufacturer.presentation.addcompound.action.AddCompoundAction
+import com.example.pharmamanufacturer.presentation.addcompound.state.AddCompoundScreenViewState
 import com.example.pharmamanufacturer.presentation.addcompound.state.AddCompoundTextField
 import com.example.pharmamanufacturer.presentation.theme.Blue
 import com.example.pharmamanufacturer.presentation.utilitycompose.BottomFloatingButton
@@ -36,12 +33,11 @@ import com.example.pharmamanufacturer.presentation.utilitycompose.CenteredTitleW
 import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.styledTextField
 
 @Composable
-fun AddCompoundScreen(navigateBack: () -> Unit) {
+fun AddCompoundScreen(
+    viewState: AddCompoundScreenViewState,
+    listener: AddCompoundScreenListener
+) {
     Column(modifier = Modifier.fillMaxSize()) {
-        val viewModel: AddCompoundViewModel =
-            viewModel(factory = AddCompoundViewModel.Factory(navigateBack))
-
-        val viewState by viewModel.viewState.collectAsStateWithLifecycle()
 
         Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
@@ -68,14 +64,10 @@ fun AddCompoundScreen(navigateBack: () -> Unit) {
                 keyboardType = Text,
                 viewState = viewState.name,
                 exitErrorState = {
-                    viewModel.sendAction(
-                        AddCompoundAction.RetrieveInitialState(AddCompoundTextField.Name)
-                    )
+                    listener.exitErrorState(AddCompoundTextField.Name)
                 },
                 showInvalidInput = {
-                    viewModel.sendAction(
-                        AddCompoundAction.KEYBOARD(AddCompoundTextField.Name)
-                    )
+                    listener.showInvalidInput(AddCompoundTextField.Name)
                 }
             )
 
@@ -87,14 +79,10 @@ fun AddCompoundScreen(navigateBack: () -> Unit) {
                 keyboardType = Decimal,
                 viewState = viewState.amount,
                 exitErrorState = {
-                    viewModel.sendAction(
-                        AddCompoundAction.RetrieveInitialState(AddCompoundTextField.Amount)
-                    )
+                    listener.exitErrorState(AddCompoundTextField.Amount)
                 },
                 showInvalidInput = {
-                    viewModel.sendAction(
-                        AddCompoundAction.KEYBOARD(AddCompoundTextField.Amount)
-                    )
+                    listener.showInvalidInput(AddCompoundTextField.Amount)
                 }
             )
         }
@@ -125,14 +113,10 @@ fun AddCompoundScreen(navigateBack: () -> Unit) {
                 keyboardType = Text,
                 viewState = viewState.supplierName,
                 exitErrorState = {
-                    viewModel.sendAction(
-                        AddCompoundAction.RetrieveInitialState(AddCompoundTextField.SupplierName)
-                    )
+                    listener.exitErrorState(AddCompoundTextField.SupplierName)
                 },
                 showInvalidInput = {
-                    viewModel.sendAction(
-                        AddCompoundAction.KEYBOARD(AddCompoundTextField.SupplierName)
-                    )
+                    listener.showInvalidInput(AddCompoundTextField.SupplierName)
                 }
             )
 
@@ -144,14 +128,10 @@ fun AddCompoundScreen(navigateBack: () -> Unit) {
                 keyboardType = Decimal,
                 viewState = viewState.`package`,
                 exitErrorState = {
-                    viewModel.sendAction(
-                        AddCompoundAction.RetrieveInitialState(AddCompoundTextField.Package)
-                    )
+                    listener.exitErrorState(AddCompoundTextField.Package)
                 },
                 showInvalidInput = {
-                    viewModel.sendAction(
-                        AddCompoundAction.KEYBOARD(AddCompoundTextField.Package)
-                    )
+                    listener.showInvalidInput(AddCompoundTextField.Package)
                 }
             )
         }
@@ -168,7 +148,9 @@ fun AddCompoundScreen(navigateBack: () -> Unit) {
                     .width(150.dp),
                 shape = RectangleShape,
                 colors = ButtonDefaults.buttonColors(backgroundColor = Blue),
-                onClick = { viewModel.sendAction(AddCompoundAction.AddSupplier) }
+                onClick = {
+                    listener.addSupplier()
+                }
             ) {
                 Text(
                     text = "Add Supplier",
@@ -180,7 +162,7 @@ fun AddCompoundScreen(navigateBack: () -> Unit) {
 
         BottomFloatingButton(
             onClick = {
-                viewModel.sendAction(AddCompoundAction.INSERT)
+              listener.addCompound()
             }
         )
     }

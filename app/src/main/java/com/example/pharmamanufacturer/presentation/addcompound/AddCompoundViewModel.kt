@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 
-internal class AddCompoundViewModel(
+class AddCompoundViewModel(
     private val ioContext: CoroutineContext = Dispatchers.IO,
     private val mainContext: CoroutineContext = Dispatchers.Main,
     private val navigateBack: () -> Unit
