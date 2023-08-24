@@ -15,6 +15,9 @@ interface ProductsDao {
     @Query("SELECT * FROM ${Product.TABLE_PRODUCT}")
     suspend fun getAll(): List<Product>
 
+    @Query("SELECT * FROM ${Product.TABLE_PRODUCT} WHERE id IN (:ids)")
+    suspend fun getAllProducts(ids: List<Int>): List<Product>
+
     @Query(
         "SELECT * FROM ${Product.TABLE_PRODUCT} " +
             "WHERE ${Product.COL_PRODUCT_ID} = :id LIMIT 1"

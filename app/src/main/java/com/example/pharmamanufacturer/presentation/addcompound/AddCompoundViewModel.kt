@@ -122,7 +122,7 @@ class AddCompoundViewModel(
                 name = name,
                 availableAmount = amount.toDouble(),
                 suppliers = suppliers.toList(),
-                products = listOf()
+                productsIds = listOf()
             )
             DatabaseHandler.addCompound(compound)
 

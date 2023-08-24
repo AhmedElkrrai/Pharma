@@ -1,6 +1,5 @@
 package com.example.pharmamanufacturer.presentation.compounddetails
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -20,7 +19,8 @@ import com.example.pharmamanufacturer.presentation.utilitycompose.ProductItem
 
 @Composable
 fun ProductsSection(
-    compound: Compound
+    compound: Compound,
+    products: List<Product>
 ) {
     Column(
         modifier = Modifier
@@ -32,20 +32,14 @@ fun ProductsSection(
 
         Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
-        val products = compound.products
-        if (products.isNullOrEmpty()) return
+        if (products.isEmpty()) return
 
         LazyColumn {
             items(products) { product ->
                 val ingredient =
                     product
                         .ingredients
-                        .find { it.compound.name == compound.name }
-
-                Log.d(
-                    "taggs",
-                    "compound.id = ${compound.id}, ingredient = ${ingredient?.compound?.id}"
-                )
+                        .find { it.compoundId == compound.id }
 
                 ingredient?.let {
                     ProductItem(

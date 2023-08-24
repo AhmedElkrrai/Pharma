@@ -22,7 +22,7 @@ data class Compound(
     var availableAmount: Double,
 
     @ColumnInfo(name = COL_COMPOUND_PRODUCTS)
-    val products: List<Product>? = null,
+    val productsIds: List<Int>? = null,
 
     @ColumnInfo(name = COL_COMPOUND_LOW_STOCK)
     var lowStock: Boolean = false,

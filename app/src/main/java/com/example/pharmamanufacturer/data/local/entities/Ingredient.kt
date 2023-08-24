@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Ingredient(
-    val compound: Compound,
+    val compoundId: Int,
     val concentration: Double,
     val lowStock: Boolean = false
 ) : Parcelable

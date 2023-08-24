@@ -16,22 +16,16 @@ class Converters {
     fun jsonToList(value: String) = Gson().fromJson(value, Array<String>::class.java).toList()
 
     @TypeConverter
+    fun integerListToJson(value: List<Int>?): String = Gson().toJson(value)
+
+    @TypeConverter
+    fun jsonToIntegerList(value: String) = Gson().fromJson(value, Array<Int>::class.java).toList()
+
+    @TypeConverter
     fun supplierToJson(value: List<Supplier>?): String = Gson().toJson(value)
 
     @TypeConverter
     fun jsonToSupplier(value: String?) = Gson().fromJson(value, Array<Supplier>::class.java)?.toList()
-
-    @TypeConverter
-    fun compoundToJson(value: List<Compound>?): String = Gson().toJson(value)
-
-    @TypeConverter
-    fun jsonToCompound(value: String) = Gson().fromJson(value, Array<Compound>::class.java).toList()
-
-    @TypeConverter
-    fun productToJson(value: List<Product>?): String = Gson().toJson(value)
-
-    @TypeConverter
-    fun jsonToProduct(value: String) = Gson().fromJson(value, Array<Product>::class.java)?.toList()
 
     @TypeConverter
     fun ingredientToJson(value: List<Ingredient>?): String = Gson().toJson(value)

@@ -5,6 +5,6 @@ import com.example.pharmamanufacturer.presentation.addproduct.state.AddProductTe
 interface AddProductScreenListener {
     fun exitErrorState(textField: AddProductTextField)
     fun showInvalidInput(textField: AddProductTextField)
-    fun addIngredient()
+    fun addCompound()
     fun addProduct()
 }

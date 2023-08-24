@@ -18,8 +18,8 @@ class AddProductScreenListenerImpl(private val viewModel: AddProductViewModel) :
         )
     }
 
-    override fun addIngredient() {
-        viewModel.sendAction(AddProductAction.AddIngredient)
+    override fun addCompound() {
+        viewModel.sendAction(AddProductAction.AddCompound)
     }
 
     override fun addProduct() {

@@ -44,7 +44,7 @@ class AddProductViewModel(
     private val events: Flow<TextFieldEventState>
         get() = _events.receiveAsFlow()
 
-    private val ingredients = mutableListOf<Ingredient>()
+    private val compounds = mutableListOf<Compound>()
 
     init {
         viewModelScope.launch {
@@ -64,8 +64,8 @@ class AddProductViewModel(
         viewModelScope.launch(ioContext) {
             viewAction.receiveAsFlow().collect { action ->
                 when (action) {
-                    is AddProductAction.AddIngredient ->
-                        addIngredient()
+                    is AddProductAction.AddCompound ->
+                        addCompound()
 
                     is AddProductAction.INSERT ->
                         addProduct()
@@ -103,27 +103,24 @@ class AddProductViewModel(
         }
     }
 
-    private suspend fun addIngredient() {
+    private suspend fun addCompound() {
         val name = viewState.value.compoundName.input
         val concentration = viewState.value.concentration.input
 
-        val incompleteEntry = checkIngredientEntry(
+        val incompleteEntry = checkCompoundEntry(
             compoundName = name,
             concentration = concentration
         )
 
         if (incompleteEntry) return
 
-        val ingredient =
-            Ingredient(
-                compound = Compound(
-                    name = name,
-                    availableAmount = concentration.toDouble(),
-                    products = listOf()
-                ),
-                concentration = concentration.toDouble()
+        val compound =
+            Compound(
+                name = name,
+                availableAmount = concentration.toDouble(),
+                productsIds = listOf()
             )
-        ingredients.add(ingredient)
+        compounds.add(compound)
 
         _events.send(TextFieldEventState.ClearSubInputs)
     }
@@ -139,8 +136,8 @@ class AddProductViewModel(
                 return@launch
             }
 
-            if (ingredients.size < MINIMUM_PRODUCT_INGREDIENTS) {
-                checkIngredientEntry(
+            if (compounds.size < MINIMUM_PRODUCT_INGREDIENTS) {
+                checkCompoundEntry(
                     compoundName = viewState.value.compoundName.input,
                     concentration = viewState.value.concentration.input
                 )
@@ -150,13 +147,20 @@ class AddProductViewModel(
 
             val product = Product(
                 name = name,
-                ingredients = ingredients,
+                ingredients = listOf(),
                 batches = listOf()
             )
 
-            updateProductIngredients(product)
+            val productId = DatabaseHandler.addProduct(product)
 
-            DatabaseHandler.addProduct(product)
+            val ingredients = updateCompounds(productId.toInt())
+
+            DatabaseHandler.updateProduct(
+                product = product.copy(
+                    id = productId.toInt(),
+                    ingredients = ingredients
+                )
+            )
 
             withContext(mainContext) {
                 navigateBack.invoke()
@@ -164,27 +168,48 @@ class AddProductViewModel(
         }
     }
 
-    private suspend fun updateProductIngredients(product: Product) {
-        ingredients.forEach { ingredient ->
-            val compound = DatabaseHandler.getCompound(ingredient.compound.name)
+    private suspend fun updateCompounds(productId: Int): List<Ingredient> {
+        val ingredients = mutableListOf<Ingredient>()
+
+        compounds.forEach { productCompound ->
+            val compound = DatabaseHandler.getCompound(productCompound.name)
             if (compound == null) {
                 val compoundId =
                     DatabaseHandler.addCompound(
-                        ingredient.compound.copy(products = listOf(product))
+                        productCompound.copy(productsIds = listOf(productId))
                     )
-            } else {
-                val products = compound.products?.toMutableList()
-                products?.add(product)
-                DatabaseHandler.updateCompound(
-                    compound.copy(
-                        products = products
+
+                ingredients.add(
+                    Ingredient(
+                        compoundId = compoundId.toInt(),
+                        concentration = productCompound.availableAmount
                     )
                 )
+            } else {
+                val productsIds = compound.productsIds?.toMutableList()
+                productsIds?.add(productId)
+
+                DatabaseHandler.updateCompound(
+                    compound.copy(
+                        productsIds = productsIds
+                    )
+                )
+
+                compound.id?.let { id ->
+                    ingredients.add(
+                        Ingredient(
+                            compoundId = id,
+                            concentration = productCompound.availableAmount
+                        )
+                    )
+                }
             }
         }
+
+        return ingredients
     }
 
-    private suspend fun checkIngredientEntry(
+    private suspend fun checkCompoundEntry(
         compoundName: String,
         concentration: String
     ): Boolean {

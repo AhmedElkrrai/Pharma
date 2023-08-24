@@ -128,11 +128,11 @@ fun AddProductScreen(
                 shape = RectangleShape,
                 colors = ButtonDefaults.buttonColors(backgroundColor = Blue),
                 onClick = {
-                    listener.addIngredient()
+                    listener.addCompound()
                 }
             ) {
                 Text(
-                    text = "Add Ingredient",
+                    text = "Add Compound",
                     color = Color.White,
                     maxLines = 1
                 )

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pharmamanufacturer.R
 import com.example.pharmamanufacturer.core.UiDimensions
@@ -18,8 +19,8 @@ import com.example.pharmamanufacturer.presentation.utilitycompose.TopBar
 @Composable
 fun CompoundDetailsScreen(onBackClick: () -> Unit) {
     Column(modifier = Modifier.fillMaxSize()) {
-        val vm: CompoundDetailsViewModel = viewModel()
-        vm.selectedCompound?.let { compound ->
+        val viewModel: CompoundDetailsViewModel = viewModel()
+        viewModel.selectedCompound?.let { compound ->
             TopBar(
                 name = compound.name,
                 modifier = Modifier.fillMaxWidth(),
@@ -32,9 +33,15 @@ fun CompoundDetailsScreen(onBackClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
-            if (compound.products?.isNotEmpty() == true) {
+            if (compound.productsIds?.isNotEmpty() == true) {
+                val productsState =
+                    viewModel
+                        .getCompoundProducts(compound.productsIds)
+                        .collectAsStateWithLifecycle()
+
                 ProductsSection(
-                    compound = compound
+                    compound = compound,
+                    products = productsState.value
                 )
             }
 
