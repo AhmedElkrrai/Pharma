@@ -1,6 +1,5 @@
 package com.example.pharmamanufacturer.presentation.addproduct
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -25,9 +24,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.time.LocalDate
 import kotlin.coroutines.CoroutineContext
-import kotlin.reflect.KClass
 
 private const val MINIMUM_PRODUCT_INGREDIENTS = 2
 
@@ -67,11 +64,11 @@ class AddProductViewModel(
         viewModelScope.launch(ioContext) {
             viewAction.receiveAsFlow().collect { action ->
                 when (action) {
-                    is AddProductAction.INSERT ->
-                        addProduct()
-
                     is AddProductAction.AddIngredient ->
                         addIngredient()
+
+                    is AddProductAction.INSERT ->
+                        addProduct()
 
                     is AddProductAction.KEYBOARD ->
                         renderTextFieldViewState(
@@ -106,6 +103,31 @@ class AddProductViewModel(
         }
     }
 
+    private suspend fun addIngredient() {
+        val name = viewState.value.compoundName.input
+        val concentration = viewState.value.concentration.input
+
+        val incompleteEntry = checkIngredientEntry(
+            compoundName = name,
+            concentration = concentration
+        )
+
+        if (incompleteEntry) return
+
+        val ingredient =
+            Ingredient(
+                compound = Compound(
+                    name = name,
+                    availableAmount = concentration.toDouble(),
+                    products = listOf()
+                ),
+                concentration = concentration.toDouble()
+            )
+        ingredients.add(ingredient)
+
+        _events.send(TextFieldEventState.ClearSubInputs)
+    }
+
     private fun addProduct() {
         viewModelScope.launch(ioContext) {
             val name = viewState.value.name.input
@@ -132,9 +154,9 @@ class AddProductViewModel(
                 batches = listOf()
             )
 
-            DatabaseHandler.addProduct(product)
-
             updateProductIngredients(product)
+
+            DatabaseHandler.addProduct(product)
 
             withContext(mainContext) {
                 navigateBack.invoke()
@@ -145,11 +167,12 @@ class AddProductViewModel(
     private suspend fun updateProductIngredients(product: Product) {
         ingredients.forEach { ingredient ->
             val compound = DatabaseHandler.getCompound(ingredient.compound.name)
-            if (compound == null)
-                DatabaseHandler.addCompound(
-                    ingredient.compound.copy(products = listOf(product))
-                )
-            else {
+            if (compound == null) {
+                val compoundId =
+                    DatabaseHandler.addCompound(
+                        ingredient.compound.copy(products = listOf(product))
+                    )
+            } else {
                 val products = compound.products?.toMutableList()
                 products?.add(product)
                 DatabaseHandler.updateCompound(
@@ -159,31 +182,6 @@ class AddProductViewModel(
                 )
             }
         }
-    }
-
-    private suspend fun addIngredient() {
-        val name = viewState.value.compoundName.input
-        val concentration = viewState.value.concentration.input
-
-        val incompleteEntry = checkIngredientEntry(
-            compoundName = name,
-            concentration = concentration
-        )
-
-        if (incompleteEntry) return
-
-        val ingredient =
-            Ingredient(
-                compound = Compound(
-                    name = name,
-                    availableAmount = concentration.toDouble(),
-                    products = listOf()
-                ),
-                concentration = concentration.toDouble()
-            )
-        ingredients.add(ingredient)
-
-        _events.send(TextFieldEventState.ClearSubInputs)
     }
 
     private suspend fun checkIngredientEntry(

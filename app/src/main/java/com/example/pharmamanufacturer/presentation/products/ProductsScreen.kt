@@ -34,7 +34,8 @@ fun ProductsScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(14.dp),
-                    product = product
+                    product = product,
+                    lowStock = product.lowStock
                 ) {
                     listener.onItemClick(product)
                 }

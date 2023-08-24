@@ -33,7 +33,9 @@ fun CompoundDetailsScreen(onBackClick: () -> Unit) {
             Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
             if (compound.products?.isNotEmpty() == true) {
-                ProductsSection(compound.products)
+                ProductsSection(
+                    compound = compound
+                )
             }
 
             Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))

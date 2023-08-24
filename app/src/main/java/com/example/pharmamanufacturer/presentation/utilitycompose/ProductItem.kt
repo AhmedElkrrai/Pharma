@@ -26,6 +26,7 @@ import com.example.pharmamanufacturer.presentation.theme.Blue
 fun ProductItem(
     modifier: Modifier = Modifier,
     product: Product,
+    lowStock: Boolean,
     onItemClick: (() -> Unit)? = null
 ) {
     Card(
@@ -48,18 +49,20 @@ fun ProductItem(
                 fontWeight = FontWeight.Bold
             )
 
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.TopStart
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_warning),
-                    contentDescription = "Warning",
-                    tint = Color.Unspecified,
-                    modifier = Modifier
-                        .size(28.dp)
-                        .padding(start = UiDimensions.Small_Space)
-                )
+            if (lowStock) {
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.TopStart
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_warning),
+                        contentDescription = "Warning",
+                        tint = Color.Unspecified,
+                        modifier = Modifier
+                            .size(24.dp)
+                            .padding(start = UiDimensions.Small_Space)
+                    )
+                }
             }
         }
     }

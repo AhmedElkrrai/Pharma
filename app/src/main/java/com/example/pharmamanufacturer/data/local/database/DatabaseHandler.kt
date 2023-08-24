@@ -19,8 +19,8 @@ object DatabaseHandler {
         }.toMutableList()
     }
 
-    suspend fun addCompound(compound: Compound) {
-        withContext(Dispatchers.IO) {
+    suspend fun addCompound(compound: Compound): Long {
+        return withContext(Dispatchers.IO) {
             pharmaDatabase.compoundsDao().insert(compound)
         }
     }
