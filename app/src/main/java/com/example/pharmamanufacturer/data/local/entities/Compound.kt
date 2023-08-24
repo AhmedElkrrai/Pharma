@@ -18,8 +18,8 @@ data class Compound(
     @ColumnInfo(name = COL_COMPOUND_NAME)
     val name: String,
 
-    @ColumnInfo(name = COL_COMPOUND_CONCENTRATION)
-    var amount: Double,
+    @ColumnInfo(name = COL_AVAILABLE_AMOUNT)
+    var availableAmount: Double,
 
     @ColumnInfo(name = COL_COMPOUND_PRODUCTS)
     val products: List<Product>? = null,
@@ -39,7 +39,7 @@ data class Compound(
 
         const val COL_COMPOUND_ID = "id"
         const val COL_COMPOUND_NAME = "name"
-        const val COL_COMPOUND_CONCENTRATION = "concentration"
+        const val COL_AVAILABLE_AMOUNT = "available_amount"
         const val COL_COMPOUND_LOW_STOCK = "compound_low_stock"
         const val COL_SUPPLIERS = "suppliers"
         const val COL_COMPOUND_PRODUCTS = "compound_products"

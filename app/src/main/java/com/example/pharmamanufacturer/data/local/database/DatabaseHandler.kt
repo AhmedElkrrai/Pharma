@@ -20,7 +20,21 @@ object DatabaseHandler {
     }
 
     suspend fun addCompound(compound: Compound) {
-        pharmaDatabase.compoundsDao().insert(compound)
+        withContext(Dispatchers.IO) {
+            pharmaDatabase.compoundsDao().insert(compound)
+        }
+    }
+
+    suspend fun updateCompound(compound: Compound) {
+        withContext(Dispatchers.IO) {
+            pharmaDatabase.compoundsDao().update(compound)
+        }
+    }
+
+    suspend fun getCompound(compoundName: String): Compound? {
+        return withContext(Dispatchers.IO) {
+            pharmaDatabase.compoundsDao().getCompoundByName(compoundName)
+        }
     }
 
     suspend fun getAllProducts(): MutableList<Product> {
@@ -29,7 +43,9 @@ object DatabaseHandler {
         }.toMutableList()
     }
 
-    suspend fun addProduct(product: Product) {
-        pharmaDatabase.productsDao().insert(product)
+    suspend fun addProduct(product: Product): Long {
+        return withContext(Dispatchers.IO) {
+            pharmaDatabase.productsDao().insert(product)
+        }
     }
 }

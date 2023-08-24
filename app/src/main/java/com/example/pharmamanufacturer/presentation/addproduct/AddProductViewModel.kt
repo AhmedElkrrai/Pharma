@@ -1,10 +1,12 @@
 package com.example.pharmamanufacturer.presentation.addproduct
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.pharmamanufacturer.data.local.database.DatabaseHandler
 import com.example.pharmamanufacturer.data.local.entities.Compound
+import com.example.pharmamanufacturer.data.local.entities.Ingredient
 import com.example.pharmamanufacturer.data.local.entities.Product
 import com.example.pharmamanufacturer.presentation.addproduct.action.AddProductAction
 import com.example.pharmamanufacturer.presentation.addproduct.state.AddProductScreenViewState
@@ -23,9 +25,11 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.LocalDate
 import kotlin.coroutines.CoroutineContext
+import kotlin.reflect.KClass
 
-private const val MINIMUM_PRODUCT_COMPOUNDS = 2
+private const val MINIMUM_PRODUCT_INGREDIENTS = 2
 
 class AddProductViewModel(
     private val ioContext: CoroutineContext = Dispatchers.IO,
@@ -43,7 +47,7 @@ class AddProductViewModel(
     private val events: Flow<TextFieldEventState>
         get() = _events.receiveAsFlow()
 
-    private val compounds = mutableListOf<Compound>()
+    private val ingredients = mutableListOf<Ingredient>()
 
     init {
         viewModelScope.launch {
@@ -66,8 +70,8 @@ class AddProductViewModel(
                     is AddProductAction.INSERT ->
                         addProduct()
 
-                    is AddProductAction.AddCompound ->
-                        addCompound()
+                    is AddProductAction.AddIngredient ->
+                        addIngredient()
 
                     is AddProductAction.KEYBOARD ->
                         renderTextFieldViewState(
@@ -113,21 +117,24 @@ class AddProductViewModel(
                 return@launch
             }
 
-            if (compounds.size < MINIMUM_PRODUCT_COMPOUNDS) {
-                checkCompoundEntry(
+            if (ingredients.size < MINIMUM_PRODUCT_INGREDIENTS) {
+                checkIngredientEntry(
                     compoundName = viewState.value.compoundName.input,
                     concentration = viewState.value.concentration.input
                 )
 
-               return@launch
+                return@launch
             }
 
             val product = Product(
                 name = name,
-                compounds = compounds,
+                ingredients = ingredients,
                 batches = listOf()
             )
+
             DatabaseHandler.addProduct(product)
+
+            updateProductIngredients(product)
 
             withContext(mainContext) {
                 navigateBack.invoke()
@@ -135,27 +142,51 @@ class AddProductViewModel(
         }
     }
 
-    private suspend fun addCompound() {
+    private suspend fun updateProductIngredients(product: Product) {
+        ingredients.forEach { ingredient ->
+            val compound = DatabaseHandler.getCompound(ingredient.compound.name)
+            if (compound == null)
+                DatabaseHandler.addCompound(
+                    ingredient.compound.copy(products = listOf(product))
+                )
+            else {
+                val products = compound.products?.toMutableList()
+                products?.add(product)
+                DatabaseHandler.updateCompound(
+                    compound.copy(
+                        products = products
+                    )
+                )
+            }
+        }
+    }
+
+    private suspend fun addIngredient() {
         val name = viewState.value.compoundName.input
         val concentration = viewState.value.concentration.input
 
-        val incompleteEntry = checkCompoundEntry(
+        val incompleteEntry = checkIngredientEntry(
             compoundName = name,
             concentration = concentration
         )
 
         if (incompleteEntry) return
 
-        val compound = Compound(
-            name = name,
-            amount = concentration.toDouble()
-        )
-        compounds.add(compound)
+        val ingredient =
+            Ingredient(
+                compound = Compound(
+                    name = name,
+                    availableAmount = concentration.toDouble(),
+                    products = listOf()
+                ),
+                concentration = concentration.toDouble()
+            )
+        ingredients.add(ingredient)
 
         _events.send(TextFieldEventState.ClearSubInputs)
     }
 
-    private suspend fun checkCompoundEntry(
+    private suspend fun checkIngredientEntry(
         compoundName: String,
         concentration: String
     ): Boolean {

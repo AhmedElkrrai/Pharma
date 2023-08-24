@@ -120,7 +120,7 @@ class AddCompoundViewModel(
 
             val compound = Compound(
                 name = name,
-                amount = amount.toDouble(),
+                availableAmount = amount.toDouble(),
                 suppliers = suppliers.toList(),
                 products = listOf()
             )

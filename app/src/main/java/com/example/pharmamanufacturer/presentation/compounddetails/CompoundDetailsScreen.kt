@@ -28,7 +28,7 @@ fun CompoundDetailsScreen(onBackClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
-            AmountDetails(compound.amount.round().toString())
+            AmountDetails(compound.availableAmount.round().toString())
 
             Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 

@@ -2,6 +2,7 @@ package com.example.pharmamanufacturer.data.utils
 
 import androidx.room.TypeConverter
 import com.example.pharmamanufacturer.data.local.entities.Compound
+import com.example.pharmamanufacturer.data.local.entities.Ingredient
 import com.example.pharmamanufacturer.data.local.entities.Product
 import com.example.pharmamanufacturer.data.local.entities.Supplier
 import com.google.gson.Gson
@@ -18,7 +19,7 @@ class Converters {
     fun supplierToJson(value: List<Supplier>?): String = Gson().toJson(value)
 
     @TypeConverter
-    fun jsonToSupplier(value: String) = Gson().fromJson(value, Array<Supplier>::class.java).toList()
+    fun jsonToSupplier(value: String?) = Gson().fromJson(value, Array<Supplier>::class.java)?.toList()
 
     @TypeConverter
     fun compoundToJson(value: List<Compound>?): String = Gson().toJson(value)
@@ -27,8 +28,14 @@ class Converters {
     fun jsonToCompound(value: String) = Gson().fromJson(value, Array<Compound>::class.java).toList()
 
     @TypeConverter
-    fun productsToJson(value: List<Product>?): String = Gson().toJson(value)
+    fun productToJson(value: List<Product>?): String = Gson().toJson(value)
 
     @TypeConverter
-    fun jsonToProduct(value: String) = Gson().fromJson(value, Array<Product>::class.java).toList()
+    fun jsonToProduct(value: String) = Gson().fromJson(value, Array<Product>::class.java)?.toList()
+
+    @TypeConverter
+    fun ingredientToJson(value: List<Ingredient>?): String = Gson().toJson(value)
+
+    @TypeConverter
+    fun jsonToIngredient(value: String) = Gson().fromJson(value, Array<Ingredient>::class.java)?.toList()
 }

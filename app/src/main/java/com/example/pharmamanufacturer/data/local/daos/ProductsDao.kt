@@ -10,13 +10,15 @@ import com.example.pharmamanufacturer.data.local.entities.Product
 @Dao
 interface ProductsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(product: Product)
+    suspend fun insert(product: Product): Long
 
     @Query("SELECT * FROM ${Product.TABLE_PRODUCT}")
     suspend fun getAll(): List<Product>
 
-    @Query("SELECT * FROM ${Product.TABLE_PRODUCT} " +
-        "WHERE ${Product.COL_PRODUCT_ID} = :id LIMIT 1")
+    @Query(
+        "SELECT * FROM ${Product.TABLE_PRODUCT} " +
+            "WHERE ${Product.COL_PRODUCT_ID} = :id LIMIT 1"
+    )
     suspend fun get(id: Int): Product?
 
     @Update

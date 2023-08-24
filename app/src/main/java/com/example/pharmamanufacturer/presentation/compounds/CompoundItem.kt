@@ -47,7 +47,7 @@ fun CompoundItem(
             )
 
             Text(
-                text = compound.amount.toString(),
+                text = compound.availableAmount.toString(),
                 modifier = Modifier.padding(end = 10.dp),
                 style = MaterialTheme.typography.titleMedium,
                 color = Green
