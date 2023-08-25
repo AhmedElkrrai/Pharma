@@ -46,7 +46,7 @@ fun SupplierItem(
             ) {
                 StyledText(
                     modifier = Modifier.padding(bottom = UiDimensions.Small_Space),
-                    amount = supplier.`package`.round().toString()
+                    details = supplier.`package`.round().toString()
                 )
             }
         }

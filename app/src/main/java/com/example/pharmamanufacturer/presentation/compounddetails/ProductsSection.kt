@@ -36,12 +36,12 @@ fun ProductsSection(
 
         LazyColumn {
             items(products) { product ->
-                val ingredient =
+                val batch =
                     product
-                        .ingredients
-                        .find { it.compoundId == compound.id }
+                        .batches
+                        .find { it.id == compound.id }
 
-                ingredient?.let {
+                batch?.let {
                     ProductItem(
                         modifier = Modifier
                             .fillMaxWidth()

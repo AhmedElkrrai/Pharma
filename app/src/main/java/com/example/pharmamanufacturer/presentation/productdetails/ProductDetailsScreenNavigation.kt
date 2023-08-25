@@ -13,8 +13,10 @@ fun ProductDetailsScreenNavigation(navController: NavHostController) {
 
     val product by viewModel.productState.collectAsStateWithLifecycle()
 
-    ProductDetailsScreen(
-        product = product,
-        listener = ProductDetailsScreenListenerImpl(navController)
-    )
+    product?.let {
+        ProductDetailsScreen(
+            product = product!!,
+            listener = ProductDetailsScreenListenerImpl(navController)
+        )
+    }
 }

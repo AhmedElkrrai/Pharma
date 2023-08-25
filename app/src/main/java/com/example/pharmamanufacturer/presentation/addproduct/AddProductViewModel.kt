@@ -3,9 +3,11 @@ package com.example.pharmamanufacturer.presentation.addproduct
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.pharmamanufacturer.core.MINIMUM_PRODUCT_INGREDIENTS
+import com.example.pharmamanufacturer.core.capitalizeFirstChar
 import com.example.pharmamanufacturer.data.local.database.DatabaseHandler
 import com.example.pharmamanufacturer.data.local.entities.Compound
-import com.example.pharmamanufacturer.data.local.entities.Ingredient
+import com.example.pharmamanufacturer.data.local.entities.Batch
 import com.example.pharmamanufacturer.data.local.entities.Product
 import com.example.pharmamanufacturer.presentation.addproduct.action.AddProductAction
 import com.example.pharmamanufacturer.presentation.addproduct.state.AddProductScreenViewState
@@ -25,8 +27,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
-
-private const val MINIMUM_PRODUCT_INGREDIENTS = 2
 
 class AddProductViewModel(
     private val ioContext: CoroutineContext = Dispatchers.IO,
@@ -116,9 +116,9 @@ class AddProductViewModel(
 
         val compound =
             Compound(
-                name = name,
+                name = name.capitalizeFirstChar(),
                 availableAmount = concentration.toDouble(),
-                productsIds = listOf()
+                batches = listOf()
             )
         compounds.add(compound)
 
@@ -146,19 +146,18 @@ class AddProductViewModel(
             }
 
             val product = Product(
-                name = name,
-                ingredients = listOf(),
+                name = name.capitalizeFirstChar(),
                 batches = listOf()
             )
 
             val productId = DatabaseHandler.addProduct(product)
 
-            val ingredients = updateCompounds(productId.toInt())
+            val batches = updateCompounds(productId.toInt())
 
             DatabaseHandler.updateProduct(
                 product = product.copy(
                     id = productId.toInt(),
-                    ingredients = ingredients
+                    batches = batches
                 )
             )
 
@@ -168,45 +167,56 @@ class AddProductViewModel(
         }
     }
 
-    private suspend fun updateCompounds(productId: Int): List<Ingredient> {
-        val ingredients = mutableListOf<Ingredient>()
+    private suspend fun updateCompounds(productId: Int): List<Batch> {
+        val productBatches = mutableListOf<Batch>()
 
         compounds.forEach { productCompound ->
-            val compound = DatabaseHandler.getCompound(productCompound.name)
+            val compound = DatabaseHandler.getCompound(
+                compoundName = productCompound.name
+            )
+
+            val newCompoundBatch = Batch(
+                id = productId,
+                concentration = productCompound.availableAmount
+            )
+
             if (compound == null) {
                 val compoundId =
                     DatabaseHandler.addCompound(
-                        productCompound.copy(productsIds = listOf(productId))
+                        productCompound.copy(
+                            batches = listOf(newCompoundBatch)
+                        )
                     )
 
-                ingredients.add(
-                    Ingredient(
-                        compoundId = compoundId.toInt(),
+                productBatches.add(
+                    Batch(
+                        id = compoundId.toInt(),
                         concentration = productCompound.availableAmount
                     )
                 )
             } else {
-                val productsIds = compound.productsIds?.toMutableList()
-                productsIds?.add(productId)
+                val compoundBatches = compound.batches?.toMutableList()
+                compoundBatches?.add(newCompoundBatch)
 
                 DatabaseHandler.updateCompound(
                     compound.copy(
-                        productsIds = productsIds
+                        batches = compoundBatches
                     )
                 )
 
                 compound.id?.let { id ->
-                    ingredients.add(
-                        Ingredient(
-                            compoundId = id,
-                            concentration = productCompound.availableAmount
+                    productBatches.add(
+                        Batch(
+                            id = id,
+                            concentration = productCompound.availableAmount,
+                            available = compound.availableAmount / productCompound.availableAmount
                         )
                     )
                 }
             }
         }
 
-        return ingredients
+        return productBatches
     }
 
     private suspend fun checkCompoundEntry(

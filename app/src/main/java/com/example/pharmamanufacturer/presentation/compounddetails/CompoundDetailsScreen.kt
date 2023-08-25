@@ -13,6 +13,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pharmamanufacturer.R
 import com.example.pharmamanufacturer.core.UiDimensions
 import com.example.pharmamanufacturer.core.round
+import com.example.pharmamanufacturer.presentation.utilitycompose.DetailsRow
 import com.example.pharmamanufacturer.presentation.utilitycompose.EmptyContentScreen
 import com.example.pharmamanufacturer.presentation.utilitycompose.TopBar
 
@@ -29,14 +30,16 @@ fun CompoundDetailsScreen(onBackClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
-            AmountDetails(compound.availableAmount.round().toString())
+            DetailsRow(
+                details = compound.availableAmount.round().toString()
+            )
 
             Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
-            if (compound.productsIds?.isNotEmpty() == true) {
+            if (compound.batches?.isNotEmpty() == true) {
                 val productsState =
                     viewModel
-                        .getCompoundProducts(compound.productsIds)
+                        .getCompoundProducts(compound.batches.map { it.id })
                         .collectAsStateWithLifecycle()
 
                 ProductsSection(

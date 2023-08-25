@@ -3,6 +3,7 @@ package com.example.pharmamanufacturer.presentation.addcompound
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.pharmamanufacturer.core.capitalizeFirstChar
 import com.example.pharmamanufacturer.data.local.database.DatabaseHandler
 import com.example.pharmamanufacturer.data.local.entities.Compound
 import com.example.pharmamanufacturer.data.local.entities.Supplier
@@ -119,10 +120,10 @@ class AddCompoundViewModel(
             }
 
             val compound = Compound(
-                name = name,
+                name = name.capitalizeFirstChar(),
                 availableAmount = amount.toDouble(),
                 suppliers = suppliers.toList(),
-                productsIds = listOf()
+                batches = listOf()
             )
             DatabaseHandler.addCompound(compound)
 

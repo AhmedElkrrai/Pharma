@@ -4,8 +4,8 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class Ingredient(
-    val compoundId: Int,
+data class Batch(
+    val id: Int,
     val concentration: Double,
-    val lowStock: Boolean = false
+    val available: Double = 1.0
 ) : Parcelable

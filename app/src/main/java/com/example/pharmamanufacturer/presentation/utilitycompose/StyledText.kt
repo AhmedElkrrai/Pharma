@@ -14,9 +14,9 @@ import com.example.pharmamanufacturer.presentation.theme.Green
 @Composable
 fun StyledText(
     modifier: Modifier = Modifier,
-    amount: String,
+    details: String,
     unit: String = " KG",
-    amountColor: Color = Green,
+    detailsColor: Color = Green,
     unitColor: Color = Color.Black
 ) {
     Text(
@@ -24,12 +24,12 @@ fun StyledText(
         text = buildAnnotatedString {
             withStyle(
                 style = SpanStyle(
-                    color = amountColor,
+                    color = detailsColor,
                     fontFamily = FontFamily.SansSerif,
                     fontWeight = FontWeight.SemiBold
                 )
             ) {
-                append(amount)
+                append(details)
             }
 
             withStyle(

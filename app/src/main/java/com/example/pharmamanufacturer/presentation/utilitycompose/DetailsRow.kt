@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.presentation.compounddetails
+package com.example.pharmamanufacturer.presentation.utilitycompose
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -14,7 +14,11 @@ import com.example.pharmamanufacturer.core.UiDimensions
 import com.example.pharmamanufacturer.presentation.utilitycompose.StyledText
 
 @Composable
-fun AmountDetails(amount: String) {
+fun DetailsRow(
+    title: String = "Available:",
+    details: String,
+    unit: String = " KG"
+) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -23,11 +27,14 @@ fun AmountDetails(amount: String) {
             .padding(UiDimensions.Medium_Space)
     ) {
         Text(
-            text = "Available:",
+            text = title,
             color = Color.DarkGray,
             style = MaterialTheme.typography.titleMedium
         )
 
-        StyledText(amount = amount)
+        StyledText(
+            details = details,
+            unit = unit
+        )
     }
 }
