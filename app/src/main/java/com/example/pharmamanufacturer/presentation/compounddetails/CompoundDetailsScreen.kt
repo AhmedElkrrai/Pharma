@@ -42,7 +42,14 @@ fun CompoundDetailsScreen(onBackClick: () -> Unit) {
                         .getCompoundProducts(compound.batches.map { it.id })
                         .collectAsStateWithLifecycle()
 
+                val modifier = if (productsState.value.size < 3)
+                    Modifier.fillMaxWidth()
+                else Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.45f)
+
                 ProductsSection(
+                    modifier = modifier,
                     compound = compound,
                     products = productsState.value
                 )

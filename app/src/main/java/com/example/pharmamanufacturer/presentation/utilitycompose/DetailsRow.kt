@@ -10,16 +10,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import com.example.pharmamanufacturer.core.UiDimensions
 import com.example.pharmamanufacturer.presentation.theme.Green
-import com.example.pharmamanufacturer.presentation.utilitycompose.StyledText
 
 @Composable
 fun DetailsRow(
     title: String = "Available:",
+    titleColor: Color = Color.DarkGray,
+    titleStyle: TextStyle = MaterialTheme.typography.titleMedium,
     details: String,
-    unit: String = " KG",
-    detailsColor: Color = Green
+    detailsColor: Color = Green,
+    unit: String = " KG"
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -30,8 +32,8 @@ fun DetailsRow(
     ) {
         Text(
             text = title,
-            color = Color.DarkGray,
-            style = MaterialTheme.typography.titleMedium
+            color = titleColor,
+            style = titleStyle
         )
 
         StyledText(

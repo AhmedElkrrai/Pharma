@@ -18,9 +18,7 @@ class ProductsViewModel : ViewModel() {
         get() {
             viewModelScope.launch(Dispatchers.IO) {
                 _productsState.getAndUpdate {
-                    getAllProducts()
-                        .sortedBy { it.name.lowercase() }
-                        .reversed()
+                    getAllProducts().sortedBy { !it.lowStock }
                 }
             }
             return _productsState.asStateFlow()

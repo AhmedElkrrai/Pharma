@@ -10,7 +10,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.pharmamanufacturer.R
 import com.example.pharmamanufacturer.core.MINIMUM_PRODUCT_BATCHES
 import com.example.pharmamanufacturer.core.UiDimensions
 import com.example.pharmamanufacturer.data.local.entities.Compound
@@ -20,16 +22,15 @@ import com.example.pharmamanufacturer.presentation.utilitycompose.ProductItem
 
 @Composable
 fun ProductsSection(
+    modifier: Modifier = Modifier,
     compound: Compound,
     products: List<Product>
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(0.4f)
+        modifier = modifier
     ) {
 
-        CenteredTitle(title = "Products")
+        CenteredTitle(title = stringResource(id = R.string.title_products))
 
         Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 

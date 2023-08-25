@@ -51,16 +51,16 @@ fun ProductItem(
 
             if (lowStock) {
                 Box(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = UiDimensions.Small_Space),
                     contentAlignment = Alignment.TopStart
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_warning),
                         contentDescription = "Warning",
                         tint = Color.Unspecified,
-                        modifier = Modifier
-                            .size(24.dp)
-                            .padding(start = UiDimensions.Small_Space)
+                        modifier = Modifier.size(24.dp)
                     )
                 }
             }

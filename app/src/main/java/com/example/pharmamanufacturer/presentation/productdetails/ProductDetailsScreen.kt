@@ -9,6 +9,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.example.pharmamanufacturer.R
 import com.example.pharmamanufacturer.core.MINIMUM_PRODUCT_BATCHES
 import com.example.pharmamanufacturer.core.UiDimensions
 import com.example.pharmamanufacturer.data.local.entities.Compound
@@ -48,7 +50,7 @@ fun ProductDetailsScreen(
 
         Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
-        CenteredTitle(title = "Compounds")
+        CenteredTitle(title = stringResource(id = R.string.title_compounds))
 
         Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 

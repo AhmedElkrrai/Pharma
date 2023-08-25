@@ -17,7 +17,9 @@ class CompoundsViewModel : ViewModel() {
     val compoundsState: StateFlow<List<Compound>>
         get() {
             viewModelScope.launch(Dispatchers.IO) {
-                _compoundsState.getAndUpdate { getAllCompounds() }
+                _compoundsState.getAndUpdate {
+                    getAllCompounds().sortedBy { !it.lowStock }
+                }
             }
             return _compoundsState.asStateFlow()
         }
