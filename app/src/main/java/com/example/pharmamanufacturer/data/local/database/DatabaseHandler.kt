@@ -49,6 +49,12 @@ object DatabaseHandler {
         }.toMutableList()
     }
 
+    suspend fun getProduct(id: Int): Product? {
+        return withContext(Dispatchers.IO) {
+            pharmaDatabase.productsDao().get(id)
+        }
+    }
+
     suspend fun addProduct(product: Product): Long {
         return withContext(Dispatchers.IO) {
             pharmaDatabase.productsDao().insert(product)

@@ -6,9 +6,9 @@ import com.example.pharmamanufacturer.data.local.entities.Product
 
 class ProductsScreenListenerImpl(private val navController: NavHostController) :
     ProductsScreenListener {
-    override fun onItemClick(product: Product) {
+    override fun onProductClick(product: Product) {
         navController.navigate(
-            Screen.ProductDetailsScreen.withArgs(product.toString())
+            Screen.ProductDetailsScreen.withArgs(product.id.toString())
         )
     }
 

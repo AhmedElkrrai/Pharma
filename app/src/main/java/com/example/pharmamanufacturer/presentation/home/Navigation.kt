@@ -20,10 +20,12 @@ import com.example.pharmamanufacturer.presentation.packaging.PackagingScreen
 import com.example.pharmamanufacturer.presentation.productdetails.ProductDetailsScreen
 import com.example.pharmamanufacturer.presentation.products.ProductsScreen
 import androidx.compose.runtime.getValue
+import androidx.navigation.NavType
 import com.example.pharmamanufacturer.presentation.addcompound.AddCompoundScreenNavigation
 import com.example.pharmamanufacturer.presentation.addproduct.AddProductScreenListenerImpl
 import com.example.pharmamanufacturer.presentation.addproduct.AddProductScreenNavigation
 import com.example.pharmamanufacturer.presentation.compounds.CompoundsScreenListenerImpl
+import com.example.pharmamanufacturer.presentation.productdetails.ProductDetailsScreenNavigation
 import com.example.pharmamanufacturer.presentation.products.ProductsScreenListenerImpl
 
 @Composable
@@ -53,17 +55,12 @@ fun Navigation(navController: NavHostController) {
             route = Screen.ProductDetailsScreen.route + "/{$PRODUCT_DETAILS_KEY}",
             arguments = listOf(
                 navArgument(PRODUCT_DETAILS_KEY) {
-                    type = ProductType
+                    type = NavType.IntType
                     nullable = false
                 }
             )
         ) {
-            ProductDetailsScreen {
-                navigateToParent(
-                    controller = navController,
-                    parentRoute = Screen.ProductsScreen.route
-                )
-            }
+            ProductDetailsScreenNavigation(navController)
         }
 
         composable(route = Screen.AddProductScreen.route) {
