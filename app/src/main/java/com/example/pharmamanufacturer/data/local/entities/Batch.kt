@@ -7,5 +7,5 @@ import kotlinx.parcelize.Parcelize
 data class Batch(
     val id: Int,
     val concentration: Double,
-    val available: Double = 1.0
+    val available: Double? = null
 ) : Parcelable

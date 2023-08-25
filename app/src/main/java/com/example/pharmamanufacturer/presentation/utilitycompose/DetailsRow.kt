@@ -11,13 +11,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.example.pharmamanufacturer.core.UiDimensions
+import com.example.pharmamanufacturer.presentation.theme.Green
 import com.example.pharmamanufacturer.presentation.utilitycompose.StyledText
 
 @Composable
 fun DetailsRow(
     title: String = "Available:",
     details: String,
-    unit: String = " KG"
+    unit: String = " KG",
+    detailsColor: Color = Green
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -34,7 +36,8 @@ fun DetailsRow(
 
         StyledText(
             details = details,
-            unit = unit
+            unit = unit,
+            detailsColor = detailsColor
         )
     }
 }

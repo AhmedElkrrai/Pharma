@@ -15,7 +15,13 @@ object DatabaseHandler {
 
     suspend fun getAllCompounds(): MutableList<Compound> {
         return withContext(Dispatchers.IO) {
-            pharmaDatabase.compoundsDao().getAll()
+            pharmaDatabase.compoundsDao().getAllCompounds()
+        }.toMutableList()
+    }
+
+    suspend fun getCompounds(ids: List<Int>): MutableList<Compound> {
+        return withContext(Dispatchers.IO) {
+            pharmaDatabase.compoundsDao().getCompounds(ids)
         }.toMutableList()
     }
 
@@ -39,13 +45,13 @@ object DatabaseHandler {
 
     suspend fun getAllProducts(): MutableList<Product> {
         return withContext(Dispatchers.IO) {
-            pharmaDatabase.productsDao().getAll()
+            pharmaDatabase.productsDao().getAllProducts()
         }.toMutableList()
     }
 
     suspend fun getProducts(ids: List<Int>): MutableList<Product> {
         return withContext(Dispatchers.IO) {
-            pharmaDatabase.productsDao().getAllProducts(ids)
+            pharmaDatabase.productsDao().getProducts(ids)
         }.toMutableList()
     }
 

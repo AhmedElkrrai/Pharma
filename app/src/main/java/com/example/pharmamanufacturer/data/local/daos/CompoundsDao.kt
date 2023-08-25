@@ -13,7 +13,10 @@ interface CompoundsDao {
     suspend fun insert(compound: Compound): Long
 
     @Query("SELECT * FROM ${Compound.TABLE_COMPOUND}")
-    suspend fun getAll(): List<Compound>
+    suspend fun getAllCompounds(): List<Compound>
+
+    @Query("SELECT * FROM ${Compound.TABLE_COMPOUND} WHERE id IN (:ids)")
+    suspend fun getCompounds(ids: List<Int>): List<Compound>
 
     @Query(
         "SELECT * FROM ${Compound.TABLE_COMPOUND} " +

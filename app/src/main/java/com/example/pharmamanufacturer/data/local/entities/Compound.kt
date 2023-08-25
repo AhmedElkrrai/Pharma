@@ -37,12 +37,11 @@ data class Compound(
             if (batches.isNullOrEmpty())
                 return false
 
-            val availableBatches = getAvailableBatches()
-            return availableBatches > MINIMUM_PRODUCT_BATCHES
+            return getAvailableBatches() < MINIMUM_PRODUCT_BATCHES
         }
 
     private fun getAvailableBatches(): Double {
-        return batches?.minOfOrNull { it.available } ?: 0.0
+        return batches?.minOfOrNull { availableAmount / it.concentration } ?: 0.0
     }
 
     companion object {

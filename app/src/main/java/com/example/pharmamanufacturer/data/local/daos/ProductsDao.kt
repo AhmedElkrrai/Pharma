@@ -13,10 +13,10 @@ interface ProductsDao {
     suspend fun insert(product: Product): Long
 
     @Query("SELECT * FROM ${Product.TABLE_PRODUCT}")
-    suspend fun getAll(): List<Product>
+    suspend fun getAllProducts(): List<Product>
 
     @Query("SELECT * FROM ${Product.TABLE_PRODUCT} WHERE id IN (:ids)")
-    suspend fun getAllProducts(ids: List<Int>): List<Product>
+    suspend fun getProducts(ids: List<Int>): List<Product>
 
     @Query(
         "SELECT * FROM ${Product.TABLE_PRODUCT} " +

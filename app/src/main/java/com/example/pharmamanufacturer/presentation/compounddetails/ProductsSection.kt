@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.pharmamanufacturer.core.MINIMUM_PRODUCT_BATCHES
 import com.example.pharmamanufacturer.core.UiDimensions
 import com.example.pharmamanufacturer.data.local.entities.Compound
 import com.example.pharmamanufacturer.data.local.entities.Product
@@ -47,7 +48,7 @@ fun ProductsSection(
                             .fillMaxWidth()
                             .padding(12.dp),
                         product = product,
-                        lowStock = it.concentration > compound.availableAmount
+                        lowStock = (compound.availableAmount / it.concentration) < MINIMUM_PRODUCT_BATCHES
                     )
                 }
             }

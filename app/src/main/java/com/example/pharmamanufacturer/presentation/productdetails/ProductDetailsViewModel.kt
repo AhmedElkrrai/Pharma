@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pharmamanufacturer.core.Screen
 import com.example.pharmamanufacturer.data.local.database.DatabaseHandler
+import com.example.pharmamanufacturer.data.local.entities.Compound
 import com.example.pharmamanufacturer.data.local.entities.Product
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,17 +21,28 @@ class ProductDetailsViewModel(savedStateHandle: SavedStateHandle) : ViewModel() 
     val productState: StateFlow<Product?>
         get() = _productState.asStateFlow()
 
+    private var _compoundsState: MutableStateFlow<List<Compound>> = MutableStateFlow(listOf())
+    val compoundsState: StateFlow<List<Compound>>
+        get() = _compoundsState.asStateFlow()
+
 
     init {
-        getProduct()
+        initStates()
     }
 
-    private fun getProduct() {
+    private fun initStates() {
         if (selectedProductId == null) return
 
         viewModelScope.launch {
             _productState.getAndUpdate {
-                DatabaseHandler.getProduct(selectedProductId)
+                val product = DatabaseHandler.getProduct(selectedProductId)
+
+                _compoundsState.getAndUpdate {
+                    val compoundsIds = product?.batches?.map { it.id } ?: listOf()
+                    DatabaseHandler.getCompounds(compoundsIds)
+                }
+
+                product
             }
         }
     }

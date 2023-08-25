@@ -30,11 +30,14 @@ data class Product(
     val lowStock: Boolean
         get() {
             val availableBatches = getAvailableBatches()
-            return availableBatches > MINIMUM_PRODUCT_BATCHES
+            return availableBatches < MINIMUM_PRODUCT_BATCHES
         }
 
     fun getAvailableBatches(): Double {
-        return batches.minOfOrNull { it.available } ?: 0.0
+        return batches
+            .map { it.available }
+            .sortedWith(compareBy { it }).first()
+            ?: 0.0
     }
 
     companion object {

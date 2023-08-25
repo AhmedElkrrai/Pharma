@@ -191,7 +191,8 @@ class AddProductViewModel(
                 productBatches.add(
                     Batch(
                         id = compoundId.toInt(),
-                        concentration = productCompound.availableAmount
+                        concentration = productCompound.availableAmount,
+                        available = 1.0
                     )
                 )
             } else {
