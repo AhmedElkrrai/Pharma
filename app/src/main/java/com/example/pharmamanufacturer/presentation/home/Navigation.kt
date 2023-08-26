@@ -1,5 +1,7 @@
 package com.example.pharmamanufacturer.presentation.home
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -16,6 +18,7 @@ import com.example.pharmamanufacturer.presentation.addcompound.AddCompoundScreen
 import com.example.pharmamanufacturer.presentation.addproduct.AddProductScreenNavigation
 import com.example.pharmamanufacturer.presentation.compounddetails.CompoundDetailsScreenNavigation
 import com.example.pharmamanufacturer.presentation.compounds.CompoundsScreenListenerImpl
+import com.example.pharmamanufacturer.presentation.editcompound.EditCompoundScreenScreenNavigation
 import com.example.pharmamanufacturer.presentation.productdetails.ProductDetailsScreenNavigation
 import com.example.pharmamanufacturer.presentation.products.ProductsScreenListenerImpl
 
@@ -49,7 +52,13 @@ fun Navigation(navController: NavHostController) {
                     type = NavType.IntType
                     nullable = false
                 }
-            )
+            ),
+            enterTransition = {
+                slideIntoContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Companion.Up,
+                    animationSpec = tween(700)
+                )
+            }
         ) {
             ProductDetailsScreenNavigation(navController)
         }
@@ -65,13 +74,31 @@ fun Navigation(navController: NavHostController) {
                     type = NavType.IntType
                     nullable = false
                 }
-            )
+            ),
+            enterTransition = {
+                slideIntoContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Companion.Up,
+                    animationSpec = tween(700)
+                )
+            }
         ) {
             CompoundDetailsScreenNavigation(navController)
         }
 
         composable(route = Screen.AddCompoundScreen.route) {
             AddCompoundScreenNavigation(navController)
+        }
+
+        composable(
+            route = Screen.EditCompoundScreen.route + "/{$COMPOUND_ID_KEY}",
+            arguments = listOf(
+                navArgument(COMPOUND_ID_KEY) {
+                    type = NavType.IntType
+                    nullable = false
+                }
+            )
+        ) {
+            EditCompoundScreenScreenNavigation(navController)
         }
     }
 }

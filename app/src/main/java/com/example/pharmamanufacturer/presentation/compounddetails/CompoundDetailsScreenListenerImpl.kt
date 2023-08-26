@@ -13,7 +13,9 @@ class CompoundDetailsScreenListenerImpl(private val navController: NavHostContro
         )
     }
 
-    override fun onEditClick() {
-
+    override fun onEditClick(compoundId:String) {
+        navController.navigate(
+            Screen.EditCompoundScreen.withArgs(compoundId)
+        )
     }
 }

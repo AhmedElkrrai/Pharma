@@ -1,9 +1,11 @@
-package com.example.pharmamanufacturer.presentation.addcompound
+package com.example.pharmamanufacturer.presentation.editcompound
 
+import com.example.pharmamanufacturer.presentation.addcompound.CompoundViewModel
+import com.example.pharmamanufacturer.presentation.addcompound.UpdateCompoundScreenListener
 import com.example.pharmamanufacturer.presentation.addcompound.action.CompoundAction
 import com.example.pharmamanufacturer.presentation.addcompound.state.CompoundTextField
 
-class AddCompoundScreenListenerImpl(private val viewModel: CompoundViewModel) :
+class EditCompoundScreenListenerImpl(private val viewModel: CompoundViewModel) :
     UpdateCompoundScreenListener {
     override fun exitErrorState(textField: CompoundTextField) {
         viewModel.sendAction(
@@ -22,6 +24,6 @@ class AddCompoundScreenListenerImpl(private val viewModel: CompoundViewModel) :
     }
 
     override fun addCompound() {
-        viewModel.sendAction(CompoundAction.INSERT)
+        viewModel.sendAction(CompoundAction.UPDATE)
     }
 }

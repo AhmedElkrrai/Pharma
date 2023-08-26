@@ -29,7 +29,11 @@ fun CompoundDetailsScreen(
             name = compoundState.value?.name ?: "",
             modifier = Modifier.fillMaxWidth(),
             onBackClick = { listener.navigateBack() },
-            onEditClick = { listener.onEditClick() }
+            onEditClick = {
+                listener.onEditClick(
+                    compoundId = compoundState.value?.id.toString()
+                )
+            }
         )
 
         Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))

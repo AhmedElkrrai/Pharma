@@ -4,12 +4,12 @@ import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.Text
 import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.TextFieldErrorEventState
 import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.renderFieldTextViewState
 
-internal fun AddCompoundScreenViewState.renderViewState(
+internal fun CompoundScreenViewState.renderViewState(
     textField: TextField,
     errorState: TextFieldErrorEventState
-): AddCompoundScreenViewState {
+): CompoundScreenViewState {
     return when (textField) {
-        AddCompoundTextField.Name -> {
+        CompoundTextField.Name -> {
             this.copy(
                 name = renderFieldTextViewState(
                     this.name,
@@ -18,7 +18,7 @@ internal fun AddCompoundScreenViewState.renderViewState(
             )
         }
 
-        AddCompoundTextField.Amount -> {
+        CompoundTextField.Amount -> {
             this.copy(
                 amount = renderFieldTextViewState(
                     this.amount,
@@ -27,7 +27,7 @@ internal fun AddCompoundScreenViewState.renderViewState(
             )
         }
 
-        AddCompoundTextField.SupplierName -> {
+        CompoundTextField.SupplierName -> {
             this.copy(
                 supplierName = renderFieldTextViewState(
                     this.supplierName,
@@ -36,7 +36,7 @@ internal fun AddCompoundScreenViewState.renderViewState(
             )
         }
 
-        AddCompoundTextField.Package -> {
+        CompoundTextField.Package -> {
             this.copy(
                 `package` = renderFieldTextViewState(
                     this.`package`,

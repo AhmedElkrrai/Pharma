@@ -45,7 +45,7 @@ fun styledTextField(
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = viewState.focusedBorderColor,
             unfocusedBorderColor = viewState.unfocusedBorderColor,
-            cursorColor = Color.Transparent
+            cursorColor = Color.LightGray
         ),
         placeholder = {
             Text(

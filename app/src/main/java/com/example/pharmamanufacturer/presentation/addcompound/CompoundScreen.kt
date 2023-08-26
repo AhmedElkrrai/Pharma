@@ -25,17 +25,17 @@ import androidx.compose.ui.text.input.KeyboardType.Companion.Text
 import androidx.compose.ui.unit.dp
 import com.example.pharmamanufacturer.R
 import com.example.pharmamanufacturer.core.UiDimensions
-import com.example.pharmamanufacturer.presentation.addcompound.state.AddCompoundScreenViewState
-import com.example.pharmamanufacturer.presentation.addcompound.state.AddCompoundTextField
+import com.example.pharmamanufacturer.presentation.addcompound.state.CompoundScreenViewState
+import com.example.pharmamanufacturer.presentation.addcompound.state.CompoundTextField
 import com.example.pharmamanufacturer.presentation.theme.Blue
 import com.example.pharmamanufacturer.presentation.utilitycompose.BottomFloatingButton
 import com.example.pharmamanufacturer.presentation.utilitycompose.CenteredTitleWithIcon
 import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.styledTextField
 
 @Composable
-fun AddCompoundScreen(
-    viewState: AddCompoundScreenViewState,
-    listener: AddCompoundScreenListener
+fun CompoundScreen(
+    viewState: CompoundScreenViewState,
+    listener: UpdateCompoundScreenListener
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
 
@@ -64,10 +64,10 @@ fun AddCompoundScreen(
                 keyboardType = Text,
                 viewState = viewState.name,
                 exitErrorState = {
-                    listener.exitErrorState(AddCompoundTextField.Name)
+                    listener.exitErrorState(CompoundTextField.Name)
                 },
                 showInvalidInput = {
-                    listener.showInvalidInput(AddCompoundTextField.Name)
+                    listener.showInvalidInput(CompoundTextField.Name)
                 }
             )
 
@@ -79,10 +79,10 @@ fun AddCompoundScreen(
                 keyboardType = Decimal,
                 viewState = viewState.amount,
                 exitErrorState = {
-                    listener.exitErrorState(AddCompoundTextField.Amount)
+                    listener.exitErrorState(CompoundTextField.Amount)
                 },
                 showInvalidInput = {
-                    listener.showInvalidInput(AddCompoundTextField.Amount)
+                    listener.showInvalidInput(CompoundTextField.Amount)
                 }
             )
         }
@@ -113,10 +113,10 @@ fun AddCompoundScreen(
                 keyboardType = Text,
                 viewState = viewState.supplierName,
                 exitErrorState = {
-                    listener.exitErrorState(AddCompoundTextField.SupplierName)
+                    listener.exitErrorState(CompoundTextField.SupplierName)
                 },
                 showInvalidInput = {
-                    listener.showInvalidInput(AddCompoundTextField.SupplierName)
+                    listener.showInvalidInput(CompoundTextField.SupplierName)
                 }
             )
 
@@ -128,10 +128,10 @@ fun AddCompoundScreen(
                 keyboardType = Decimal,
                 viewState = viewState.`package`,
                 exitErrorState = {
-                    listener.exitErrorState(AddCompoundTextField.Package)
+                    listener.exitErrorState(CompoundTextField.Package)
                 },
                 showInvalidInput = {
-                    listener.showInvalidInput(AddCompoundTextField.Package)
+                    listener.showInvalidInput(CompoundTextField.Package)
                 }
             )
         }
