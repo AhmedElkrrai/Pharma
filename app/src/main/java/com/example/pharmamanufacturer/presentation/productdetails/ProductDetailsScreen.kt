@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.example.pharmamanufacturer.R
@@ -23,13 +24,13 @@ import com.example.pharmamanufacturer.presentation.utilitycompose.TopBar
 
 @Composable
 fun ProductDetailsScreen(
-    product: Product,
-    compounds: List<Compound>,
+    productState: State<Product?>,
+    compoundsState: State<List<Compound>>,
     listener: ProductDetailsScreenListener
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         TopBar(
-            name = product.name,
+            name = productState.value?.name ?: return,
             modifier = Modifier.fillMaxWidth(),
             onBackClick = { listener.navigateBack() },
             onEditClick = { listener.onEditClick() }
@@ -37,7 +38,7 @@ fun ProductDetailsScreen(
 
         Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
-        val availableBatches = product.getAvailableBatches()
+        val availableBatches = productState.value?.getAvailableBatches() ?: 0.0
         val unit = if (availableBatches >= 2) " Batches" else " Batch"
         val detailsColor = if (availableBatches < MINIMUM_PRODUCT_BATCHES) Red else Green
 
@@ -54,15 +55,17 @@ fun ProductDetailsScreen(
         Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
         LazyColumn {
-            items(compounds) { compound ->
-                val concentration =
-                    product.batches.find { it.id == compound.id }?.concentration ?: 0.0
+            items(compoundsState.value) { compound ->
+                productState.value?.let { product ->
+                    val concentration =
+                        product.batches.find { it.id == compound.id }?.concentration ?: 0.0
 
-                ProductCompoundItem(
-                    name = compound.name,
-                    availableAmount = compound.availableAmount,
-                    concentration = concentration
-                )
+                    ProductCompoundItem(
+                        name = compound.name,
+                        availableAmount = compound.availableAmount,
+                        concentration = concentration
+                    )
+                }
             }
         }
     }
