@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import com.example.pharmamanufacturer.R
 import com.example.pharmamanufacturer.core.UiDimensions
@@ -19,13 +20,13 @@ import com.example.pharmamanufacturer.presentation.utilitycompose.TopBar
 
 @Composable
 fun CompoundDetailsScreen(
-    compound: Compound,
-    products: List<Product>,
+    compoundState: State<Compound?>,
+    productsState: State<List<Product>>,
     listener: CompoundDetailsScreenListener
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         TopBar(
-            name = compound.name,
+            name = compoundState.value?.name ?: "",
             modifier = Modifier.fillMaxWidth(),
             onBackClick = { listener.navigateBack() },
             onEditClick = { listener.onEditClick() }
@@ -34,28 +35,30 @@ fun CompoundDetailsScreen(
         Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
         DetailsRow(
-            details = compound.availableAmount.round().toString()
+            details = compoundState.value?.availableAmount?.round().toString()
         )
 
         Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
-        if (compound.batches?.isNotEmpty() == true) {
-            val modifier = if (products.size < 3)
+        if (compoundState.value?.batches?.isNotEmpty() == true) {
+            val modifier = if (productsState.value.size < 3)
                 Modifier.fillMaxWidth()
             else Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(0.45f)
 
-            ProductsSection(
-                modifier = modifier,
-                compound = compound,
-                products = products
-            )
+            compoundState.value?.let { compound ->
+                ProductsSection(
+                    modifier = modifier,
+                    compound = compound,
+                    products = productsState.value
+                )
+            }
         }
 
         Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
-        if (compound.suppliers.isNullOrEmpty()) {
+        if (compoundState.value?.suppliers.isNullOrEmpty()) {
             EmptyContentScreen(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -64,6 +67,6 @@ fun CompoundDetailsScreen(
                 animationResource = R.raw.tumbleweed
             )
         } else
-            SuppliersSection(compound.suppliers)
+            compoundState.value?.suppliers?.let { SuppliersSection(it) }
     }
 }
