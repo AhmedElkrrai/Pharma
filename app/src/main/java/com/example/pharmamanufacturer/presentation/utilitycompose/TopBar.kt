@@ -13,10 +13,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.pharmamanufacturer.R
 import com.example.pharmamanufacturer.core.UiDimensions
 import com.example.pharmamanufacturer.presentation.theme.Blue
 
@@ -24,7 +26,8 @@ import com.example.pharmamanufacturer.presentation.theme.Blue
 fun TopBar(
     name: String,
     modifier: Modifier = Modifier,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    onEditClick: () -> Unit
 ) {
     Box(
         modifier = modifier.padding(top = UiDimensions.Small_Space),
@@ -39,7 +42,10 @@ fun TopBar(
             style = MaterialTheme.typography.titleLarge
         )
 
-        Box(modifier = modifier, contentAlignment = Alignment.TopStart) {
+        Box(
+            modifier = modifier,
+            contentAlignment = Alignment.TopStart
+        ) {
             Icon(
                 imageVector = Icons.Default.ArrowBack,
                 contentDescription = "Back",
@@ -52,6 +58,23 @@ fun TopBar(
                     )
                     .clickable {
                         onBackClick.invoke()
+                    }
+            )
+        }
+
+        Box(
+            modifier = modifier.padding(end = UiDimensions.Medium_Space),
+            contentAlignment = Alignment.TopEnd
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_edit),
+                contentDescription = "Edit",
+                tint = Color.Unspecified,
+                modifier = Modifier
+                    .size(28.dp)
+                    .padding(top = UiDimensions.Small_Space)
+                    .clickable {
+                        onEditClick.invoke()
                     }
             )
         }

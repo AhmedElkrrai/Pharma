@@ -31,9 +31,8 @@ fun ProductDetailsScreen(
         TopBar(
             name = product.name,
             modifier = Modifier.fillMaxWidth(),
-            onBackClick = {
-                listener.navigateBack()
-            }
+            onBackClick = { listener.navigateBack() },
+            onEditClick = { listener.onEditClick() }
         )
 
         Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))

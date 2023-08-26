@@ -19,8 +19,8 @@ sealed class Screen(val route: String) {
     companion object {
         private const val DETAILS = "_details"
         private const val ADD = "_add"
-        const val COMPOUND_DETAILS_KEY = "compound_details_key"
-        const val PRODUCT_DETAILS_KEY = "product_details_key"
+        const val COMPOUND_ID_KEY = "compound_details_key"
+        const val PRODUCT_ID_KEY = "product_details_key"
         const val PRODUCTS_SCREEN_ROUTE = "products"
         const val COMPOUND_SCREEN_ROUTE = "compounds"
         const val PACKAGING_SCREEN_ROUTE = "packaging"

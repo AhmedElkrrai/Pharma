@@ -6,9 +6,9 @@ import com.example.pharmamanufacturer.data.local.entities.Compound
 
 class CompoundsScreenListenerImpl(private val navController: NavHostController) :
     CompoundsScreenListener {
-    override fun onCompoundClick(compound: Compound) {
+    override fun onCompoundClick(compoundId: String) {
         navController.navigate(
-            Screen.CompoundDetailsScreen.withArgs(compound.toString())
+            Screen.CompoundDetailsScreen.withArgs(compoundId)
         )
     }
 

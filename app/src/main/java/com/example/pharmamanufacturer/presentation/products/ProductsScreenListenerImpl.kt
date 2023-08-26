@@ -2,13 +2,12 @@ package com.example.pharmamanufacturer.presentation.products
 
 import androidx.navigation.NavHostController
 import com.example.pharmamanufacturer.core.Screen
-import com.example.pharmamanufacturer.data.local.entities.Product
 
 class ProductsScreenListenerImpl(private val navController: NavHostController) :
     ProductsScreenListener {
-    override fun onProductClick(product: Product) {
+    override fun onProductClick(productId: String) {
         navController.navigate(
-            Screen.ProductDetailsScreen.withArgs(product.id.toString())
+            Screen.ProductDetailsScreen.withArgs(productId)
         )
     }
 

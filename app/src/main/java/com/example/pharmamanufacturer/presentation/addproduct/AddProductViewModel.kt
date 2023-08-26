@@ -171,7 +171,7 @@ class AddProductViewModel(
         val productBatches = mutableListOf<Batch>()
 
         compounds.forEach { productCompound ->
-            val compound = DatabaseHandler.getCompound(
+            val compound = DatabaseHandler.getCompoundByName(
                 compoundName = productCompound.name
             )
 

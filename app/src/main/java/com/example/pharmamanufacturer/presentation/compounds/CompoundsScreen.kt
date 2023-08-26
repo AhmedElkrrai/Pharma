@@ -25,7 +25,7 @@ fun CompoundsScreen(
         LazyColumn {
             items(compoundsState.value) { compound ->
                 CompoundItem(compound) {
-                    listener.onCompoundClick(compound)
+                    listener.onCompoundClick(compound.id.toString())
                 }
             }
         }

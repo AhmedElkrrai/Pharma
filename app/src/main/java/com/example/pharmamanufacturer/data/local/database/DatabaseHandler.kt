@@ -37,9 +37,15 @@ object DatabaseHandler {
         }
     }
 
-    suspend fun getCompound(compoundName: String): Compound? {
+    suspend fun getCompoundByName(compoundName: String): Compound? {
         return withContext(Dispatchers.IO) {
             pharmaDatabase.compoundsDao().getCompoundByName(compoundName)
+        }
+    }
+
+    suspend fun getCompound(id: Int): Compound? {
+        return withContext(Dispatchers.IO) {
+            pharmaDatabase.compoundsDao().get(id)
         }
     }
 

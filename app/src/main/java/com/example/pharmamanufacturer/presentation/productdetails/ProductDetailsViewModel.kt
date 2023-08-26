@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 
 class ProductDetailsViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
 
-    private val selectedProductId = savedStateHandle.get<Int>(Screen.PRODUCT_DETAILS_KEY)
+    private val selectedProductId = savedStateHandle.get<Int>(Screen.PRODUCT_ID_KEY)
 
     private var _productState: MutableStateFlow<Product?> = MutableStateFlow(null)
     val productState: StateFlow<Product?>

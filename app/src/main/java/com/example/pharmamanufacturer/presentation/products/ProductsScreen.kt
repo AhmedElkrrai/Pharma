@@ -35,7 +35,7 @@ fun ProductsScreen(
                     product = product,
                     lowStock = product.lowStock
                 ) {
-                    listener.onProductClick(product)
+                    listener.onProductClick(product.id.toString())
                 }
             }
         }
