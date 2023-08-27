@@ -14,13 +14,15 @@ import com.example.pharmamanufacturer.presentation.compounds.CompoundsScreen
 import com.example.pharmamanufacturer.presentation.packaging.PackagingScreen
 import com.example.pharmamanufacturer.presentation.products.ProductsScreen
 import androidx.navigation.NavType
-import com.example.pharmamanufacturer.core.Screen.Companion.EDIT_COMPOUND_ID_KEY
-import com.example.pharmamanufacturer.presentation.addcompound.AddCompoundScreenNavigation
-import com.example.pharmamanufacturer.presentation.addproduct.AddProductScreenNavigation
+import com.example.pharmamanufacturer.core.Screen.Companion.EDIT_COMPOUND_KEY
+import com.example.pharmamanufacturer.core.Screen.Companion.EDIT_PRODUCT_KEY
+import com.example.pharmamanufacturer.presentation.compoundentry.AddCompoundScreenNavigation
+import com.example.pharmamanufacturer.presentation.productentry.AddProductScreenNavigation
 import com.example.pharmamanufacturer.presentation.compounddetails.CompoundDetailsScreenNavigation
 import com.example.pharmamanufacturer.presentation.compounds.CompoundsScreenListenerImpl
-import com.example.pharmamanufacturer.presentation.editcompound.EditCompoundScreenScreenNavigation
+import com.example.pharmamanufacturer.presentation.compoundentry.EditCompoundScreenNavigation
 import com.example.pharmamanufacturer.presentation.productdetails.ProductDetailsScreenNavigation
+import com.example.pharmamanufacturer.presentation.productentry.EditProductScreenNavigation
 import com.example.pharmamanufacturer.presentation.products.ProductsScreenListenerImpl
 
 @Composable
@@ -69,6 +71,21 @@ fun Navigation(navController: NavHostController) {
         }
 
         composable(
+            route = Screen.EditProductScreen.route + "/{$EDIT_PRODUCT_KEY}",
+            arguments = listOf(
+                navArgument(EDIT_PRODUCT_KEY) {
+                    type = NavType.IntType
+                    nullable = false
+                }
+            )
+        ) { entry ->
+            EditProductScreenNavigation(
+                selectedId = entry.arguments?.getInt(EDIT_PRODUCT_KEY),
+                navController = navController
+            )
+        }
+
+        composable(
             route = Screen.CompoundDetailsScreen.route + "/{$COMPOUND_ID_KEY}",
             arguments = listOf(
                 navArgument(COMPOUND_ID_KEY) {
@@ -91,16 +108,16 @@ fun Navigation(navController: NavHostController) {
         }
 
         composable(
-            route = Screen.EditCompoundScreen.route + "/{$EDIT_COMPOUND_ID_KEY}",
+            route = Screen.EditCompoundScreen.route + "/{$EDIT_COMPOUND_KEY}",
             arguments = listOf(
-                navArgument(EDIT_COMPOUND_ID_KEY) {
+                navArgument(EDIT_COMPOUND_KEY) {
                     type = NavType.IntType
                     nullable = false
                 }
             )
         ) { entry ->
-            EditCompoundScreenScreenNavigation(
-                selectedId = entry.arguments?.getInt(EDIT_COMPOUND_ID_KEY),
+            EditCompoundScreenNavigation(
+                selectedId = entry.arguments?.getInt(EDIT_COMPOUND_KEY),
                 navController = navController
             )
         }

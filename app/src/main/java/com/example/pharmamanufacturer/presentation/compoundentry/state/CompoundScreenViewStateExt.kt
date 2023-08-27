@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.presentation.addcompound.state
+package com.example.pharmamanufacturer.presentation.compoundentry.state
 
 import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.TextField
 import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.TextFieldErrorEventState

@@ -1,15 +1,15 @@
-package com.example.pharmamanufacturer.presentation.addproduct.state
+package com.example.pharmamanufacturer.presentation.productentry.state
 
 import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.TextField
 import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.TextFieldErrorEventState
 import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.renderFieldTextViewState
 
-fun AddProductScreenViewState.renderViewState(
+fun ProductScreenViewState.renderViewState(
     textField: TextField,
     errorState: TextFieldErrorEventState
-): AddProductScreenViewState {
+): ProductScreenViewState {
     return when (textField) {
-        AddProductTextField.Name -> {
+        ProductTextField.Name -> {
             this.copy(
                 name = renderFieldTextViewState(
                     this.name,
@@ -18,7 +18,7 @@ fun AddProductScreenViewState.renderViewState(
             )
         }
 
-        AddProductTextField.CompoundName -> {
+        ProductTextField.CompoundName -> {
             this.copy(
                 compoundName = renderFieldTextViewState(
                     this.compoundName,
@@ -27,7 +27,7 @@ fun AddProductScreenViewState.renderViewState(
             )
         }
 
-        AddProductTextField.Concentration -> {
+        ProductTextField.Concentration -> {
             this.copy(
                 concentration = renderFieldTextViewState(
                     this.concentration,

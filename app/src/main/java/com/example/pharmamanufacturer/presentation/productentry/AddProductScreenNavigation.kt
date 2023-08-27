@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.presentation.addcompound
+package com.example.pharmamanufacturer.presentation.productentry
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -9,25 +9,21 @@ import com.example.pharmamanufacturer.core.Screen
 import com.example.pharmamanufacturer.presentation.home.navigateToParent
 
 @Composable
-fun AddCompoundScreenNavigation(navController: NavHostController) {
+fun AddProductScreenNavigation(navController: NavHostController) {
     val navigateBack = {
         navigateToParent(
             controller = navController,
-            parentRoute = Screen.CompoundsScreen.route
+            parentRoute = Screen.ProductsScreen.route
         )
     }
 
-    val viewModel: CompoundViewModel =
-        viewModel(
-            factory = CompoundViewModel.Factory(
-                navigateBack = navigateBack
-            )
-        )
+    val viewModel: ProductViewModel =
+        viewModel(factory = ProductViewModel.Factory(navigateBack))
 
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
 
-    CompoundScreen(
+    ProductScreen(
         viewState = viewState,
-        listener = AddCompoundScreenListenerImpl(viewModel)
+        listener = AddProductScreenListenerImpl(viewModel)
     )
 }

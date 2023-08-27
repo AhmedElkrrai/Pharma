@@ -33,7 +33,11 @@ fun ProductDetailsScreen(
             name = productState.value?.name ?: return,
             modifier = Modifier.fillMaxWidth(),
             onBackClick = { listener.navigateBack() },
-            onEditClick = { listener.onEditClick() }
+            onEditClick = {
+                listener.onEditClick(
+                    productState.value?.id.toString()
+                )
+            }
         )
 
         Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))

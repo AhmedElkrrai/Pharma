@@ -1,18 +1,15 @@
-package com.example.pharmamanufacturer.presentation.editcompound
+package com.example.pharmamanufacturer.presentation.compoundentry
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalSavedStateRegistryOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.pharmamanufacturer.core.Screen
-import com.example.pharmamanufacturer.presentation.addcompound.CompoundScreen
-import com.example.pharmamanufacturer.presentation.addcompound.CompoundViewModel
 import com.example.pharmamanufacturer.presentation.home.navigateToParent
 
 @Composable
-fun EditCompoundScreenScreenNavigation(
+fun EditCompoundScreenNavigation(
     selectedId: Int?,
     navController: NavHostController
 ) {

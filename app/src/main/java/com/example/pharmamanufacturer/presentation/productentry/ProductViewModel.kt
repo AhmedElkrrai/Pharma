@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.presentation.addproduct
+package com.example.pharmamanufacturer.presentation.productentry
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -9,10 +9,10 @@ import com.example.pharmamanufacturer.data.local.database.DatabaseHandler
 import com.example.pharmamanufacturer.data.local.entities.Compound
 import com.example.pharmamanufacturer.data.local.entities.Batch
 import com.example.pharmamanufacturer.data.local.entities.Product
-import com.example.pharmamanufacturer.presentation.addproduct.action.AddProductAction
-import com.example.pharmamanufacturer.presentation.addproduct.state.AddProductScreenViewState
-import com.example.pharmamanufacturer.presentation.addproduct.state.AddProductTextField
-import com.example.pharmamanufacturer.presentation.addproduct.state.renderViewState
+import com.example.pharmamanufacturer.presentation.productentry.action.ProductAction
+import com.example.pharmamanufacturer.presentation.productentry.state.ProductScreenViewState
+import com.example.pharmamanufacturer.presentation.productentry.state.ProductTextField
+import com.example.pharmamanufacturer.presentation.productentry.state.renderViewState
 import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.TextField
 import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.TextFieldErrorEventState
 import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.TextFieldEventState
@@ -28,16 +28,17 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 
-class AddProductViewModel(
+class ProductViewModel(
     private val ioContext: CoroutineContext = Dispatchers.IO,
     private val mainContext: CoroutineContext = Dispatchers.Main,
+    private val selectedId: Int?,
     private val navigateBack: () -> Unit
 ) : ViewModel() {
 
-    private val viewAction = Channel<AddProductAction>()
+    private val viewAction = Channel<ProductAction>()
 
-    private val _viewState = MutableStateFlow(AddProductScreenViewState.INIT)
-    internal val viewState: StateFlow<AddProductScreenViewState>
+    private val _viewState = MutableStateFlow(ProductScreenViewState.INIT)
+    internal val viewState: StateFlow<ProductScreenViewState>
         get() = _viewState
 
     private val _events = Channel<TextFieldEventState>()
@@ -56,7 +57,7 @@ class AddProductViewModel(
 
     private fun initViewData() {
         viewModelScope.launch(mainContext) {
-            _viewState.value = AddProductScreenViewState.INIT
+            _viewState.value = ProductScreenViewState.INIT
         }
     }
 
@@ -64,19 +65,22 @@ class AddProductViewModel(
         viewModelScope.launch(ioContext) {
             viewAction.receiveAsFlow().collect { action ->
                 when (action) {
-                    is AddProductAction.AddCompound ->
-                        addCompound()
-
-                    is AddProductAction.INSERT ->
+                    is ProductAction.INSERT ->
                         addProduct()
 
-                    is AddProductAction.KEYBOARD ->
+                    is ProductAction.UPDATE ->
+                        updateProduct()
+
+                    is ProductAction.Compound ->
+                        addCompound()
+
+                    is ProductAction.KEYBOARD ->
                         renderTextFieldViewState(
                             action.textField,
                             TextFieldErrorEventState.ENTER
                         )
 
-                    is AddProductAction.RetrieveInitialState ->
+                    is ProductAction.RetrieveInitialState ->
                         renderTextFieldViewState(
                             action.textField,
                             TextFieldErrorEventState.EXIT
@@ -103,35 +107,13 @@ class AddProductViewModel(
         }
     }
 
-    private suspend fun addCompound() {
-        val name = viewState.value.compoundName.input
-        val concentration = viewState.value.concentration.input
-
-        val incompleteEntry = checkCompoundEntry(
-            compoundName = name,
-            concentration = concentration
-        )
-
-        if (incompleteEntry) return
-
-        val compound =
-            Compound(
-                name = name.capitalizeFirstChar(),
-                availableAmount = concentration.toDouble(),
-                batches = listOf()
-            )
-        compounds.add(compound)
-
-        _events.send(TextFieldEventState.ClearSubInputs)
-    }
-
     private fun addProduct() {
         viewModelScope.launch(ioContext) {
             val name = viewState.value.name.input
 
             if (name.isBlank()) {
                 _events.send(
-                    TextFieldEventState.InvalidInput(AddProductTextField.Name)
+                    TextFieldEventState.InvalidInput(ProductTextField.Name)
                 )
                 return@launch
             }
@@ -165,6 +147,60 @@ class AddProductViewModel(
                 navigateBack.invoke()
             }
         }
+    }
+
+    private fun updateProduct() {
+        if (selectedId == null) return
+
+        viewModelScope.launch(ioContext) {
+            val name = viewState.value.name.input
+
+            if (name.isBlank()) {
+                _events.send(
+                    TextFieldEventState.InvalidInput(ProductTextField.Name)
+                )
+                return@launch
+            }
+
+            val product = DatabaseHandler.getProduct(selectedId) ?: return@launch
+
+            val newBatches = updateCompounds(product.id ?: return@launch)
+
+            val updatedBatches = product.batches + newBatches
+
+            DatabaseHandler.updateProduct(
+                product = product.copy(
+                    name = name.capitalizeFirstChar(),
+                    batches = updatedBatches
+                )
+            )
+
+            withContext(mainContext) {
+                navigateBack.invoke()
+            }
+        }
+    }
+
+    private suspend fun addCompound() {
+        val name = viewState.value.compoundName.input
+        val concentration = viewState.value.concentration.input
+
+        val incompleteEntry = checkCompoundEntry(
+            compoundName = name,
+            concentration = concentration
+        )
+
+        if (incompleteEntry) return
+
+        val compound =
+            Compound(
+                name = name.capitalizeFirstChar(),
+                availableAmount = concentration.toDouble(),
+                batches = listOf()
+            )
+        compounds.add(compound)
+
+        _events.send(TextFieldEventState.ClearSubInputs)
     }
 
     private suspend fun updateCompounds(productId: Int): List<Batch> {
@@ -226,13 +262,13 @@ class AddProductViewModel(
     ): Boolean {
         if (compoundName.isBlank()) {
             _events.send(
-                TextFieldEventState.InvalidInput(AddProductTextField.CompoundName)
+                TextFieldEventState.InvalidInput(ProductTextField.CompoundName)
             )
         }
 
         if (concentration.isBlank()) {
             _events.send(
-                TextFieldEventState.InvalidInput(AddProductTextField.Concentration)
+                TextFieldEventState.InvalidInput(ProductTextField.Concentration)
             )
         }
 
@@ -264,20 +300,26 @@ class AddProductViewModel(
         }
     }
 
-    internal fun sendAction(action: AddProductAction) {
+    internal fun sendAction(action: ProductAction) {
         viewModelScope.launch {
             viewAction.send(action)
         }
     }
 
-    private fun updateState(newState: (AddProductScreenViewState) -> AddProductScreenViewState) {
+    private fun updateState(newState: (ProductScreenViewState) -> ProductScreenViewState) {
         _viewState.update { oldState -> newState(oldState) }
     }
 
-    class Factory(private val navigateBack: () -> Unit) :
+    class Factory(
+        private val navigateBack: () -> Unit,
+        private val selectedId: Int? = null
+    ) :
         ViewModelProvider.NewInstanceFactory() {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T =
-            AddProductViewModel(navigateBack = navigateBack) as T
+            ProductViewModel(
+                navigateBack = navigateBack,
+                selectedId = selectedId
+            ) as T
     }
 }

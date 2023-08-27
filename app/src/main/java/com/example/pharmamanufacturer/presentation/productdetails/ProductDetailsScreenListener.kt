@@ -2,5 +2,5 @@ package com.example.pharmamanufacturer.presentation.productdetails
 
 interface ProductDetailsScreenListener {
     fun navigateBack()
-    fun onEditClick()
+    fun onEditClick(productId: String)
 }

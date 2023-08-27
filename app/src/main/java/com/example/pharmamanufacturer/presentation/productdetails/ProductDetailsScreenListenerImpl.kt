@@ -14,7 +14,9 @@ class ProductDetailsScreenListenerImpl(private val navController: NavHostControl
         )
     }
 
-    override fun onEditClick() {
-
+    override fun onEditClick(productId: String) {
+        navController.navigate(
+            Screen.EditProductScreen.withArgs(productId)
+        )
     }
 }

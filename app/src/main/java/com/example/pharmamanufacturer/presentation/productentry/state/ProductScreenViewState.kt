@@ -1,15 +1,15 @@
-package com.example.pharmamanufacturer.presentation.addproduct.state
+package com.example.pharmamanufacturer.presentation.productentry.state
 
 import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.TextFieldViewState
 
-data class AddProductScreenViewState(
+data class ProductScreenViewState(
     val name: TextFieldViewState,
     val compoundName: TextFieldViewState,
     val concentration: TextFieldViewState,
 ) {
     companion object {
-        val INIT: AddProductScreenViewState by lazy {
-            AddProductScreenViewState(
+        val INIT: ProductScreenViewState by lazy {
+            ProductScreenViewState(
                 name = TextFieldViewState.initState("Name"),
                 compoundName = TextFieldViewState.initState("Name"),
                 concentration = TextFieldViewState.initState("Amount")

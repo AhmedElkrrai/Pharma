@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.presentation.addproduct
+package com.example.pharmamanufacturer.presentation.productentry
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,17 +25,17 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.pharmamanufacturer.R
 import com.example.pharmamanufacturer.core.UiDimensions
-import com.example.pharmamanufacturer.presentation.addproduct.state.AddProductScreenViewState
-import com.example.pharmamanufacturer.presentation.addproduct.state.AddProductTextField
+import com.example.pharmamanufacturer.presentation.productentry.state.ProductScreenViewState
+import com.example.pharmamanufacturer.presentation.productentry.state.ProductTextField
 import com.example.pharmamanufacturer.presentation.theme.Blue
 import com.example.pharmamanufacturer.presentation.utilitycompose.BottomFloatingButton
 import com.example.pharmamanufacturer.presentation.utilitycompose.CenteredTitleWithIcon
 import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.styledTextField
 
 @Composable
-fun AddProductScreen(
-    viewState: AddProductScreenViewState,
-    listener: AddProductScreenListener
+fun ProductScreen(
+    viewState: ProductScreenViewState,
+    listener: ProductScreenListener
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
@@ -59,10 +59,10 @@ fun AddProductScreen(
                 keyboardType = KeyboardType.Text,
                 viewState = viewState.name,
                 exitErrorState = {
-                    listener.exitErrorState(AddProductTextField.Name)
+                    listener.exitErrorState(ProductTextField.Name)
                 },
                 showInvalidInput = {
-                    listener.showInvalidInput(AddProductTextField.Name)
+                    listener.showInvalidInput(ProductTextField.Name)
                 }
             )
         }
@@ -93,10 +93,10 @@ fun AddProductScreen(
                 keyboardType = KeyboardType.Text,
                 viewState = viewState.compoundName,
                 exitErrorState = {
-                    listener.exitErrorState(AddProductTextField.CompoundName)
+                    listener.exitErrorState(ProductTextField.CompoundName)
                 },
                 showInvalidInput = {
-                    listener.showInvalidInput(AddProductTextField.CompoundName)
+                    listener.showInvalidInput(ProductTextField.CompoundName)
                 }
             )
 
@@ -108,10 +108,10 @@ fun AddProductScreen(
                 keyboardType = KeyboardType.Decimal,
                 viewState = viewState.concentration,
                 exitErrorState = {
-                    listener.exitErrorState(AddProductTextField.Concentration)
+                    listener.exitErrorState(ProductTextField.Concentration)
                 },
                 showInvalidInput = {
-                    listener.showInvalidInput(AddProductTextField.Concentration)
+                    listener.showInvalidInput(ProductTextField.Concentration)
                 }
             )
         }

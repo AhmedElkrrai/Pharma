@@ -4,6 +4,7 @@ sealed class Screen(val route: String) {
     object ProductsScreen : Screen(PRODUCTS_SCREEN_ROUTE)
     object ProductDetailsScreen : Screen(PRODUCT_DETAILS_SCREEN_ROUTE)
     object AddProductScreen : Screen(ADD_PRODUCT_SCREEN_ROUTE)
+    object EditProductScreen : Screen(EDIT_PRODUCT_SCREEN_ROUTE)
     object CompoundsScreen : Screen(COMPOUND_SCREEN_ROUTE)
     object CompoundDetailsScreen : Screen(COMPOUND_DETAILS_SCREEN_ROUTE)
     object AddCompoundScreen : Screen(ADD_COMPOUND_SCREEN_ROUTE)
@@ -22,7 +23,8 @@ sealed class Screen(val route: String) {
         private const val ADD = "_add"
         private const val EDIT = "_edit"
         const val COMPOUND_ID_KEY = "compound_details_key"
-        const val EDIT_COMPOUND_ID_KEY = "edit_compound_details_key"
+        const val EDIT_COMPOUND_KEY = "edit_compound_key"
+        const val EDIT_PRODUCT_KEY = "edit_product_key"
         const val PRODUCT_ID_KEY = "product_details_key"
         const val PRODUCTS_SCREEN_ROUTE = "products"
         const val COMPOUND_SCREEN_ROUTE = "compounds"
@@ -32,5 +34,6 @@ sealed class Screen(val route: String) {
         const val ADD_COMPOUND_SCREEN_ROUTE = COMPOUND_SCREEN_ROUTE + ADD
         const val ADD_PRODUCT_SCREEN_ROUTE = PRODUCTS_SCREEN_ROUTE + ADD
         const val EDIT_COMPOUND_SCREEN_ROUTE = COMPOUND_SCREEN_ROUTE + EDIT
+        const val EDIT_PRODUCT_SCREEN_ROUTE = PRODUCTS_SCREEN_ROUTE + EDIT
     }
 }

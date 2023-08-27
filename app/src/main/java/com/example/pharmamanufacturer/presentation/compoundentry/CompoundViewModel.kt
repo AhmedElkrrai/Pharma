@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.presentation.addcompound
+package com.example.pharmamanufacturer.presentation.compoundentry
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -7,10 +7,10 @@ import com.example.pharmamanufacturer.core.capitalizeFirstChar
 import com.example.pharmamanufacturer.data.local.database.DatabaseHandler
 import com.example.pharmamanufacturer.data.local.entities.Compound
 import com.example.pharmamanufacturer.data.local.entities.Supplier
-import com.example.pharmamanufacturer.presentation.addcompound.action.CompoundAction
-import com.example.pharmamanufacturer.presentation.addcompound.state.CompoundScreenViewState
-import com.example.pharmamanufacturer.presentation.addcompound.state.CompoundTextField
-import com.example.pharmamanufacturer.presentation.addcompound.state.renderViewState
+import com.example.pharmamanufacturer.presentation.compoundentry.action.CompoundAction
+import com.example.pharmamanufacturer.presentation.compoundentry.state.CompoundScreenViewState
+import com.example.pharmamanufacturer.presentation.compoundentry.state.CompoundTextField
+import com.example.pharmamanufacturer.presentation.compoundentry.state.renderViewState
 import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.TextField
 import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.TextFieldErrorEventState
 import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.TextFieldEventState

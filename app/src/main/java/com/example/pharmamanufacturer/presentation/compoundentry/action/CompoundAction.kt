@@ -1,6 +1,6 @@
-package com.example.pharmamanufacturer.presentation.addcompound.action
+package com.example.pharmamanufacturer.presentation.compoundentry.action
 
-import com.example.pharmamanufacturer.presentation.addcompound.state.CompoundTextField
+import com.example.pharmamanufacturer.presentation.compoundentry.state.CompoundTextField
 
 internal sealed interface CompoundAction {
     object INSERT : CompoundAction

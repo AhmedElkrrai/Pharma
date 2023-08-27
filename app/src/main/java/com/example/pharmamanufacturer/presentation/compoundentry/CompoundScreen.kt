@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.presentation.addcompound
+package com.example.pharmamanufacturer.presentation.compoundentry
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,8 +25,8 @@ import androidx.compose.ui.text.input.KeyboardType.Companion.Text
 import androidx.compose.ui.unit.dp
 import com.example.pharmamanufacturer.R
 import com.example.pharmamanufacturer.core.UiDimensions
-import com.example.pharmamanufacturer.presentation.addcompound.state.CompoundScreenViewState
-import com.example.pharmamanufacturer.presentation.addcompound.state.CompoundTextField
+import com.example.pharmamanufacturer.presentation.compoundentry.state.CompoundScreenViewState
+import com.example.pharmamanufacturer.presentation.compoundentry.state.CompoundTextField
 import com.example.pharmamanufacturer.presentation.theme.Blue
 import com.example.pharmamanufacturer.presentation.utilitycompose.BottomFloatingButton
 import com.example.pharmamanufacturer.presentation.utilitycompose.CenteredTitleWithIcon
@@ -35,7 +35,7 @@ import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.styl
 @Composable
 fun CompoundScreen(
     viewState: CompoundScreenViewState,
-    listener: UpdateCompoundScreenListener
+    listener: CompoundScreenListener
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
 
