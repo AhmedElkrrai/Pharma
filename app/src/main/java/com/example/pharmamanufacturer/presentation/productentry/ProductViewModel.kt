@@ -7,8 +7,9 @@ import com.example.pharmamanufacturer.core.MINIMUM_PRODUCT_INGREDIENTS
 import com.example.pharmamanufacturer.core.capitalizeFirstChar
 import com.example.pharmamanufacturer.data.local.database.DatabaseHandler
 import com.example.pharmamanufacturer.data.local.entities.Compound
-import com.example.pharmamanufacturer.data.local.entities.Batch
+import com.example.pharmamanufacturer.data.local.entities.CompoundNode
 import com.example.pharmamanufacturer.data.local.entities.Product
+import com.example.pharmamanufacturer.data.local.entities.ProductNode
 import com.example.pharmamanufacturer.presentation.productentry.action.ProductAction
 import com.example.pharmamanufacturer.presentation.productentry.state.ProductScreenViewState
 import com.example.pharmamanufacturer.presentation.productentry.state.ProductTextField
@@ -129,17 +130,17 @@ class ProductViewModel(
 
             val product = Product(
                 name = name.capitalizeFirstChar(),
-                batches = listOf()
+                compoundNodes = listOf()
             )
 
             val productId = DatabaseHandler.addProduct(product)
 
-            val batches = updateCompounds(productId.toInt())
+            val compoundNodes = updateCompounds(productId.toInt())
 
             DatabaseHandler.updateProduct(
                 product = product.copy(
                     id = productId.toInt(),
-                    batches = batches
+                    compoundNodes = compoundNodes
                 )
             )
 
@@ -164,14 +165,14 @@ class ProductViewModel(
 
             val product = DatabaseHandler.getProduct(selectedId) ?: return@launch
 
-            val newBatches = updateCompounds(product.id ?: return@launch)
+            val newNodes = updateCompounds(product.id ?: return@launch)
 
-            val updatedBatches = product.batches + newBatches
+            val updatedNodes = product.compoundNodes + newNodes
 
             DatabaseHandler.updateProduct(
                 product = product.copy(
                     name = name.capitalizeFirstChar(),
-                    batches = updatedBatches
+                    compoundNodes = updatedNodes
                 )
             )
 
@@ -196,64 +197,64 @@ class ProductViewModel(
             Compound(
                 name = name.capitalizeFirstChar(),
                 availableAmount = concentration.toDouble(),
-                batches = listOf()
+                productNodes = listOf()
             )
         compounds.add(compound)
 
         _events.send(TextFieldEventState.ClearSubInputs)
     }
 
-    private suspend fun updateCompounds(productId: Int): List<Batch> {
-        val productBatches = mutableListOf<Batch>()
+    private suspend fun updateCompounds(productId: Int): List<CompoundNode> {
+        val productCompoundNodes = mutableListOf<CompoundNode>()
 
-        compounds.forEach { productCompound ->
+        compounds.forEach { enteredCompound ->
             val compound = DatabaseHandler.getCompoundByName(
-                compoundName = productCompound.name
+                compoundName = enteredCompound.name
             )
 
-            val newCompoundBatch = Batch(
+            val newProductNode = ProductNode(
                 id = productId,
-                concentration = productCompound.availableAmount
+                concentration = enteredCompound.availableAmount
             )
 
             if (compound == null) {
                 val compoundId =
                     DatabaseHandler.addCompound(
-                        productCompound.copy(
-                            batches = listOf(newCompoundBatch)
+                        enteredCompound.copy(
+                            productNodes = listOf(newProductNode)
                         )
                     )
 
-                productBatches.add(
-                    Batch(
+                productCompoundNodes.add(
+                    CompoundNode(
                         id = compoundId.toInt(),
-                        concentration = productCompound.availableAmount,
+                        concentration = enteredCompound.availableAmount,
                         available = 1.0
                     )
                 )
             } else {
-                val compoundBatches = compound.batches?.toMutableList()
-                compoundBatches?.add(newCompoundBatch)
+                val productNodes = compound.productNodes?.toMutableList()
+                productNodes?.add(newProductNode)
 
                 DatabaseHandler.updateCompound(
                     compound.copy(
-                        batches = compoundBatches
+                        productNodes = productNodes
                     )
                 )
 
                 compound.id?.let { id ->
-                    productBatches.add(
-                        Batch(
+                    productCompoundNodes.add(
+                        CompoundNode(
                             id = id,
-                            concentration = productCompound.availableAmount,
-                            available = compound.availableAmount / productCompound.availableAmount
+                            concentration = enteredCompound.availableAmount,
+                            available = compound.availableAmount / enteredCompound.availableAmount
                         )
                     )
                 }
             }
         }
 
-        return productBatches
+        return productCompoundNodes
     }
 
     private suspend fun checkCompoundEntry(

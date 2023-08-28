@@ -38,7 +38,7 @@ class ProductDetailsViewModel(savedStateHandle: SavedStateHandle) : ViewModel() 
                 val product = DatabaseHandler.getProduct(selectedProductId)
 
                 _compoundsState.getAndUpdate {
-                    val compoundsIds = product?.batches?.map { it.id } ?: listOf()
+                    val compoundsIds = product?.compoundNodes?.map { it.id } ?: listOf()
                     DatabaseHandler.getCompounds(compoundsIds)
                 }
 

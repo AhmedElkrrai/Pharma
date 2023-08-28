@@ -25,7 +25,7 @@ fun SupplierItem(
     supplier: Supplier
 ) {
     Card(
-        elevation = 2.dp,
+        elevation = UiDimensions.Elevation,
         shape = RoundedCornerShape(20.dp),
         modifier = modifier
             .padding(10.dp)

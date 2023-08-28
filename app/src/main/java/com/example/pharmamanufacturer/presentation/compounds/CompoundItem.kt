@@ -19,7 +19,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.pharmamanufacturer.R
-import com.example.pharmamanufacturer.core.MINIMUM_PRODUCT_BATCHES
 import com.example.pharmamanufacturer.core.UiDimensions
 import com.example.pharmamanufacturer.data.local.entities.Compound
 import com.example.pharmamanufacturer.presentation.theme.Blue
@@ -33,7 +32,7 @@ fun CompoundItem(
     onClick: (Compound) -> Unit = {}
 ) {
     Card(
-        elevation = 2.dp,
+        elevation = UiDimensions.Elevation,
         shape = RoundedCornerShape(20.dp),
         modifier = modifier
             .padding(10.dp)

@@ -62,7 +62,7 @@ fun ProductDetailsScreen(
             items(compoundsState.value) { compound ->
                 productState.value?.let { product ->
                     val concentration =
-                        product.batches.find { it.id == compound.id }?.concentration ?: 0.0
+                        product.compoundNodes.find { it.id == compound.id }?.concentration ?: 0.0
 
                     ProductCompoundItem(
                         name = compound.name,

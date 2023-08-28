@@ -22,8 +22,8 @@ data class Compound(
     @ColumnInfo(name = COL_AVAILABLE_AMOUNT)
     var availableAmount: Double,
 
-    @ColumnInfo(name = COL_COMPOUND_PRODUCTS)
-    val batches: List<Batch>? = null,
+    @ColumnInfo(name = COL_PRODUCTS_NODES)
+    val productNodes: List<ProductNode>? = null,
 
     @ColumnInfo(name = COL_SUPPLIERS)
     val suppliers: List<Supplier>? = null
@@ -34,14 +34,14 @@ data class Compound(
 
     val lowStock: Boolean
         get() {
-            if (batches.isNullOrEmpty())
+            if (productNodes.isNullOrEmpty())
                 return false
 
             return getAvailableBatches() < MINIMUM_PRODUCT_BATCHES
         }
 
     private fun getAvailableBatches(): Double {
-        return batches?.minOfOrNull { availableAmount / it.concentration } ?: 0.0
+        return productNodes?.minOfOrNull { availableAmount / it.concentration } ?: 0.0
     }
 
     companion object {
@@ -51,6 +51,6 @@ data class Compound(
         const val COL_COMPOUND_NAME = "name"
         const val COL_AVAILABLE_AMOUNT = "available_amount"
         const val COL_SUPPLIERS = "suppliers"
-        const val COL_COMPOUND_PRODUCTS = "compound_products"
+        const val COL_PRODUCTS_NODES = "compound_products"
     }
 }

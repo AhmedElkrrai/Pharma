@@ -38,7 +38,7 @@ class CompoundDetailsViewModel(
                 val compound = DatabaseHandler.getCompound(selectedCompoundId)
 
                 _productsState.getAndUpdate {
-                    val productsIds = compound?.batches?.map { it.id } ?: listOf()
+                    val productsIds = compound?.productNodes?.map { it.id } ?: listOf()
                     DatabaseHandler.getProducts(productsIds)
                 }
 

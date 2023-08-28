@@ -127,7 +127,7 @@ class CompoundViewModel(
                 name = name.capitalizeFirstChar(),
                 availableAmount = amount.toDouble(),
                 suppliers = suppliers.toList(),
-                batches = listOf()
+                productNodes = listOf()
             )
             DatabaseHandler.addCompound(compound)
 

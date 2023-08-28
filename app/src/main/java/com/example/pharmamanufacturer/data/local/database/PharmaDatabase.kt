@@ -11,7 +11,7 @@ import com.example.pharmamanufacturer.data.utils.Converters
 
 @Database(
     entities = [Compound::class, Product::class],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 @TypeConverters(Converters::class)

@@ -34,7 +34,7 @@ fun ProductCompoundItem(
     concentration: Double
 ) {
     Card(
-        elevation = 2.dp,
+        elevation = UiDimensions.Elevation,
         shape = RoundedCornerShape(20.dp),
         modifier = modifier
             .padding(10.dp)

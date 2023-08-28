@@ -19,8 +19,8 @@ data class Product(
     @ColumnInfo(name = COL_PRODUCT_NAME)
     val name: String,
 
-    @ColumnInfo(name = COL_PRODUCT_BATCHES)
-    val batches: List<Batch>
+    @ColumnInfo(name = COL_COMPOUND_NODES)
+    val compoundNodes: List<CompoundNode>
 
 ) : Parcelable {
     override fun toString(): String {
@@ -34,7 +34,7 @@ data class Product(
         }
 
     fun getAvailableBatches(): Double {
-        return batches
+        return compoundNodes
             .map { it.available }
             .sortedWith(compareBy { it }).first()
             ?: 0.0
@@ -45,6 +45,6 @@ data class Product(
 
         const val COL_PRODUCT_ID = "id"
         const val COL_PRODUCT_NAME = "product_name"
-        const val COL_PRODUCT_BATCHES = "batches"
+        const val COL_COMPOUND_NODES = "compound_nodes"
     }
 }

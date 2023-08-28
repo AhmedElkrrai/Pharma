@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class Batch(
+data class CompoundNode(
     val id: Int,
     val concentration: Double,
     val available: Double? = null

@@ -44,7 +44,7 @@ fun CompoundDetailsScreen(
 
         Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
-        if (compoundState.value?.batches?.isNotEmpty() == true) {
+        if (compoundState.value?.productNodes?.isNotEmpty() == true) {
             val modifier = if (productsState.value.size < 3)
                 Modifier.fillMaxWidth()
             else Modifier

@@ -2,7 +2,6 @@ package com.example.pharmamanufacturer.presentation.compounddetails
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -38,12 +37,12 @@ fun ProductsSection(
 
         LazyColumn {
             items(products) { product ->
-                val batch =
+                val compoundNode =
                     product
-                        .batches
+                        .compoundNodes
                         .find { it.id == compound.id }
 
-                batch?.let {
+                compoundNode?.let {
                     ProductItem(
                         modifier = Modifier
                             .fillMaxWidth()
