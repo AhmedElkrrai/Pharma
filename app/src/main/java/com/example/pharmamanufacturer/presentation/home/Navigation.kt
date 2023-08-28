@@ -21,6 +21,7 @@ import com.example.pharmamanufacturer.presentation.productentry.AddProductScreen
 import com.example.pharmamanufacturer.presentation.compounddetails.CompoundDetailsScreenNavigation
 import com.example.pharmamanufacturer.presentation.compounds.CompoundsScreenListenerImpl
 import com.example.pharmamanufacturer.presentation.compoundentry.EditCompoundScreenNavigation
+import com.example.pharmamanufacturer.presentation.dashboard.DashboardScreen
 import com.example.pharmamanufacturer.presentation.productdetails.ProductDetailsScreenNavigation
 import com.example.pharmamanufacturer.presentation.productentry.EditProductScreenNavigation
 import com.example.pharmamanufacturer.presentation.products.ProductsScreenListenerImpl
@@ -42,6 +43,10 @@ fun Navigation(navController: NavHostController) {
             CompoundsScreen(
                 CompoundsScreenListenerImpl(navController)
             )
+        }
+
+        composable(route = Screen.DashboardScreen.route) {
+            DashboardScreen()
         }
 
         composable(route = Screen.PackagingScreen.route) {

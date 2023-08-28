@@ -59,7 +59,7 @@ fun CompoundItem(
                         painter = painterResource(id = R.drawable.ic_warning),
                         contentDescription = "Warning",
                         tint = Color.Unspecified,
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.size(28.dp)
                     )
                 }
             }

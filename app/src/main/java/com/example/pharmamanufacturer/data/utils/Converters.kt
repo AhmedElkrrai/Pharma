@@ -8,10 +8,10 @@ import com.google.gson.Gson
 
 class Converters {
     @TypeConverter
-    fun supplierToJson(value: List<Supplier>?): String = Gson().toJson(value)
+    fun suppliersToJson(value: List<Supplier>?): String = Gson().toJson(value)
 
     @TypeConverter
-    fun jsonToSupplier(value: String?) = Gson().fromJson(value, Array<Supplier>::class.java)?.toList()
+    fun jsonToSuppliers(value: String?) = Gson().fromJson(value, Array<Supplier>::class.java)?.toList()
 
     @TypeConverter
     fun productNodesToJson(value: List<ProductNode>?): String = Gson().toJson(value)
@@ -20,8 +20,8 @@ class Converters {
     fun jsonToProductNodes(value: String?) = Gson().fromJson(value, Array<ProductNode>::class.java)?.toList()
 
     @TypeConverter
-    fun compoundNodeToJson(value: List<CompoundNode>?): String = Gson().toJson(value)
+    fun compoundNodesToJson(value: List<CompoundNode>?): String = Gson().toJson(value)
 
     @TypeConverter
-    fun jsonToCompoundNode(value: String) = Gson().fromJson(value, Array<CompoundNode>::class.java)?.toList()
+    fun jsonToCompoundNodes(value: String) = Gson().fromJson(value, Array<CompoundNode>::class.java)?.toList()
 }

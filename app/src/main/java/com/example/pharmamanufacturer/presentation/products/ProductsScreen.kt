@@ -31,12 +31,17 @@ fun ProductsScreen(
                 ProductItem(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(14.dp),
-                    product = product,
-                    lowStock = product.lowStock
-                ) {
-                    listener.onProductClick(product.id.toString())
-                }
+                        .padding(16.dp),
+                    title = product.name,
+                    showProductionButton = true,
+                    lowStock = product.lowStock,
+                    onProductionClick = {
+                        listener.onProductionStarted(product.id.toString())
+                    },
+                    onItemClick = {
+                        listener.onProductClick(product.id.toString())
+                    }
+                )
             }
         }
     } else {

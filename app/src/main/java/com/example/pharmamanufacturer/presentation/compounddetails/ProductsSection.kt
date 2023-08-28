@@ -47,7 +47,7 @@ fun ProductsSection(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(12.dp),
-                        product = product,
+                        title = product.name,
                         lowStock = (compound.availableAmount / it.concentration) < MINIMUM_PRODUCT_BATCHES
                     )
                 }
