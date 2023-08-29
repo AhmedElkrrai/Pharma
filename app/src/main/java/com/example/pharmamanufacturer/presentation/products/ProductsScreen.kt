@@ -1,10 +1,12 @@
 package com.example.pharmamanufacturer.presentation.products
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
@@ -13,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pharmamanufacturer.R
+import com.example.pharmamanufacturer.presentation.theme.DeepBlue
 import com.example.pharmamanufacturer.presentation.utilitycompose.BottomFloatingButton
 import com.example.pharmamanufacturer.presentation.utilitycompose.EmptyContentScreen
 import com.example.pharmamanufacturer.presentation.utilitycompose.ProductItem
@@ -21,7 +24,6 @@ import com.example.pharmamanufacturer.presentation.utilitycompose.ProductItem
 fun ProductsScreen(
     listener: ProductsScreenListener
 ) {
-
     val viewModel: ProductsViewModel = viewModel()
     val productsState = viewModel.productsState.collectAsStateWithLifecycle()
 
@@ -36,7 +38,7 @@ fun ProductsScreen(
                     showProductionButton = true,
                     lowStock = product.lowStock,
                     onProductionClick = {
-                        listener.onProductionStarted(product.id.toString())
+                        viewModel.showDialog()
                     },
                     onItemClick = {
                         listener.onProductClick(product.id.toString())
@@ -60,4 +62,23 @@ fun ProductsScreen(
         },
         imageVector = Icons.Filled.Add
     )
+
+    if (viewModel.isDialogShown) {
+        ProductionDialog(
+            modifier = Modifier
+                .fillMaxWidth(0.95f)
+                .fillMaxHeight(0.6f)
+                .border(
+                    width = 2.dp,
+                    color = DeepBlue,
+                    shape = RoundedCornerShape(15.dp)
+                ),
+            onDismiss = {
+                viewModel.dismissDialog()
+            },
+            onConfirm = {
+                viewModel.startProduction()
+            }
+        )
+    }
 }

@@ -11,12 +11,6 @@ class ProductsScreenListenerImpl(private val navController: NavHostController) :
         )
     }
 
-    override fun onProductionStarted(productId: String) {
-        navController.navigate(
-            Screen.DashboardScreen.route
-        )
-    }
-
     override fun onAddClick() {
         navController.navigate(
             Screen.AddProductScreen.route
