@@ -33,7 +33,7 @@ class ProductsViewModel : ViewModel() {
         return DatabaseHandler.getAllProducts()
     }
 
-    fun showDialog(){
+    fun showDialog() {
         isDialogShown = true
     }
 

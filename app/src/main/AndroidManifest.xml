@@ -11,6 +11,7 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
+        android:testOnly="false"
         android:theme="@style/Theme.PharmaManufacturer"
         tools:targetApi="31">
         <activity

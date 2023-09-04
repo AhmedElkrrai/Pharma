@@ -10,11 +10,17 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pharmamanufacturer.R
+import com.example.pharmamanufacturer.data.local.entities.Product
+import com.example.pharmamanufacturer.presentation.products.dialog.ProductionDialog
 import com.example.pharmamanufacturer.presentation.theme.DeepBlue
 import com.example.pharmamanufacturer.presentation.utilitycompose.BottomFloatingButton
 import com.example.pharmamanufacturer.presentation.utilitycompose.EmptyContentScreen
@@ -26,6 +32,8 @@ fun ProductsScreen(
 ) {
     val viewModel: ProductsViewModel = viewModel()
     val productsState = viewModel.productsState.collectAsStateWithLifecycle()
+
+    var selectedProduct by remember { mutableStateOf<Product?>(null) }
 
     if (productsState.value.isNotEmpty()) {
         LazyColumn {
@@ -39,6 +47,7 @@ fun ProductsScreen(
                     lowStock = product.lowStock,
                     onProductionClick = {
                         viewModel.showDialog()
+                        selectedProduct = product
                     },
                     onItemClick = {
                         listener.onProductClick(product.id.toString())
@@ -64,21 +73,22 @@ fun ProductsScreen(
     )
 
     if (viewModel.isDialogShown) {
-        ProductionDialog(
-            modifier = Modifier
-                .fillMaxWidth(0.95f)
-                .fillMaxHeight(0.6f)
-                .border(
-                    width = 2.dp,
-                    color = DeepBlue,
-                    shape = RoundedCornerShape(15.dp)
-                ),
-            onDismiss = {
-                viewModel.dismissDialog()
-            },
-            onConfirm = {
-                viewModel.startProduction()
-            }
-        )
+        selectedProduct?.let {
+            ProductionDialog(
+                modifier = Modifier
+                    .fillMaxWidth(0.95f)
+                    .fillMaxHeight(0.4f)
+                    .border(
+                        width = 2.dp,
+                        color = DeepBlue,
+                        shape = RoundedCornerShape(15.dp)
+                    ),
+                product = it,
+                onDismiss = {
+                    viewModel.dismissDialog()
+                },
+                onConfirm = { viewModel.startProduction() }
+            )
+        }
     }
 }
