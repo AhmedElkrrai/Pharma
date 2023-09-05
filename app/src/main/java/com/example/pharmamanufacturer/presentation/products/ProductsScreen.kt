@@ -83,12 +83,10 @@ fun ProductsScreen(
                         color = DeepBlue,
                         shape = RoundedCornerShape(15.dp)
                     ),
-                product = it,
-                onDismiss = {
-                    viewModel.dismissDialog()
-                },
-                onConfirm = { viewModel.startProduction() }
-            )
+                product = it
+            ) {
+                viewModel.dismissDialog()
+            }
         }
     }
 }

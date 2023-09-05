@@ -14,14 +14,20 @@ import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pharmamanufacturer.core.UiDimensions
+import com.example.pharmamanufacturer.data.local.entities.Batch
 import com.example.pharmamanufacturer.data.local.entities.Product
+import com.example.pharmamanufacturer.presentation.compoundentry.action.CompoundAction
 import com.example.pharmamanufacturer.presentation.theme.Blue
 import com.example.pharmamanufacturer.presentation.theme.Green
 import com.example.pharmamanufacturer.presentation.theme.Red
@@ -32,8 +38,7 @@ import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.styl
 fun ProductionDialog(
     modifier: Modifier = Modifier,
     product: Product,
-    onDismiss: () -> Unit,
-    onConfirm: () -> Unit
+    onDismiss: () -> Unit
 ) {
     Dialog(
         onDismissRequest = { onDismiss() },
@@ -48,6 +53,11 @@ fun ProductionDialog(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+
+                val viewModel: ProductionDialogViewModel = viewModel()
+
+                val viewState by viewModel.viewState.collectAsStateWithLifecycle()
+
                 Spacer(modifier = Modifier.height(UiDimensions.Large_Space))
 
                 Text(
@@ -58,15 +68,18 @@ fun ProductionDialog(
 
                 Spacer(modifier = Modifier.height(UiDimensions.Large_Space))
 
-                styledTextField(
+                viewState.input = styledTextField(
                     label = "Batch",
-                    keyboardType = KeyboardType.Text,
+                    keyboardType = KeyboardType.Decimal,
+                    imeAction = ImeAction.Go,
                     viewState = TextFieldViewState.initState("Batch"),
                     exitErrorState = {
-
+                        viewModel.sendAction(
+                            ProductionDialogAction.RetrieveInitialState
+                        )
                     },
                     showInvalidInput = {
-
+                        ProductionDialogAction.INVALID
                     }
                 )
 
@@ -91,7 +104,14 @@ fun ProductionDialog(
                         ProductionDialogButton(
                             borderColor = Green,
                             buttonMessage = "Operate",
-                            onClick = { onConfirm.invoke() }
+                            onClick = {
+                                //TODO: send batch
+                                viewModel.sendAction(
+                                    ProductionDialogAction.Operate(
+                                        Batch(viewState.input)
+                                    )
+                                )
+                            }
                         )
                     }
                 }

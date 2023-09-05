@@ -40,8 +40,4 @@ class ProductsViewModel : ViewModel() {
     fun dismissDialog() {
         isDialogShown = false
     }
-
-    fun startProduction() {
-
-    }
 }

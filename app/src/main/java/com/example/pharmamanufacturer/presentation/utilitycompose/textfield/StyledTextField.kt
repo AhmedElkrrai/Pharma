@@ -24,6 +24,7 @@ fun styledTextField(
     label: String,
     keyboardType: KeyboardType,
     viewState: TextFieldViewState,
+    imeAction: ImeAction = ImeAction.Done,
     exitErrorState: () -> Unit,
     showInvalidInput: () -> Unit
 ): String {
@@ -62,7 +63,7 @@ fun styledTextField(
         },
         keyboardOptions = KeyboardOptions(
             keyboardType = keyboardType,
-            imeAction = ImeAction.Done
+            imeAction = imeAction
         ),
         keyboardActions = KeyboardActions(
             onDone = {

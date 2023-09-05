@@ -1,15 +1,12 @@
 package com.example.pharmamanufacturer.data.local.entities
 
 import android.net.Uri
-import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.pharmamanufacturer.core.MINIMUM_PRODUCT_BATCHES
 import com.google.gson.Gson
-import kotlinx.parcelize.Parcelize
 
-@Parcelize
 @Entity(tableName = Compound.TABLE_COMPOUND)
 data class Compound(
     @PrimaryKey(autoGenerate = true)
@@ -27,7 +24,7 @@ data class Compound(
 
     @ColumnInfo(name = COL_SUPPLIERS)
     val suppliers: List<Supplier>? = null
-) : Parcelable {
+) {
     override fun toString(): String {
         return Uri.encode(Gson().toJson(this))
     }
