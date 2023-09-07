@@ -1,28 +1,41 @@
 package com.example.pharmamanufacturer.data.local.database
 
 import com.example.pharmamanufacturer.core.PharmaApp
+import com.example.pharmamanufacturer.data.local.entities.Batch
 import com.example.pharmamanufacturer.data.local.entities.Compound
 import com.example.pharmamanufacturer.data.local.entities.Product
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 @get:Synchronized
-private val pharmaDatabase by lazy {
+private val pharmaDatabase: PharmaDatabase by lazy {
     PharmaDatabase.getInstance(PharmaApp.instance.applicationContext)
 }
 
 object DatabaseHandler {
 
-    suspend fun getAllCompounds(): MutableList<Compound> {
+    suspend fun insertBatch(batch: Batch): Long {
         return withContext(Dispatchers.IO) {
-            pharmaDatabase.compoundsDao().getAllCompounds()
-        }.toMutableList()
+            pharmaDatabase.batchesDao().insert(batch)
+        }
     }
 
-    suspend fun getCompounds(ids: List<Int>): MutableList<Compound> {
+    suspend fun getAllBatches(): List<Batch> {
+        return withContext(Dispatchers.IO) {
+            pharmaDatabase.batchesDao().getAllBatches()
+        }
+    }
+
+    suspend fun getAllCompounds(): List<Compound> {
+        return withContext(Dispatchers.IO) {
+            pharmaDatabase.compoundsDao().getAllCompounds()
+        }
+    }
+
+    suspend fun getCompounds(ids: List<Int>): List<Compound> {
         return withContext(Dispatchers.IO) {
             pharmaDatabase.compoundsDao().getCompounds(ids)
-        }.toMutableList()
+        }
     }
 
     suspend fun addCompound(compound: Compound): Long {
@@ -49,16 +62,16 @@ object DatabaseHandler {
         }
     }
 
-    suspend fun getAllProducts(): MutableList<Product> {
+    suspend fun getAllProducts(): List<Product> {
         return withContext(Dispatchers.IO) {
             pharmaDatabase.productsDao().getAllProducts()
-        }.toMutableList()
+        }
     }
 
-    suspend fun getProducts(ids: List<Int>): MutableList<Product> {
+    suspend fun getProducts(ids: List<Int>): List<Product> {
         return withContext(Dispatchers.IO) {
             pharmaDatabase.productsDao().getProducts(ids)
-        }.toMutableList()
+        }
     }
 
     suspend fun getProduct(id: Int): Product? {

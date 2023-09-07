@@ -218,6 +218,7 @@ class ProductViewModel(
             )
 
             if (compound == null) {
+                // new compound
                 val compoundId =
                     DatabaseHandler.addCompound(
                         enteredCompound.copy(
@@ -233,6 +234,7 @@ class ProductViewModel(
                     )
                 )
             } else {
+                // compound already exist
                 val productNodes = compound.productNodes?.toMutableList()
                 productNodes?.add(newProductNode)
 

@@ -30,7 +30,7 @@ class ProductsViewModel : ViewModel() {
         }
 
     private suspend fun getAllProducts(): MutableList<Product> {
-        return DatabaseHandler.getAllProducts()
+        return DatabaseHandler.getAllProducts().toMutableList()
     }
 
     fun showDialog() {

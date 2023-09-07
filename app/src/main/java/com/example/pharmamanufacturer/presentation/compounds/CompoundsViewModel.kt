@@ -25,6 +25,6 @@ class CompoundsViewModel : ViewModel() {
         }
 
     private suspend fun getAllCompounds(): MutableList<Compound> {
-        return DatabaseHandler.getAllCompounds()
+        return DatabaseHandler.getAllCompounds().toMutableList()
     }
 }

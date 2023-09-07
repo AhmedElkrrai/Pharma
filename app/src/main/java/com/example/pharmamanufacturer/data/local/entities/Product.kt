@@ -5,6 +5,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.pharmamanufacturer.core.MINIMUM_PRODUCT_BATCHES
+import com.example.pharmamanufacturer.core.round
 import com.google.gson.Gson
 
 @Entity(tableName = Product.TABLE_PRODUCT)
@@ -33,7 +34,7 @@ data class Product(
     fun getAvailableBatches(): Double {
         return compoundNodes
             .map { it.available }
-            .sortedWith(compareBy { it }).first()
+            .sortedWith(compareBy { it }).first()?.round()
             ?: 0.0
     }
 

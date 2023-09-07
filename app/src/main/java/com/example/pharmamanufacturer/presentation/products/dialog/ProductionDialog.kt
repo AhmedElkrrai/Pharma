@@ -27,11 +27,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pharmamanufacturer.core.UiDimensions
 import com.example.pharmamanufacturer.data.local.entities.Batch
 import com.example.pharmamanufacturer.data.local.entities.Product
-import com.example.pharmamanufacturer.presentation.compoundentry.action.CompoundAction
 import com.example.pharmamanufacturer.presentation.theme.Blue
 import com.example.pharmamanufacturer.presentation.theme.Green
 import com.example.pharmamanufacturer.presentation.theme.Red
-import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.TextFieldViewState
 import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.styledTextField
 
 @Composable
@@ -72,7 +70,7 @@ fun ProductionDialog(
                     label = "Batch",
                     keyboardType = KeyboardType.Decimal,
                     imeAction = ImeAction.Go,
-                    viewState = TextFieldViewState.initState("Batch"),
+                    viewState = viewState,
                     exitErrorState = {
                         viewModel.sendAction(
                             ProductionDialogAction.RetrieveInitialState
@@ -105,10 +103,14 @@ fun ProductionDialog(
                             borderColor = Green,
                             buttonMessage = "Operate",
                             onClick = {
-                                //TODO: send batch
                                 viewModel.sendAction(
                                     ProductionDialogAction.Operate(
-                                        Batch(viewState.input)
+                                        batch = Batch(
+                                            productId = product.id ?: return@ProductionDialogButton,
+                                            number = viewState.input
+                                        ),
+                                        product = product,
+                                        onDismiss = onDismiss
                                     )
                                 )
                             }

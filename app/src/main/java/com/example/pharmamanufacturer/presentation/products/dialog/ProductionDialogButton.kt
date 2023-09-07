@@ -24,7 +24,7 @@ fun ProductionDialogButton(
 ) {
     Box(
         modifier = modifier
-            .height(35.dp)
+            .height(40.dp)
             .width(100.dp)
             .border(
                 width = 3.dp,

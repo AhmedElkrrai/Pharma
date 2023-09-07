@@ -1,10 +1,14 @@
 package com.example.pharmamanufacturer.presentation.products.dialog
 
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pharmamanufacturer.core.PharmaApp
+import com.example.pharmamanufacturer.data.local.database.DatabaseHandler
 import com.example.pharmamanufacturer.data.local.entities.Batch
+import com.example.pharmamanufacturer.data.local.entities.CompoundNode
+import com.example.pharmamanufacturer.data.local.entities.Product
 import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.TextFieldErrorEventState
 import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.TextFieldViewState
 import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.renderFieldTextViewState
@@ -17,9 +21,10 @@ import kotlinx.coroutines.launch
 
 class ProductionDialogViewModel : ViewModel() {
 
-    private val viewAction = Channel<ProductionDialogAction>()
+    private val viewAction: Channel<ProductionDialogAction> = Channel()
 
-    private val _viewState = MutableStateFlow(TextFieldViewState.initState("Batch"))
+    private val _viewState: MutableStateFlow<TextFieldViewState> =
+        MutableStateFlow(TextFieldViewState.initState("Batch"))
     internal val viewState: StateFlow<TextFieldViewState>
         get() = _viewState
 
@@ -33,7 +38,7 @@ class ProductionDialogViewModel : ViewModel() {
         viewAction.receiveAsFlow().collect { action ->
             when (action) {
                 is ProductionDialogAction.Operate ->
-                    operateBatch(action.batch)
+                    operateBatch(action.batch, action.product, action.onDismiss)
 
                 is ProductionDialogAction.INVALID ->
                     renderTextFieldViewState(
@@ -48,20 +53,69 @@ class ProductionDialogViewModel : ViewModel() {
         }
     }
 
-    private fun operateBatch(batch: Batch) {
-        if (batch.number.isEmpty()){
+    private suspend fun operateBatch(batch: Batch, product: Product, dismissDialog: () -> Unit) {
+        if (batch.number.isEmpty()) {
             renderTextFieldViewState(
                 TextFieldErrorEventState.ENTER
             )
             return
         }
 
-        Toast.makeText(
-            PharmaApp.instance.applicationContext,
-            batch.number,
-            Toast.LENGTH_LONG
+        if (product.getAvailableBatches() < 1) {
+            Toast.makeText(
+                PharmaApp.instance.applicationContext,
+                "Can not start production, some or all compounds are on low stock",
+                Toast.LENGTH_LONG
+            )
+                .show()
+
+            return
+        }
+
+        DatabaseHandler.insertBatch(batch)
+
+        val compoundNodes = product.compoundNodes
+
+        val modifiedCompoundNodes = mutableListOf<CompoundNode>()
+
+        for (node in compoundNodes) {
+            DatabaseHandler.getCompound(node.id)?.let { compound ->
+                val availableAmount = compound.availableAmount - node.concentration
+                //update nodes available batches
+                Log.d(
+                    "TAG", "compound availableAmount = ${compound.availableAmount}," +
+                        " availableAmount = $availableAmount" +
+                        " concentration = ${node.concentration}"
+                )
+                modifiedCompoundNodes.add(
+                    node.copy(
+                        available = availableAmount / node.concentration
+                    )
+                )
+
+                //update each compound availableAmount
+                DatabaseHandler.updateCompound(
+                    compound = compound.copy(
+                        availableAmount = availableAmount
+                    )
+                )
+            }
+        }
+
+        modifiedCompoundNodes.forEach { node ->
+            Log.d(
+                "TAG", "node available = ${node.available}"
+            )
+        }
+
+        //update product with nodes updated available batches
+        DatabaseHandler.updateProduct(
+            product = product.copy(
+                compoundNodes = modifiedCompoundNodes
+            )
         )
-            .show()
+
+        dismissDialog.invoke()
     }
 
     private fun renderTextFieldViewState(
