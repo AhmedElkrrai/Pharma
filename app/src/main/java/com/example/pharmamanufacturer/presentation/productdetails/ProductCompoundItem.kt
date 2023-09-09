@@ -36,8 +36,7 @@ fun ProductCompoundItem(
     Card(
         elevation = UiDimensions.Elevation,
         shape = RoundedCornerShape(20.dp),
-        modifier = modifier
-            .padding(10.dp)
+        modifier = modifier.padding(10.dp)
     ) {
         var availableBatches = 0.0
 

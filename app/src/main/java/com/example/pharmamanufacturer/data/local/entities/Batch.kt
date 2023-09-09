@@ -14,7 +14,10 @@ data class Batch(
     val number: String,
 
     @ColumnInfo(name = COL_PRODUCT_ID)
-    val productId: Int
+    val productId: Int,
+
+    @ColumnInfo(name = COL_PRODUCTION_DATE)
+    val date: String
 ) {
 
     companion object {
@@ -23,5 +26,6 @@ data class Batch(
         const val COL_BATCH_ID = "id"
         const val COL_BATCH_NUMBER = "batch_number"
         const val COL_PRODUCT_ID = "product_id"
+        const val COL_PRODUCTION_DATE = "production_date"
     }
 }

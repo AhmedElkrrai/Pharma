@@ -31,6 +31,8 @@ import com.example.pharmamanufacturer.presentation.theme.Blue
 import com.example.pharmamanufacturer.presentation.theme.Green
 import com.example.pharmamanufacturer.presentation.theme.Red
 import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.styledTextField
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun ProductionDialog(
@@ -107,7 +109,8 @@ fun ProductionDialog(
                                     ProductionDialogAction.Operate(
                                         batch = Batch(
                                             productId = product.id ?: return@ProductionDialogButton,
-                                            number = viewState.input
+                                            number = viewState.input,
+                                            date = getCurrentDate()
                                         ),
                                         product = product,
                                         onDismiss = onDismiss
@@ -120,4 +123,10 @@ fun ProductionDialog(
             }
         }
     }
+}
+
+private fun getCurrentDate(): String {
+    val current = LocalDateTime.now()
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    return current.format(formatter)
 }
