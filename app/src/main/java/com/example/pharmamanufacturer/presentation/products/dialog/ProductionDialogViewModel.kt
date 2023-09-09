@@ -1,6 +1,5 @@
 package com.example.pharmamanufacturer.presentation.products.dialog
 
-import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -80,13 +79,9 @@ class ProductionDialogViewModel : ViewModel() {
 
         for (node in compoundNodes) {
             DatabaseHandler.getCompound(node.id)?.let { compound ->
+                //update each node available batches
                 val availableAmount = compound.availableAmount - node.concentration
-                //update nodes available batches
-                Log.d(
-                    "TAG", "compound availableAmount = ${compound.availableAmount}," +
-                        " availableAmount = $availableAmount" +
-                        " concentration = ${node.concentration}"
-                )
+
                 modifiedCompoundNodes.add(
                     node.copy(
                         available = availableAmount / node.concentration
@@ -100,12 +95,6 @@ class ProductionDialogViewModel : ViewModel() {
                     )
                 )
             }
-        }
-
-        modifiedCompoundNodes.forEach { node ->
-            Log.d(
-                "TAG", "node available = ${node.available}"
-            )
         }
 
         //update product with nodes updated available batches

@@ -169,9 +169,39 @@ class CompoundViewModel(
                 )
             )
 
+            updateCompoundProducts(compound, amount.toDouble())
+
             withContext(mainContext) {
                 navigateBack.invoke()
             }
+        }
+    }
+
+    private suspend fun updateCompoundProducts(compound: Compound, availableAmount: Double) {
+        if (compound.productNodes == null)
+            return
+
+        for (node in compound.productNodes) {
+            val availableBatches = availableAmount / node.concentration
+
+            val product = DatabaseHandler.getProduct(node.id)
+
+            val compoundNode =
+                product?.compoundNodes?.find { it.id == compound.id }
+                    ?.copy(available = availableBatches) ?: continue
+
+            val updatedCompoundNodes =
+                product.compoundNodes
+                    .filter { it.id != compound.id }
+                    .toMutableList()
+
+            updatedCompoundNodes.add(compoundNode)
+
+            DatabaseHandler.updateProduct(
+                product.copy(
+                    compoundNodes = updatedCompoundNodes
+                )
+            )
         }
     }
 
