@@ -22,8 +22,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pharmamanufacturer.core.UiDimensions
 import com.example.pharmamanufacturer.data.local.entities.Batch
 import com.example.pharmamanufacturer.data.local.entities.Product
@@ -54,7 +54,7 @@ fun ProductionDialog(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
-                val viewModel: ProductionDialogViewModel = viewModel()
+                val viewModel: ProductionDialogViewModel = hiltViewModel()
 
                 val viewState by viewModel.viewState.collectAsStateWithLifecycle()
 

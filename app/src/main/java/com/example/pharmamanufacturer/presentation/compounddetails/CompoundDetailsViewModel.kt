@@ -7,13 +7,17 @@ import com.example.pharmamanufacturer.core.Screen.Companion.COMPOUND_ID_KEY
 import com.example.pharmamanufacturer.data.local.database.DatabaseHandler
 import com.example.pharmamanufacturer.data.local.entities.Compound
 import com.example.pharmamanufacturer.data.local.entities.Product
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.getAndUpdate
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CompoundDetailsViewModel(
+@HiltViewModel
+class CompoundDetailsViewModel @Inject constructor(
+    private val db: DatabaseHandler,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val selectedCompoundId = savedStateHandle.get<Int>(COMPOUND_ID_KEY)
@@ -35,11 +39,11 @@ class CompoundDetailsViewModel(
 
         viewModelScope.launch {
             _compoundState.getAndUpdate {
-                val compound = DatabaseHandler.getCompound(selectedCompoundId)
+                val compound = db.getCompound(selectedCompoundId)
 
                 _productsState.getAndUpdate {
                     val productsIds = compound?.productNodes?.map { it.id } ?: listOf()
-                    DatabaseHandler.getProducts(productsIds)
+                    db.getProducts(productsIds)
                 }
 
                 compound

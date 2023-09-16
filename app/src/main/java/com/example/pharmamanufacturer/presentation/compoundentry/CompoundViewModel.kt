@@ -24,6 +24,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 class CompoundViewModel(
@@ -32,6 +33,9 @@ class CompoundViewModel(
     private val selectedId: Int?,
     private val navigateBack: () -> Unit
 ) : ViewModel() {
+
+    @Inject
+    lateinit var db: DatabaseHandler
 
     private val viewAction = Channel<CompoundAction>()
 
@@ -129,7 +133,7 @@ class CompoundViewModel(
                 suppliers = suppliers.toList(),
                 productNodes = listOf()
             )
-            DatabaseHandler.addCompound(compound)
+            db.addCompound(compound)
 
             withContext(mainContext) {
                 navigateBack.invoke()
@@ -157,11 +161,11 @@ class CompoundViewModel(
                 return@launch
             }
 
-            val compound = DatabaseHandler.getCompound(selectedId) ?: return@launch
+            val compound = db.getCompound(selectedId) ?: return@launch
 
             compound.suppliers?.let { suppliers.addAll(it) }
 
-            DatabaseHandler.updateCompound(
+            db.updateCompound(
                 compound = compound.copy(
                     name = name.capitalizeFirstChar(),
                     availableAmount = amount.toDouble(),
@@ -184,7 +188,7 @@ class CompoundViewModel(
         for (node in compound.productNodes) {
             val availableBatches = availableAmount / node.concentration
 
-            val product = DatabaseHandler.getProduct(node.id)
+            val product = db.getProduct(node.id)
 
             val compoundNode =
                 product?.compoundNodes?.find { it.id == compound.id }
@@ -197,7 +201,7 @@ class CompoundViewModel(
 
             updatedCompoundNodes.add(compoundNode)
 
-            DatabaseHandler.updateProduct(
+            db.updateProduct(
                 product.copy(
                     compoundNodes = updatedCompoundNodes
                 )

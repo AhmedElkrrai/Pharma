@@ -7,14 +7,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pharmamanufacturer.data.local.database.DatabaseHandler
 import com.example.pharmamanufacturer.data.local.entities.Product
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.getAndUpdate
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ProductsViewModel : ViewModel() {
+@HiltViewModel
+class ProductsViewModel @Inject constructor(
+    private val db: DatabaseHandler
+) : ViewModel() {
     var isDialogShown by mutableStateOf(false)
         private set
 
@@ -30,7 +35,7 @@ class ProductsViewModel : ViewModel() {
         }
 
     private suspend fun getAllProducts(): MutableList<Product> {
-        return DatabaseHandler.getAllProducts().toMutableList()
+        return db.getAllProducts().toMutableList()
     }
 
     fun showDialog() {

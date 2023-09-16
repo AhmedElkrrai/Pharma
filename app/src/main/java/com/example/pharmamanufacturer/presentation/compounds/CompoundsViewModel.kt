@@ -4,14 +4,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pharmamanufacturer.data.local.database.DatabaseHandler
 import com.example.pharmamanufacturer.data.local.entities.Compound
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.getAndUpdate
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CompoundsViewModel : ViewModel() {
+@HiltViewModel
+class CompoundsViewModel @Inject constructor(
+    private val db: DatabaseHandler
+) : ViewModel() {
 
     private val _compoundsState = MutableStateFlow(emptyList<Compound>())
     val compoundsState: StateFlow<List<Compound>>
@@ -25,6 +30,6 @@ class CompoundsViewModel : ViewModel() {
         }
 
     private suspend fun getAllCompounds(): MutableList<Compound> {
-        return DatabaseHandler.getAllCompounds().toMutableList()
+        return db.getAllCompounds().toMutableList()
     }
 }

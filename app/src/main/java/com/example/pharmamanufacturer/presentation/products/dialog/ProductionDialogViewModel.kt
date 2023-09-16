@@ -11,14 +11,19 @@ import com.example.pharmamanufacturer.data.local.entities.Product
 import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.TextFieldErrorEventState
 import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.TextFieldViewState
 import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.renderFieldTextViewState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ProductionDialogViewModel : ViewModel() {
+@HiltViewModel
+class ProductionDialogViewModel @Inject constructor(
+    private val db: DatabaseHandler
+) : ViewModel() {
 
     private val viewAction: Channel<ProductionDialogAction> = Channel()
 
@@ -71,14 +76,14 @@ class ProductionDialogViewModel : ViewModel() {
             return
         }
 
-        DatabaseHandler.insertBatch(batch)
+        db.insertBatch(batch)
 
         val compoundNodes = product.compoundNodes
 
         val modifiedCompoundNodes = mutableListOf<CompoundNode>()
 
         for (node in compoundNodes) {
-            DatabaseHandler.getCompound(node.id)?.let { compound ->
+            db.getCompound(node.id)?.let { compound ->
                 //update each node available batches
                 val availableAmount = compound.availableAmount - node.concentration
 
@@ -89,7 +94,7 @@ class ProductionDialogViewModel : ViewModel() {
                 )
 
                 //update each compound availableAmount
-                DatabaseHandler.updateCompound(
+                db.updateCompound(
                     compound = compound.copy(
                         availableAmount = availableAmount
                     )
@@ -98,7 +103,7 @@ class ProductionDialogViewModel : ViewModel() {
         }
 
         //update product with nodes updated available batches
-        DatabaseHandler.updateProduct(
+        db.updateProduct(
             product = product.copy(
                 compoundNodes = modifiedCompoundNodes
             )

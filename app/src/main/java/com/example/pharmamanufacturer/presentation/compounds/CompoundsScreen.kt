@@ -8,8 +8,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pharmamanufacturer.R
 import com.example.pharmamanufacturer.presentation.utilitycompose.BottomFloatingButton
 import com.example.pharmamanufacturer.presentation.utilitycompose.EmptyContentScreen
@@ -18,7 +18,7 @@ import com.example.pharmamanufacturer.presentation.utilitycompose.EmptyContentSc
 fun CompoundsScreen(
     listener: CompoundsScreenListenerImpl
 ) {
-    val viewModel: CompoundsViewModel = viewModel()
+    val viewModel: CompoundsViewModel = hiltViewModel()
     val compoundsState = viewModel.compoundsState.collectAsStateWithLifecycle()
 
     if (compoundsState.value.isNotEmpty()) {

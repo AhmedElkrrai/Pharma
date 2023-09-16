@@ -16,8 +16,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pharmamanufacturer.R
 import com.example.pharmamanufacturer.data.local.entities.Product
 import com.example.pharmamanufacturer.presentation.products.dialog.ProductionDialog
@@ -30,7 +30,7 @@ import com.example.pharmamanufacturer.presentation.utilitycompose.ProductItem
 fun ProductsScreen(
     listener: ProductsScreenListener
 ) {
-    val viewModel: ProductsViewModel = viewModel()
+    val viewModel: ProductsViewModel = hiltViewModel()
     val productsState = viewModel.productsState.collectAsStateWithLifecycle()
 
     var selectedProduct by remember { mutableStateOf<Product?>(null) }

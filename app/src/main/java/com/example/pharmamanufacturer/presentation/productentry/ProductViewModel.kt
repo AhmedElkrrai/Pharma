@@ -27,6 +27,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 class ProductViewModel(
@@ -35,6 +36,9 @@ class ProductViewModel(
     private val selectedId: Int?,
     private val navigateBack: () -> Unit
 ) : ViewModel() {
+
+    @Inject
+    lateinit var db: DatabaseHandler
 
     private val viewAction = Channel<ProductAction>()
 
@@ -133,11 +137,11 @@ class ProductViewModel(
                 compoundNodes = listOf()
             )
 
-            val productId = DatabaseHandler.addProduct(product)
+            val productId = db.addProduct(product)
 
             val compoundNodes = updateCompounds(productId.toInt())
 
-            DatabaseHandler.updateProduct(
+            db.updateProduct(
                 product = product.copy(
                     id = productId.toInt(),
                     compoundNodes = compoundNodes
@@ -163,13 +167,13 @@ class ProductViewModel(
                 return@launch
             }
 
-            val product = DatabaseHandler.getProduct(selectedId) ?: return@launch
+            val product = db.getProduct(selectedId) ?: return@launch
 
             val newNodes = updateCompounds(product.id ?: return@launch)
 
             val updatedNodes = product.compoundNodes + newNodes
 
-            DatabaseHandler.updateProduct(
+            db.updateProduct(
                 product = product.copy(
                     name = name.capitalizeFirstChar(),
                     compoundNodes = updatedNodes
@@ -208,8 +212,8 @@ class ProductViewModel(
         val productCompoundNodes = mutableListOf<CompoundNode>()
 
         compounds.forEach { enteredCompound ->
-            val compound = DatabaseHandler.getCompoundByName(
-                compoundName = enteredCompound.name
+            val compound = db.getCompoundByName(
+                name = enteredCompound.name
             )
 
             val newProductNode = ProductNode(
@@ -220,7 +224,7 @@ class ProductViewModel(
             if (compound == null) {
                 // new compound
                 val compoundId =
-                    DatabaseHandler.addCompound(
+                    db.addCompound(
                         enteredCompound.copy(
                             productNodes = listOf(newProductNode)
                         )
@@ -238,7 +242,7 @@ class ProductViewModel(
                 val productNodes = compound.productNodes?.toMutableList()
                 productNodes?.add(newProductNode)
 
-                DatabaseHandler.updateCompound(
+                db.updateCompound(
                     compound.copy(
                         productNodes = productNodes
                     )
@@ -316,8 +320,7 @@ class ProductViewModel(
     class Factory(
         private val navigateBack: () -> Unit,
         private val selectedId: Int? = null
-    ) :
-        ViewModelProvider.NewInstanceFactory() {
+    ) : ViewModelProvider.NewInstanceFactory() {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T =
             ProductViewModel(

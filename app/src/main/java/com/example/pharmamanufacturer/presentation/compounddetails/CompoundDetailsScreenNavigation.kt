@@ -1,14 +1,14 @@
 package com.example.pharmamanufacturer.presentation.compounddetails
 
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 
 @Composable
 fun CompoundDetailsScreenNavigation(navController: NavHostController) {
 
-    val viewModel: CompoundDetailsViewModel = viewModel()
+    val viewModel: CompoundDetailsViewModel = hiltViewModel()
 
     CompoundDetailsScreen(
         compoundState = viewModel.compoundState.collectAsStateWithLifecycle(),
