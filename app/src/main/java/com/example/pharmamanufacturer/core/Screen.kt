@@ -24,8 +24,6 @@ sealed class Screen(val route: String) {
         private const val ADD = "_add"
         private const val EDIT = "_edit"
         const val COMPOUND_ID_KEY = "compound_details_key"
-        const val EDIT_COMPOUND_KEY = "edit_compound_key"
-        const val EDIT_PRODUCT_KEY = "edit_product_key"
         const val PRODUCT_ID_KEY = "product_details_key"
         const val PRODUCTS_SCREEN_ROUTE = "products"
         const val COMPOUND_SCREEN_ROUTE = "compounds"

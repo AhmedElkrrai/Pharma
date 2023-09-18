@@ -2,6 +2,7 @@ package com.example.pharmamanufacturer.presentation.productentry
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -20,18 +21,11 @@ fun EditProductScreenNavigation(
         )
     }
 
-    val viewModel: ProductViewModel =
-        viewModel(
-            factory = ProductViewModel.Factory(
-                selectedId = selectedId,
-                navigateBack = navigateBack
-            )
-        )
-
+    val viewModel: ProductViewModel = hiltViewModel()
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
 
     ProductScreen(
         viewState = viewState,
-        listener = EditProductScreenListenerImpl(viewModel)
+        listener = EditProductScreenListenerImpl(viewModel, navigateBack)
     )
 }

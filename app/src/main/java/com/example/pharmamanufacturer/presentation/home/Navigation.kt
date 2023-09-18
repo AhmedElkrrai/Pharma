@@ -14,8 +14,6 @@ import com.example.pharmamanufacturer.presentation.compounds.CompoundsScreen
 import com.example.pharmamanufacturer.presentation.packaging.PackagingScreen
 import com.example.pharmamanufacturer.presentation.products.ProductsScreen
 import androidx.navigation.NavType
-import com.example.pharmamanufacturer.core.Screen.Companion.EDIT_COMPOUND_KEY
-import com.example.pharmamanufacturer.core.Screen.Companion.EDIT_PRODUCT_KEY
 import com.example.pharmamanufacturer.presentation.compoundentry.AddCompoundScreenNavigation
 import com.example.pharmamanufacturer.presentation.productentry.AddProductScreenNavigation
 import com.example.pharmamanufacturer.presentation.compounddetails.CompoundDetailsScreenNavigation
@@ -76,16 +74,16 @@ fun Navigation(navController: NavHostController) {
         }
 
         composable(
-            route = Screen.EditProductScreen.route + "/{$EDIT_PRODUCT_KEY}",
+            route = Screen.EditProductScreen.route + "/{$PRODUCT_ID_KEY}",
             arguments = listOf(
-                navArgument(EDIT_PRODUCT_KEY) {
+                navArgument(PRODUCT_ID_KEY) {
                     type = NavType.IntType
                     nullable = false
                 }
             )
         ) { entry ->
             EditProductScreenNavigation(
-                selectedId = entry.arguments?.getInt(EDIT_PRODUCT_KEY),
+                selectedId = entry.arguments?.getInt(PRODUCT_ID_KEY),
                 navController = navController
             )
         }
@@ -113,16 +111,16 @@ fun Navigation(navController: NavHostController) {
         }
 
         composable(
-            route = Screen.EditCompoundScreen.route + "/{$EDIT_COMPOUND_KEY}",
+            route = Screen.EditCompoundScreen.route + "/{$COMPOUND_ID_KEY}",
             arguments = listOf(
-                navArgument(EDIT_COMPOUND_KEY) {
+                navArgument(COMPOUND_ID_KEY) {
                     type = NavType.IntType
                     nullable = false
                 }
             )
         ) { entry ->
             EditCompoundScreenNavigation(
-                selectedId = entry.arguments?.getInt(EDIT_COMPOUND_KEY),
+                selectedId = entry.arguments?.getInt(COMPOUND_ID_KEY),
                 navController = navController
             )
         }

@@ -3,7 +3,10 @@ package com.example.pharmamanufacturer.presentation.compoundentry
 import com.example.pharmamanufacturer.presentation.compoundentry.action.CompoundAction
 import com.example.pharmamanufacturer.presentation.compoundentry.state.CompoundTextField
 
-class AddCompoundScreenListenerImpl(private val viewModel: CompoundViewModel) :
+class AddCompoundScreenListenerImpl(
+    private val viewModel: CompoundViewModel,
+    private val navigateBack: () -> Unit
+) :
     CompoundScreenListener {
     override fun exitErrorState(textField: CompoundTextField) {
         viewModel.sendAction(
@@ -22,6 +25,6 @@ class AddCompoundScreenListenerImpl(private val viewModel: CompoundViewModel) :
     }
 
     override fun addCompound() {
-        viewModel.sendAction(CompoundAction.INSERT)
+        viewModel.sendAction(CompoundAction.INSERT(navigateBack))
     }
 }

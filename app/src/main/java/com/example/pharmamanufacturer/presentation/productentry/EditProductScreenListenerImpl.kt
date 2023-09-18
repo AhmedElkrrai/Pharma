@@ -3,7 +3,10 @@ package com.example.pharmamanufacturer.presentation.productentry
 import com.example.pharmamanufacturer.presentation.productentry.action.ProductAction
 import com.example.pharmamanufacturer.presentation.productentry.state.ProductTextField
 
-class EditProductScreenListenerImpl(private val viewModel: ProductViewModel) :
+class EditProductScreenListenerImpl(
+    private val viewModel: ProductViewModel,
+    private val navigateBack: () -> Unit
+) :
     ProductScreenListener {
     override fun exitErrorState(textField: ProductTextField) {
         viewModel.sendAction(
@@ -22,6 +25,8 @@ class EditProductScreenListenerImpl(private val viewModel: ProductViewModel) :
     }
 
     override fun addProduct() {
-        viewModel.sendAction(ProductAction.UPDATE)
+        viewModel.sendAction(
+            ProductAction.UPDATE(navigateBack)
+        )
     }
 }

@@ -1,10 +1,13 @@
 package com.example.pharmamanufacturer.presentation.productentry
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.pharmamanufacturer.core.MINIMUM_PRODUCT_INGREDIENTS
+import com.example.pharmamanufacturer.core.Screen
 import com.example.pharmamanufacturer.core.capitalizeFirstChar
+import com.example.pharmamanufacturer.data.di.IOContext
+import com.example.pharmamanufacturer.data.di.MainContext
 import com.example.pharmamanufacturer.data.local.database.DatabaseHandler
 import com.example.pharmamanufacturer.data.local.entities.Compound
 import com.example.pharmamanufacturer.data.local.entities.CompoundNode
@@ -18,7 +21,7 @@ import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.Text
 import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.TextFieldErrorEventState
 import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.TextFieldEventState
 import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.TextFieldViewState
-import kotlinx.coroutines.Dispatchers
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,15 +33,15 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-class ProductViewModel(
-    private val ioContext: CoroutineContext = Dispatchers.IO,
-    private val mainContext: CoroutineContext = Dispatchers.Main,
-    private val selectedId: Int?,
-    private val navigateBack: () -> Unit
+@HiltViewModel
+class ProductViewModel @Inject constructor(
+    @IOContext private val ioContext: CoroutineContext,
+    @MainContext private val mainContext: CoroutineContext,
+    private val db: DatabaseHandler,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    @Inject
-    lateinit var db: DatabaseHandler
+    private val selectedId: Int? = savedStateHandle.get<Int>(Screen.PRODUCT_ID_KEY)
 
     private val viewAction = Channel<ProductAction>()
 
@@ -71,10 +74,10 @@ class ProductViewModel(
             viewAction.receiveAsFlow().collect { action ->
                 when (action) {
                     is ProductAction.INSERT ->
-                        addProduct()
+                        addProduct(action.navigateBack)
 
                     is ProductAction.UPDATE ->
-                        updateProduct()
+                        updateProduct(action.navigateBack)
 
                     is ProductAction.Compound ->
                         addCompound()
@@ -112,7 +115,7 @@ class ProductViewModel(
         }
     }
 
-    private fun addProduct() {
+    private fun addProduct(navigateBack: () -> Unit) {
         viewModelScope.launch(ioContext) {
             val name = viewState.value.name.input
 
@@ -154,7 +157,7 @@ class ProductViewModel(
         }
     }
 
-    private fun updateProduct() {
+    private fun updateProduct(navigateBack: () -> Unit) {
         if (selectedId == null) return
 
         viewModelScope.launch(ioContext) {
@@ -315,17 +318,5 @@ class ProductViewModel(
 
     private fun updateState(newState: (ProductScreenViewState) -> ProductScreenViewState) {
         _viewState.update { oldState -> newState(oldState) }
-    }
-
-    class Factory(
-        private val navigateBack: () -> Unit,
-        private val selectedId: Int? = null
-    ) : ViewModelProvider.NewInstanceFactory() {
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel> create(modelClass: Class<T>): T =
-            ProductViewModel(
-                navigateBack = navigateBack,
-                selectedId = selectedId
-            ) as T
     }
 }

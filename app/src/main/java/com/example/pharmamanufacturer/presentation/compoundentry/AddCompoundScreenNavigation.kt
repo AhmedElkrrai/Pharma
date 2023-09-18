@@ -2,8 +2,8 @@ package com.example.pharmamanufacturer.presentation.compoundentry
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.pharmamanufacturer.core.Screen
 import com.example.pharmamanufacturer.presentation.home.navigateToParent
@@ -17,17 +17,11 @@ fun AddCompoundScreenNavigation(navController: NavHostController) {
         )
     }
 
-    val viewModel: CompoundViewModel =
-        viewModel(
-            factory = CompoundViewModel.Factory(
-                navigateBack = navigateBack
-            )
-        )
-
+    val viewModel: CompoundViewModel = hiltViewModel()
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
 
     CompoundScreen(
         viewState = viewState,
-        listener = AddCompoundScreenListenerImpl(viewModel)
+        listener = AddCompoundScreenListenerImpl(viewModel, navigateBack)
     )
 }
