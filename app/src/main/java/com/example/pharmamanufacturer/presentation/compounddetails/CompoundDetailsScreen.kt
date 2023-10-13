@@ -31,7 +31,8 @@ fun CompoundDetailsScreen(
             onBackClick = { listener.navigateBack() },
             onEditClick = {
                 listener.onEditClick(
-                    compoundId = compoundState.value?.id.toString()
+                    compoundId = compoundState.value?.id.toString(),
+                    compoundName = compoundState.value?.name ?: ""
                 )
             }
         )

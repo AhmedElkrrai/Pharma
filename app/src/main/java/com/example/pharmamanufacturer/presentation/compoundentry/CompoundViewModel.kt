@@ -39,6 +39,7 @@ class CompoundViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val selectedId: Int? = savedStateHandle.get<Int>(Screen.COMPOUND_ID_KEY)
+    private val compoundName: String? = savedStateHandle.get<String>(Screen.COMPOUND_NAME_KEY)
 
     private val viewAction = Channel<CompoundAction>()
 
@@ -54,15 +55,20 @@ class CompoundViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            initViewData()
+            initNameTextField()
             processActions()
             processEvents()
         }
     }
 
-    private fun initViewData() {
-        viewModelScope.launch(mainContext) {
-            _viewState.value = CompoundScreenViewState.INIT
+    private fun initNameTextField() {
+        if (compoundName == null) return
+        updateState {
+            it.copy(
+                name = it.name.copy(
+                    input = compoundName
+                )
+            )
         }
     }
 

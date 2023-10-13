@@ -3,7 +3,7 @@ package com.example.pharmamanufacturer.presentation.products.dialog
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.pharmamanufacturer.core.PharmaApp
+import com.example.pharmamanufacturer.PharmaApp
 import com.example.pharmamanufacturer.data.local.database.DatabaseHandler
 import com.example.pharmamanufacturer.data.local.entities.Batch
 import com.example.pharmamanufacturer.data.local.entities.CompoundNode

@@ -60,11 +60,10 @@ fun ProductScreen(
                 viewState = viewState.name,
                 exitErrorState = {
                     listener.exitErrorState(ProductTextField.Name)
-                },
-                showInvalidInput = {
-                    listener.showInvalidInput(ProductTextField.Name)
                 }
-            )
+            ) {
+                listener.showInvalidInput(ProductTextField.Name)
+            }
         }
 
         Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
@@ -94,11 +93,10 @@ fun ProductScreen(
                 viewState = viewState.compoundName,
                 exitErrorState = {
                     listener.exitErrorState(ProductTextField.CompoundName)
-                },
-                showInvalidInput = {
-                    listener.showInvalidInput(ProductTextField.CompoundName)
                 }
-            )
+            ) {
+                listener.showInvalidInput(ProductTextField.CompoundName)
+            }
 
             viewState.concentration.input = styledTextField(
                 modifier = Modifier
@@ -109,11 +107,10 @@ fun ProductScreen(
                 viewState = viewState.concentration,
                 exitErrorState = {
                     listener.exitErrorState(ProductTextField.Concentration)
-                },
-                showInvalidInput = {
-                    listener.showInvalidInput(ProductTextField.Concentration)
                 }
-            )
+            ) {
+                listener.showInvalidInput(ProductTextField.Concentration)
+            }
         }
 
         Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))

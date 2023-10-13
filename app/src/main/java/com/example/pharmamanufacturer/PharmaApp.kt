@@ -1,4 +1,4 @@
-package com.example.pharmamanufacturer.core
+package com.example.pharmamanufacturer
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

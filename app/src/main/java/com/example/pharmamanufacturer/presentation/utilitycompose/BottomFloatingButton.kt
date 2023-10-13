@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import com.example.pharmamanufacturer.core.UiDimensions
 import com.example.pharmamanufacturer.presentation.theme.Blue
 
 @Composable
@@ -24,7 +25,7 @@ fun BottomFloatingButton(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(bottom = 2.dp),
+            .padding(bottom = UiDimensions.Large_Space),
         contentAlignment = Alignment.BottomCenter
     ) {
         FloatingActionButton(

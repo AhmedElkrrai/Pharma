@@ -28,7 +28,7 @@ fun styledTextField(
     exitErrorState: () -> Unit,
     showInvalidInput: () -> Unit
 ): String {
-    var input by remember { mutableStateOf("") }
+    var input by remember { mutableStateOf(viewState.input) }
     val focusManager = LocalFocusManager.current
 
     OutlinedTextField(

@@ -36,7 +36,7 @@ fun ProductItem(
     onItemClick: (() -> Unit)? = null
 ) {
     Card(
-        elevation = UiDimensions.Elevation,
+        elevation = UiDimensions.Medium_Space,
         shape = RectangleShape,
         modifier = modifier
             .border(

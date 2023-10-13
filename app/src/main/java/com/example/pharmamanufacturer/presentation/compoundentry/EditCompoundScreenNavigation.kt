@@ -11,6 +11,7 @@ import com.example.pharmamanufacturer.presentation.home.navigateToParent
 @Composable
 fun EditCompoundScreenNavigation(
     selectedId: Int?,
+    compoundName: String?,
     navController: NavHostController
 ) {
 

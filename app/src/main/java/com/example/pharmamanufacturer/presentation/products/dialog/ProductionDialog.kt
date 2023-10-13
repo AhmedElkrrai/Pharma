@@ -71,17 +71,16 @@ fun ProductionDialog(
                 viewState.input = styledTextField(
                     label = "Batch",
                     keyboardType = KeyboardType.Decimal,
-                    imeAction = ImeAction.Go,
                     viewState = viewState,
+                    imeAction = ImeAction.Go,
                     exitErrorState = {
                         viewModel.sendAction(
                             ProductionDialogAction.RetrieveInitialState
                         )
-                    },
-                    showInvalidInput = {
-                        ProductionDialogAction.INVALID
                     }
-                )
+                ) {
+                    ProductionDialogAction.INVALID
+                }
 
                 Box(
                     modifier = Modifier

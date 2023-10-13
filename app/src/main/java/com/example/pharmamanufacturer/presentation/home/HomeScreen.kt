@@ -12,47 +12,50 @@ import androidx.navigation.compose.rememberNavController
 import com.example.pharmamanufacturer.R
 import com.example.pharmamanufacturer.presentation.models.BottomNavItem
 import com.example.pharmamanufacturer.core.Screen
+import com.example.pharmamanufacturer.presentation.theme.PharmaTheme
 
 @Composable
 fun HomeScreen() {
-    val navController = rememberNavController()
-    Scaffold(
-        bottomBar = {
-            BottomNavigationBar(
-                items = listOf(
-                    BottomNavItem(
-                        name = stringResource(id = R.string.title_products),
-                        route = Screen.ProductsScreen.route,
-                        painter = painterResource(id = R.drawable.ic_health)
+    PharmaTheme(darkTheme = true) {
+        val navController = rememberNavController()
+        Scaffold(
+            bottomBar = {
+                BottomNavigationBar(
+                    items = listOf(
+                        BottomNavItem(
+                            name = stringResource(id = R.string.title_products),
+                            route = Screen.ProductsScreen.route,
+                            painter = painterResource(id = R.drawable.ic_health)
+                        ),
+                        BottomNavItem(
+                            name = stringResource(id = R.string.title_dashboard),
+                            route = Screen.DashboardScreen.route,
+                            painter = painterResource(id = R.drawable.ic_gears)
+                        ),
+                        BottomNavItem(
+                            name = stringResource(id = R.string.title_compounds),
+                            route = Screen.CompoundsScreen.route,
+                            painter = painterResource(id = R.drawable.ic_medicine),
+                        ),
+                        BottomNavItem(
+                            name = stringResource(id = R.string.title_packaging),
+                            route = Screen.PackagingScreen.route,
+                            painter = painterResource(id = R.drawable.ic_packaging),
+                        ),
                     ),
-                    BottomNavItem(
-                        name = stringResource(id = R.string.title_dashboard),
-                        route = Screen.DashboardScreen.route,
-                        painter = painterResource(id = R.drawable.ic_gears)
-                    ),
-                    BottomNavItem(
-                        name = stringResource(id = R.string.title_compounds),
-                        route = Screen.CompoundsScreen.route,
-                        painter = painterResource(id = R.drawable.ic_medicine),
-                    ),
-                    BottomNavItem(
-                        name = stringResource(id = R.string.title_packaging),
-                        route = Screen.PackagingScreen.route,
-                        painter = painterResource(id = R.drawable.ic_packaging),
-                    ),
-                ),
-                navController = navController,
-                onItemClick = {
-                    navController.navigate(it.route) {
-                        popUpTo(navController.graph.findStartDestination().id)
-                        launchSingleTop = true
+                    navController = navController,
+                    onItemClick = {
+                        navController.navigate(it.route) {
+                            popUpTo(navController.graph.findStartDestination().id)
+                            launchSingleTop = true
+                        }
                     }
-                }
-            )
-        }
-    ) {
-        Box(modifier = Modifier.padding(it)) {
-            Navigation(navController = navController)
+                )
+            }
+        ) {
+            Box(modifier = Modifier.padding(it)) {
+                Navigation(navController = navController)
+            }
         }
     }
 }
