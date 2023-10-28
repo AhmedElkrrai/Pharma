@@ -4,7 +4,10 @@ import androidx.navigation.NavHostController
 import com.example.pharmamanufacturer.core.Screen
 import com.example.pharmamanufacturer.presentation.home.navigateToParent
 
-class ProductDetailsScreenListenerImpl(private val navController: NavHostController) :
+class ProductDetailsScreenListenerImpl(
+    private val viewModel: ProductDetailsViewModel,
+    private val navController: NavHostController
+) :
     ProductDetailsScreenListener {
 
     override fun navigateBack() {
@@ -18,5 +21,9 @@ class ProductDetailsScreenListenerImpl(private val navController: NavHostControl
         navController.navigate(
             Screen.EditProductScreen.withArgs(productId)
         )
+    }
+
+    override fun onTabSelected(tab: ProductDetailsTab) {
+        viewModel.sendAction(ProductDetailsAction.SelectTab(tab))
     }
 }

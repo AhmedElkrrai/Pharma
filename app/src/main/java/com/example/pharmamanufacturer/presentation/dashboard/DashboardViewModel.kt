@@ -41,6 +41,6 @@ class DashboardViewModel @Inject constructor(
             }
         }
 
-        _batchesState.getAndUpdate { batchesState }
+        _batchesState.getAndUpdate { batchesState.asReversed() }
     }
 }

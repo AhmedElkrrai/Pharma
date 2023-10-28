@@ -13,6 +13,7 @@ fun ProductDetailsScreenNavigation(navController: NavHostController) {
     ProductDetailsScreen(
         productState = viewModel.productState.collectAsStateWithLifecycle(),
         compoundsState = viewModel.compoundsState.collectAsStateWithLifecycle(),
-        listener = ProductDetailsScreenListenerImpl(navController)
+        selectedTab = viewModel.selectedTab.collectAsStateWithLifecycle(),
+        listener = ProductDetailsScreenListenerImpl(viewModel, navController)
     )
 }
