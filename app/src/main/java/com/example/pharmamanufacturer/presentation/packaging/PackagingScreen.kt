@@ -10,7 +10,7 @@ import com.example.pharmamanufacturer.presentation.utilitycompose.EmptyContentSc
 fun PackagingScreen() {
     EmptyContentScreen(
         modifier = Modifier.fillMaxSize(),
-        message = "Please Start Production..",
+        message = "Please Add Packaging to Product(s)..",
         animationResource = R.raw.waiting
     )
 }

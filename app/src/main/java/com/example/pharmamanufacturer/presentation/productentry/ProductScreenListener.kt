@@ -7,4 +7,5 @@ interface ProductScreenListener {
     fun showInvalidInput(textField: ProductTextField)
     fun addCompound()
     fun addProduct()
+    fun addPackaging()
 }

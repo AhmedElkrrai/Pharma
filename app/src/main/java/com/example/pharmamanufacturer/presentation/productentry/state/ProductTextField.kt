@@ -4,7 +4,8 @@ import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.Text
 
 sealed interface ProductTextField : TextField {
     object Name : ProductTextField
-
     object CompoundName : ProductTextField
     object Concentration : ProductTextField
+    object PackagingType : ProductTextField
+    object PackagingAmount : ProductTextField
 }

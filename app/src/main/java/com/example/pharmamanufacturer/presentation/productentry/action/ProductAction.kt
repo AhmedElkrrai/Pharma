@@ -7,5 +7,6 @@ internal sealed interface ProductAction {
     data class UPDATE(val navigateBack: () -> Unit) : ProductAction
     data class KEYBOARD(val textField: ProductTextField) : ProductAction
     data class RetrieveInitialState(val textField: ProductTextField) : ProductAction
-    object Compound : ProductAction
+    object COMPOUND : ProductAction
+    object PACKAGING : ProductAction
 }

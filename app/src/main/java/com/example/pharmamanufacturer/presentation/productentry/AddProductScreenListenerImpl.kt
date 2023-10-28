@@ -22,12 +22,16 @@ class AddProductScreenListenerImpl(
     }
 
     override fun addCompound() {
-        viewModel.sendAction(ProductAction.Compound)
+        viewModel.sendAction(ProductAction.COMPOUND)
     }
 
     override fun addProduct() {
         viewModel.sendAction(
             ProductAction.INSERT(navigateBack)
         )
+    }
+
+    override fun addPackaging() {
+        viewModel.sendAction(ProductAction.PACKAGING)
     }
 }

@@ -73,14 +73,13 @@ class ProductViewModel @Inject constructor(
         viewModelScope.launch(ioContext) {
             viewAction.receiveAsFlow().collect { action ->
                 when (action) {
-                    is ProductAction.INSERT ->
-                        addProduct(action.navigateBack)
+                    is ProductAction.INSERT -> addProduct(action.navigateBack)
 
-                    is ProductAction.UPDATE ->
-                        updateProduct(action.navigateBack)
+                    is ProductAction.UPDATE -> updateProduct(action.navigateBack)
 
-                    is ProductAction.Compound ->
-                        addCompound()
+                    is ProductAction.COMPOUND -> addCompound()
+
+                    is ProductAction.PACKAGING -> addPackaging()
 
                     is ProductAction.KEYBOARD ->
                         renderTextFieldViewState(
@@ -127,9 +126,11 @@ class ProductViewModel @Inject constructor(
             }
 
             if (compounds.size < MINIMUM_PRODUCT_INGREDIENTS) {
-                checkCompoundEntry(
-                    compoundName = viewState.value.compoundName.input,
-                    concentration = viewState.value.concentration.input
+                checkEntry(
+                    title = viewState.value.compoundName.input,
+                    details = viewState.value.concentration.input,
+                    titleTextField = ProductTextField.CompoundName,
+                    detailsTextField = ProductTextField.Concentration
                 )
 
                 return@launch
@@ -193,9 +194,11 @@ class ProductViewModel @Inject constructor(
         val name = viewState.value.compoundName.input
         val concentration = viewState.value.concentration.input
 
-        val incompleteEntry = checkCompoundEntry(
-            compoundName = name,
-            concentration = concentration
+        val incompleteEntry = checkEntry(
+            title = name,
+            details = concentration,
+            titleTextField = ProductTextField.CompoundName,
+            detailsTextField = ProductTextField.Concentration
         )
 
         if (incompleteEntry) return
@@ -221,7 +224,7 @@ class ProductViewModel @Inject constructor(
 
             val newProductNode = ProductNode(
                 id = productId,
-                concentration = enteredCompound.availableAmount
+                neededAmount = enteredCompound.availableAmount
             )
 
             if (compound == null) {
@@ -266,23 +269,43 @@ class ProductViewModel @Inject constructor(
         return productCompoundNodes
     }
 
-    private suspend fun checkCompoundEntry(
-        compoundName: String,
-        concentration: String
+    private suspend fun addPackaging() {
+        val name = viewState.value.packagingType.input
+        val concentration = viewState.value.packagingAmount.input
+
+        val incompleteEntry = checkEntry(
+            title = name,
+            details = concentration,
+            titleTextField = ProductTextField.PackagingType,
+            detailsTextField = ProductTextField.PackagingAmount
+        )
+
+        if (incompleteEntry) return
+
+        //TODO: Add Packaging entity to DB
+
+        _events.send(TextFieldEventState.ClearSubInputs)
+    }
+
+    private suspend fun checkEntry(
+        title: String,
+        details: String,
+        titleTextField: ProductTextField,
+        detailsTextField: ProductTextField
     ): Boolean {
-        if (compoundName.isBlank()) {
+        if (title.isBlank()) {
             _events.send(
-                TextFieldEventState.InvalidInput(ProductTextField.CompoundName)
+                TextFieldEventState.InvalidInput(titleTextField)
             )
         }
 
-        if (concentration.isBlank()) {
+        if (details.isBlank()) {
             _events.send(
-                TextFieldEventState.InvalidInput(ProductTextField.Concentration)
+                TextFieldEventState.InvalidInput(detailsTextField)
             )
         }
 
-        return compoundName.isBlank() || concentration.isBlank()
+        return title.isBlank() || details.isBlank()
     }
 
     private fun clearCompoundInputs() {

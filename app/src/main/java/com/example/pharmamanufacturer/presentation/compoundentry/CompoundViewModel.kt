@@ -195,7 +195,7 @@ class CompoundViewModel @Inject constructor(
             return
 
         for (node in compound.productNodes) {
-            val availableBatches = availableAmount / node.concentration
+            val availableBatches = availableAmount / node.neededAmount
 
             val product = db.getProduct(node.id)
 

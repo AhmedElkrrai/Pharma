@@ -38,7 +38,7 @@ data class Compound(
         }
 
     private fun getAvailableBatches(): Double {
-        return productNodes?.minOfOrNull { availableAmount / it.concentration } ?: 0.0
+        return productNodes?.minOfOrNull { availableAmount / it.neededAmount } ?: 0.0
     }
 
     companion object {

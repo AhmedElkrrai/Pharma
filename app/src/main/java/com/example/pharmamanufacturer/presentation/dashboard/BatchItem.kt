@@ -20,7 +20,7 @@ fun BatchItem(
     batch: BatchViewState
 ) {
     Card(
-        elevation = UiDimensions.Elevation,
+        elevation = UiDimensions.Extra_Small,
         shape = RoundedCornerShape(20.dp),
         modifier = modifier.padding(10.dp)
     ) {

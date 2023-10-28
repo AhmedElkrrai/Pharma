@@ -36,6 +36,24 @@ fun ProductScreenViewState.renderViewState(
             )
         }
 
+        ProductTextField.PackagingType -> {
+            this.copy(
+                packagingType = renderFieldTextViewState(
+                    this.packagingType,
+                    errorState
+                )
+            )
+        }
+
+        ProductTextField.PackagingAmount -> {
+            this.copy(
+                packagingAmount = renderFieldTextViewState(
+                    this.packagingAmount,
+                    errorState
+                )
+            )
+        }
+
         else -> this
     }
 }

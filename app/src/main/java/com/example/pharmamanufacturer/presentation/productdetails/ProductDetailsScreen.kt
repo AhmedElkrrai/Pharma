@@ -24,7 +24,6 @@ import com.example.pharmamanufacturer.data.local.entities.Product
 import com.example.pharmamanufacturer.presentation.theme.Green
 import com.example.pharmamanufacturer.presentation.theme.Orange
 import com.example.pharmamanufacturer.presentation.theme.Red
-import com.example.pharmamanufacturer.presentation.utilitycompose.CenteredTitle
 import com.example.pharmamanufacturer.presentation.utilitycompose.DetailsRow
 import com.example.pharmamanufacturer.presentation.utilitycompose.RectangleCard
 import com.example.pharmamanufacturer.presentation.utilitycompose.TopBar
