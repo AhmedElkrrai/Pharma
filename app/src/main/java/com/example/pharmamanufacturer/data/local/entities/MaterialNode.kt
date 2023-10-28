@@ -1,7 +1,7 @@
 package com.example.pharmamanufacturer.data.local.entities
 
-data class CompoundNode(
+data class MaterialNode(
     val id: Int,
-    val concentration: Double,
+    val neededAmount: Double,
     val available: Double? = null
 )

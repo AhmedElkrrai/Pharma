@@ -5,15 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pharmamanufacturer.core.Screen
 import com.example.pharmamanufacturer.data.di.IOContext
-import com.example.pharmamanufacturer.data.di.MainContext
 import com.example.pharmamanufacturer.data.local.database.DatabaseHandler
-import com.example.pharmamanufacturer.data.local.entities.Compound
-import com.example.pharmamanufacturer.data.local.entities.Product
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.getAndUpdate
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
@@ -27,46 +23,38 @@ class ProductDetailsViewModel @Inject constructor(
     @IOContext private val ioContext: CoroutineContext
 ) : ViewModel() {
 
+    private val _viewState: MutableStateFlow<ProductDetailsViewState> =
+        MutableStateFlow(ProductDetailsViewState.INIT)
+    val viewState: StateFlow<ProductDetailsViewState>
+        get() = _viewState
+
     private val selectedProductId = savedStateHandle.get<Int>(Screen.PRODUCT_ID_KEY)
 
     private val viewAction = Channel<ProductDetailsAction>()
 
-    private var _productState: MutableStateFlow<Product?> = MutableStateFlow(null)
-    val productState: StateFlow<Product?>
-        get() = _productState.asStateFlow()
-
-    private var _compoundsState: MutableStateFlow<List<Compound>> = MutableStateFlow(listOf())
-    val compoundsState: StateFlow<List<Compound>>
-        get() = _compoundsState.asStateFlow()
-
-    //TODO: assign and initialize packagingState
-
-    private var _selectedTab: MutableStateFlow<ProductDetailsTab> =
-        MutableStateFlow(ProductDetailsTab.COMPOUNDS)
-
-    val selectedTab: StateFlow<ProductDetailsTab>
-        get() = _selectedTab.asStateFlow()
-
     init {
         viewModelScope.launch {
-            initStates()
+            initViewState()
             processActions()
         }
     }
 
-    private fun initStates() {
+    private fun initViewState() {
         if (selectedProductId == null) return
 
         viewModelScope.launch(ioContext) {
-            _productState.getAndUpdate {
-                val product = db.getProduct(selectedProductId)
+            val product = db.getProduct(selectedProductId)
+            val compoundsIds = product?.compoundNodes?.map { it.id } ?: listOf()
+            val packagingListIds = product?.packagingNodes?.map { it.id } ?: listOf()
+            val compounds = db.getCompounds(compoundsIds)
+            val packagingList = db.getPackagingListByIds(packagingListIds)
 
-                _compoundsState.getAndUpdate {
-                    val compoundsIds = product?.compoundNodes?.map { it.id } ?: listOf()
-                    db.getCompounds(compoundsIds)
-                }
-
-                product
+            _viewState.getAndUpdate {
+                it.copy(
+                    product = product,
+                    compounds = compounds,
+                    packagingList = packagingList
+                )
             }
         }
     }
@@ -82,7 +70,9 @@ class ProductDetailsViewModel @Inject constructor(
     }
 
     private fun selectTab(tab: ProductDetailsTab) {
-        _selectedTab.getAndUpdate { tab }
+        _viewState.getAndUpdate {
+            it.copy(selectedTab = tab)
+        }
     }
 
     internal fun sendAction(action: ProductDetailsAction) {

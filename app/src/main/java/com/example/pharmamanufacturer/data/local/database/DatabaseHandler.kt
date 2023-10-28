@@ -2,9 +2,11 @@ package com.example.pharmamanufacturer.data.local.database
 
 import com.example.pharmamanufacturer.data.local.daos.BatchesDao
 import com.example.pharmamanufacturer.data.local.daos.CompoundsDao
+import com.example.pharmamanufacturer.data.local.daos.PackagingDao
 import com.example.pharmamanufacturer.data.local.daos.ProductsDao
 import com.example.pharmamanufacturer.data.local.entities.Batch
 import com.example.pharmamanufacturer.data.local.entities.Compound
+import com.example.pharmamanufacturer.data.local.entities.Packaging
 import com.example.pharmamanufacturer.data.local.entities.Product
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -16,6 +18,7 @@ class DatabaseHandler @Inject constructor(
     private val batchesDao: BatchesDao,
     private val productsDao: ProductsDao,
     private val compoundsDao: CompoundsDao,
+    private val packagingDao: PackagingDao
 ) {
 
     suspend fun insertBatch(batch: Batch): Long {
@@ -27,6 +30,36 @@ class DatabaseHandler @Inject constructor(
     suspend fun getAllBatches(): List<Batch> {
         return withContext(Dispatchers.IO) {
             batchesDao.getAllBatches()
+        }
+    }
+
+    suspend fun getPackagingList(): List<Packaging> {
+        return withContext(Dispatchers.IO) {
+            packagingDao.getPackagingList()
+        }
+    }
+
+    suspend fun getPackagingListByIds(ids: List<Int>): List<Packaging> {
+        return withContext(Dispatchers.IO) {
+            packagingDao.getPackagingListByIds(ids)
+        }
+    }
+
+    suspend fun getPackagingByType(type: String): Packaging? {
+        return withContext(Dispatchers.IO) {
+            packagingDao.getPackagingByType(type)
+        }
+    }
+
+    suspend fun addPackaging(packaging: Packaging): Long {
+        return withContext(Dispatchers.IO) {
+            packagingDao.insert(packaging)
+        }
+    }
+
+    suspend fun updatePackaging(packaging: Packaging) {
+        withContext(Dispatchers.IO) {
+            packagingDao.update(packaging)
         }
     }
 

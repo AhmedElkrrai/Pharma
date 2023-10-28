@@ -105,9 +105,6 @@ class CompoundViewModel @Inject constructor(
         viewModelScope.launch(mainContext) {
             events.collect { event ->
                 when (event) {
-                    is TextFieldEventState.ClearSubInputs ->
-                        clearSupplierInputs()
-
                     is TextFieldEventState.InvalidInput ->
                         renderTextFieldViewState(
                             event.textField,
@@ -242,7 +239,7 @@ class CompoundViewModel @Inject constructor(
         )
         suppliers.add(supplier)
 
-        _events.send(TextFieldEventState.ClearSubInputs)
+        clearSupplierInputs()
     }
 
     private fun clearSupplierInputs() {

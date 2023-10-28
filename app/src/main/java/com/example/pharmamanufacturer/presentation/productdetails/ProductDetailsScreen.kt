@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,8 +18,6 @@ import androidx.compose.ui.res.stringResource
 import com.example.pharmamanufacturer.R
 import com.example.pharmamanufacturer.core.MINIMUM_PRODUCT_BATCHES
 import com.example.pharmamanufacturer.core.UiDimensions
-import com.example.pharmamanufacturer.data.local.entities.Compound
-import com.example.pharmamanufacturer.data.local.entities.Product
 import com.example.pharmamanufacturer.presentation.theme.Green
 import com.example.pharmamanufacturer.presentation.theme.Orange
 import com.example.pharmamanufacturer.presentation.theme.Red
@@ -30,26 +27,24 @@ import com.example.pharmamanufacturer.presentation.utilitycompose.TopBar
 
 @Composable
 fun ProductDetailsScreen(
-    productState: State<Product?>,
-    compoundsState: State<List<Compound>>,
-    selectedTab: State<ProductDetailsTab>,
+    viewState: ProductDetailsViewState,
     listener: ProductDetailsScreenListener
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         TopBar(
-            name = productState.value?.name ?: return,
+            name = viewState.product?.name ?: return,
             modifier = Modifier.fillMaxWidth(),
             onBackClick = { listener.navigateBack() },
             onEditClick = {
                 listener.onEditClick(
-                    productState.value?.id.toString()
+                    viewState.product.id.toString()
                 )
             }
         )
 
         Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
-        val availableBatches = productState.value?.getAvailableBatches() ?: 0.0
+        val availableBatches = viewState.product.getAvailableBatches()
         val unit = if (availableBatches >= 2) " Batches" else " Batch"
         val detailsColor = if (availableBatches < MINIMUM_PRODUCT_BATCHES) Red else Green
 
@@ -71,7 +66,7 @@ fun ProductDetailsScreen(
             RectangleCard(
                 title = stringResource(id = R.string.title_compounds),
                 titleColor =
-                if (selectedTab.value == ProductDetailsTab.COMPOUNDS)
+                if (viewState.selectedTab == ProductDetailsTab.COMPOUNDS)
                     Orange
                 else Color.DarkGray,
                 onItemClick = {
@@ -82,7 +77,7 @@ fun ProductDetailsScreen(
             RectangleCard(
                 title = stringResource(id = R.string.title_packaging),
                 titleColor =
-                if (selectedTab.value == ProductDetailsTab.PACKAGING)
+                if (viewState.selectedTab == ProductDetailsTab.PACKAGING)
                     Orange
                 else Color.DarkGray,
                 onItemClick = {
@@ -93,26 +88,36 @@ fun ProductDetailsScreen(
 
         Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
-        if (selectedTab.value == ProductDetailsTab.COMPOUNDS) {
+        if (viewState.selectedTab == ProductDetailsTab.COMPOUNDS) {
             LazyColumn {
-                items(compoundsState.value) { compound ->
-                    productState.value?.let { product ->
-                        val concentration =
-                            product.compoundNodes.find { it.id == compound.id }?.concentration
-                                ?: 0.0
+                items(viewState.compounds) { compound ->
+                    val concentration =
+                        viewState.product.compoundNodes
+                            .find { it.id == compound.id }?.neededAmount ?: 0.0
 
-                        ProductCompoundItem(
-                            name = compound.name,
-                            availableAmount = compound.availableAmount,
-                            concentration = concentration
-                        )
-                    }
+                    ProductCompoundItem(
+                        name = compound.name,
+                        availableAmount = compound.availableAmount,
+                        neededAmount = concentration
+                    )
                 }
             }
         }
 
-        if (selectedTab.value == ProductDetailsTab.PACKAGING) {
-            //TODO show list of related packaging
+        if (viewState.selectedTab == ProductDetailsTab.PACKAGING) {
+            LazyColumn {
+                items(viewState.packagingList) { packaging ->
+                    val neededAmount =
+                        viewState.product.packagingNodes
+                            .find { it.id == packaging.id }?.neededAmount ?: 0.0
+
+                    ProductCompoundItem(
+                        name = packaging.type,
+                        availableAmount = packaging.availableAmount,
+                        neededAmount = neededAmount
+                    )
+                }
+            }
         }
     }
 }

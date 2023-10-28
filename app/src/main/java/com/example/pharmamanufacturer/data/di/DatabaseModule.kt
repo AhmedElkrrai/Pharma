@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.example.pharmamanufacturer.data.local.daos.BatchesDao
 import com.example.pharmamanufacturer.data.local.daos.CompoundsDao
+import com.example.pharmamanufacturer.data.local.daos.PackagingDao
 import com.example.pharmamanufacturer.data.local.daos.ProductsDao
 import com.example.pharmamanufacturer.data.local.database.DatabaseHandler
 import com.example.pharmamanufacturer.data.local.database.PharmaDatabase
@@ -54,15 +55,24 @@ object DatabaseModule {
     }
 
     @Provides
+    fun providePackagingDao(
+        db: PharmaDatabase
+    ): PackagingDao {
+        return db.packagingDao()
+    }
+
+    @Provides
     fun provideDatabaseHandler(
         batchesDao: BatchesDao,
         productsDao: ProductsDao,
-        compoundsDao: CompoundsDao
+        compoundsDao: CompoundsDao,
+        packagingDao: PackagingDao
     ): DatabaseHandler {
         return DatabaseHandler(
             batchesDao,
             productsDao,
-            compoundsDao
+            compoundsDao,
+            packagingDao
         )
     }
 }

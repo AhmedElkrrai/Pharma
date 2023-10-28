@@ -31,7 +31,7 @@ fun ProductCompoundItem(
     modifier: Modifier = Modifier,
     name: String,
     availableAmount: Double,
-    concentration: Double
+    neededAmount: Double
 ) {
     Card(
         elevation = UiDimensions.Extra_Small,
@@ -57,12 +57,12 @@ fun ProductCompoundItem(
 
             DetailsRow(
                 title = "Concentration:",
-                details = concentration.toString()
+                details = neededAmount.toString()
             )
 
             Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
-            availableBatches = (availableAmount / concentration).round()
+            availableBatches = (availableAmount / neededAmount).round()
             val unit = if (availableBatches >= 2) " Batches" else " Batch"
             val detailsColor = if (availableBatches < MINIMUM_PRODUCT_BATCHES) Red else Green
 

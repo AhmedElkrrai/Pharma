@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.pharmamanufacturer.PharmaApp
 import com.example.pharmamanufacturer.data.local.database.DatabaseHandler
 import com.example.pharmamanufacturer.data.local.entities.Batch
-import com.example.pharmamanufacturer.data.local.entities.CompoundNode
+import com.example.pharmamanufacturer.data.local.entities.MaterialNode
 import com.example.pharmamanufacturer.data.local.entities.Product
 import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.TextFieldErrorEventState
 import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.TextFieldViewState
@@ -80,16 +80,16 @@ class ProductionDialogViewModel @Inject constructor(
 
         val compoundNodes = product.compoundNodes
 
-        val modifiedCompoundNodes = mutableListOf<CompoundNode>()
+        val modifiedMaterialNodes = mutableListOf<MaterialNode>()
 
         for (node in compoundNodes) {
             db.getCompound(node.id)?.let { compound ->
                 //update each node available batches
-                val availableAmount = compound.availableAmount - node.concentration
+                val availableAmount = compound.availableAmount - node.neededAmount
 
-                modifiedCompoundNodes.add(
+                modifiedMaterialNodes.add(
                     node.copy(
-                        available = availableAmount / node.concentration
+                        available = availableAmount / node.neededAmount
                     )
                 )
 
@@ -105,7 +105,7 @@ class ProductionDialogViewModel @Inject constructor(
         //update product with nodes updated available batches
         db.updateProduct(
             product = product.copy(
-                compoundNodes = modifiedCompoundNodes
+                compoundNodes = modifiedMaterialNodes
             )
         )
 

@@ -18,7 +18,10 @@ data class Product(
     val name: String,
 
     @ColumnInfo(name = COL_COMPOUND_NODES)
-    val compoundNodes: List<CompoundNode>
+    val compoundNodes: List<MaterialNode>,
+
+    @ColumnInfo(name = COL_PACKAGING_NODES)
+    val packagingNodes: List<MaterialNode>
 
 ) {
     override fun toString(): String {
@@ -44,5 +47,6 @@ data class Product(
         const val COL_PRODUCT_ID = "id"
         const val COL_PRODUCT_NAME = "product_name"
         const val COL_COMPOUND_NODES = "compound_nodes"
+        const val COL_PACKAGING_NODES = "packaging_nodes"
     }
 }

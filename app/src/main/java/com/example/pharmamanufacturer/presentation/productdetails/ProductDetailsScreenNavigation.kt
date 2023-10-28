@@ -1,6 +1,7 @@
 package com.example.pharmamanufacturer.presentation.productdetails
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -9,11 +10,10 @@ import androidx.navigation.NavHostController
 fun ProductDetailsScreenNavigation(navController: NavHostController) {
 
     val viewModel: ProductDetailsViewModel = hiltViewModel()
+    val viewState by viewModel.viewState.collectAsStateWithLifecycle()
 
     ProductDetailsScreen(
-        productState = viewModel.productState.collectAsStateWithLifecycle(),
-        compoundsState = viewModel.compoundsState.collectAsStateWithLifecycle(),
-        selectedTab = viewModel.selectedTab.collectAsStateWithLifecycle(),
+        viewState = viewState,
         listener = ProductDetailsScreenListenerImpl(viewModel, navController)
     )
 }

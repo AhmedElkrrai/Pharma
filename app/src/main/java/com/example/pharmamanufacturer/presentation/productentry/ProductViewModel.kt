@@ -10,7 +10,8 @@ import com.example.pharmamanufacturer.data.di.IOContext
 import com.example.pharmamanufacturer.data.di.MainContext
 import com.example.pharmamanufacturer.data.local.database.DatabaseHandler
 import com.example.pharmamanufacturer.data.local.entities.Compound
-import com.example.pharmamanufacturer.data.local.entities.CompoundNode
+import com.example.pharmamanufacturer.data.local.entities.MaterialNode
+import com.example.pharmamanufacturer.data.local.entities.Packaging
 import com.example.pharmamanufacturer.data.local.entities.Product
 import com.example.pharmamanufacturer.data.local.entities.ProductNode
 import com.example.pharmamanufacturer.presentation.productentry.action.ProductAction
@@ -54,6 +55,7 @@ class ProductViewModel @Inject constructor(
         get() = _events.receiveAsFlow()
 
     private val compounds = mutableListOf<Compound>()
+    private val packagingMutableList = mutableListOf<Packaging>()
 
     init {
         viewModelScope.launch {
@@ -101,9 +103,6 @@ class ProductViewModel @Inject constructor(
         viewModelScope.launch(mainContext) {
             events.collect { event ->
                 when (event) {
-                    is TextFieldEventState.ClearSubInputs ->
-                        clearCompoundInputs()
-
                     is TextFieldEventState.InvalidInput ->
                         renderTextFieldViewState(
                             event.textField,
@@ -138,17 +137,20 @@ class ProductViewModel @Inject constructor(
 
             val product = Product(
                 name = name.capitalizeFirstChar(),
-                compoundNodes = listOf()
+                compoundNodes = listOf(),
+                packagingNodes = listOf()
             )
 
             val productId = db.addProduct(product)
 
             val compoundNodes = updateCompounds(productId.toInt())
+            val packagingListNodes = updatePackagingList(productId.toInt())
 
             db.updateProduct(
                 product = product.copy(
                     id = productId.toInt(),
-                    compoundNodes = compoundNodes
+                    compoundNodes = compoundNodes,
+                    packagingNodes = packagingListNodes
                 )
             )
 
@@ -173,14 +175,17 @@ class ProductViewModel @Inject constructor(
 
             val product = db.getProduct(selectedId) ?: return@launch
 
-            val newNodes = updateCompounds(product.id ?: return@launch)
+            val newCompoundNodes = updateCompounds(product.id ?: return@launch)
+            val updatedCompoundNodes = product.compoundNodes + newCompoundNodes
 
-            val updatedNodes = product.compoundNodes + newNodes
+            val newPackagingNodes = updatePackagingList(product.id)
+            val updatedPackagingNodes = product.packagingNodes + newPackagingNodes
 
             db.updateProduct(
                 product = product.copy(
                     name = name.capitalizeFirstChar(),
-                    compoundNodes = updatedNodes
+                    compoundNodes = updatedCompoundNodes,
+                    packagingNodes = updatedPackagingNodes
                 )
             )
 
@@ -211,11 +216,11 @@ class ProductViewModel @Inject constructor(
             )
         compounds.add(compound)
 
-        _events.send(TextFieldEventState.ClearSubInputs)
+        clearCompoundInputs()
     }
 
-    private suspend fun updateCompounds(productId: Int): List<CompoundNode> {
-        val productCompoundNodes = mutableListOf<CompoundNode>()
+    private suspend fun updateCompounds(productId: Int): List<MaterialNode> {
+        val compoundNodes = mutableListOf<MaterialNode>()
 
         compounds.forEach { enteredCompound ->
             val compound = db.getCompoundByName(
@@ -236,10 +241,10 @@ class ProductViewModel @Inject constructor(
                         )
                     )
 
-                productCompoundNodes.add(
-                    CompoundNode(
+                compoundNodes.add(
+                    MaterialNode(
                         id = compoundId.toInt(),
-                        concentration = enteredCompound.availableAmount,
+                        neededAmount = enteredCompound.availableAmount,
                         available = 1.0
                     )
                 )
@@ -255,10 +260,10 @@ class ProductViewModel @Inject constructor(
                 )
 
                 compound.id?.let { id ->
-                    productCompoundNodes.add(
-                        CompoundNode(
+                    compoundNodes.add(
+                        MaterialNode(
                             id = id,
-                            concentration = enteredCompound.availableAmount,
+                            neededAmount = enteredCompound.availableAmount,
                             available = compound.availableAmount / enteredCompound.availableAmount
                         )
                     )
@@ -266,25 +271,86 @@ class ProductViewModel @Inject constructor(
             }
         }
 
-        return productCompoundNodes
+        return compoundNodes
+    }
+
+    private suspend fun updatePackagingList(productId: Int): List<MaterialNode> {
+        val packagingListNodes = mutableListOf<MaterialNode>()
+
+        packagingMutableList.forEach { enteredPackaging ->
+            val packaging = db.getPackagingByType(
+                type = enteredPackaging.type
+            )
+
+            val newProductNode = ProductNode(
+                id = productId,
+                neededAmount = enteredPackaging.availableAmount
+            )
+
+            if (packaging == null) {
+                // new packaging
+                val packagingId =
+                    db.addPackaging(
+                        enteredPackaging.copy(
+                            productNodes = listOf(newProductNode)
+                        )
+                    )
+
+                packagingListNodes.add(
+                    MaterialNode(
+                        id = packagingId.toInt(),
+                        neededAmount = enteredPackaging.availableAmount,
+                        available = 1.0
+                    )
+                )
+            } else {
+                // packaging already exist
+                val productNodes = packaging.productNodes?.toMutableList()
+                productNodes?.add(newProductNode)
+
+                db.updatePackaging(
+                    packaging.copy(
+                        productNodes = productNodes
+                    )
+                )
+
+                packaging.id?.let { id ->
+                    packagingListNodes.add(
+                        MaterialNode(
+                            id = id,
+                            neededAmount = enteredPackaging.availableAmount,
+                            available = packaging.availableAmount / enteredPackaging.availableAmount
+                        )
+                    )
+                }
+            }
+        }
+
+        return packagingListNodes
     }
 
     private suspend fun addPackaging() {
-        val name = viewState.value.packagingType.input
-        val concentration = viewState.value.packagingAmount.input
+        val type = viewState.value.packagingType.input
+        val neededAmount = viewState.value.packagingAmount.input
 
         val incompleteEntry = checkEntry(
-            title = name,
-            details = concentration,
+            title = type,
+            details = neededAmount,
             titleTextField = ProductTextField.PackagingType,
             detailsTextField = ProductTextField.PackagingAmount
         )
 
         if (incompleteEntry) return
 
-        //TODO: Add Packaging entity to DB
+        val packaging =
+            Packaging(
+                type = type.capitalizeFirstChar(),
+                availableAmount = neededAmount.toDouble(),
+                productNodes = listOf()
+            )
+        packagingMutableList.add(packaging)
 
-        _events.send(TextFieldEventState.ClearSubInputs)
+        clearPackagingInputs()
     }
 
     private suspend fun checkEntry(
@@ -315,6 +381,19 @@ class ProductViewModel @Inject constructor(
                     input = TextFieldViewState.CLEARED_FIELD
                 ),
                 concentration = it.concentration.copy(
+                    input = TextFieldViewState.CLEARED_FIELD
+                )
+            )
+        }
+    }
+
+    private fun clearPackagingInputs() {
+        updateState {
+            it.copy(
+                packagingType = it.packagingType.copy(
+                    input = TextFieldViewState.CLEARED_FIELD
+                ),
+                packagingAmount = it.packagingAmount.copy(
                     input = TextFieldViewState.CLEARED_FIELD
                 )
             )

@@ -48,7 +48,7 @@ fun ProductsSection(
                             .fillMaxWidth()
                             .padding(12.dp),
                         title = product.name,
-                        lowStock = (compound.availableAmount / it.concentration) < MINIMUM_PRODUCT_BATCHES
+                        lowStock = (compound.availableAmount / it.neededAmount) < MINIMUM_PRODUCT_BATCHES
                     )
                 }
             }
