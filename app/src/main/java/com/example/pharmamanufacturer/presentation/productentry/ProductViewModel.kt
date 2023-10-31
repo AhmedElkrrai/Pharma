@@ -1,5 +1,6 @@
 package com.example.pharmamanufacturer.presentation.productentry
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -27,6 +28,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.getAndUpdate
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -43,6 +45,7 @@ class ProductViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val selectedId: Int? = savedStateHandle.get<Int>(Screen.PRODUCT_ID_KEY)
+    private val productName: String? = savedStateHandle.get<String>(Screen.PRODUCT_NAME_KEY)
 
     private val viewAction = Channel<ProductAction>()
 
@@ -66,8 +69,14 @@ class ProductViewModel @Inject constructor(
     }
 
     private fun initViewData() {
-        viewModelScope.launch(mainContext) {
-            _viewState.value = ProductScreenViewState.INIT
+        if (productName != null) {
+            updateState {
+                it.copy(
+                    name = it.name.copy(
+                        input = productName
+                    )
+                )
+            }
         }
     }
 
@@ -130,6 +139,17 @@ class ProductViewModel @Inject constructor(
                     details = viewState.value.concentration.input,
                     titleTextField = ProductTextField.CompoundName,
                     detailsTextField = ProductTextField.Concentration
+                )
+
+                return@launch
+            }
+
+            if (packagingMutableList.size < 1) {
+                checkEntry(
+                    title = viewState.value.packagingType.input,
+                    details = viewState.value.packagingAmount.input,
+                    titleTextField = ProductTextField.PackagingType,
+                    detailsTextField = ProductTextField.PackagingAmount
                 )
 
                 return@launch

@@ -15,6 +15,7 @@ import com.example.pharmamanufacturer.presentation.packaging.PackagingScreen
 import com.example.pharmamanufacturer.presentation.products.ProductsScreen
 import androidx.navigation.NavType
 import com.example.pharmamanufacturer.core.Screen.Companion.COMPOUND_NAME_KEY
+import com.example.pharmamanufacturer.core.Screen.Companion.PRODUCT_NAME_KEY
 import com.example.pharmamanufacturer.presentation.compoundentry.AddCompoundScreenNavigation
 import com.example.pharmamanufacturer.presentation.productentry.AddProductScreenNavigation
 import com.example.pharmamanufacturer.presentation.compounddetails.CompoundDetailsScreenNavigation
@@ -75,10 +76,14 @@ fun Navigation(navController: NavHostController) {
         }
 
         composable(
-            route = Screen.EditProductScreen.route + "/{$PRODUCT_ID_KEY}",
+            route = Screen.EditProductScreen.route + "/{$PRODUCT_ID_KEY}" + "/{$PRODUCT_NAME_KEY}",
             arguments = listOf(
                 navArgument(PRODUCT_ID_KEY) {
                     type = NavType.IntType
+                    nullable = false
+                },
+                navArgument(PRODUCT_NAME_KEY) {
+                    type = NavType.StringType
                     nullable = false
                 }
             )
@@ -126,7 +131,6 @@ fun Navigation(navController: NavHostController) {
         ) { entry ->
             EditCompoundScreenNavigation(
                 selectedId = entry.arguments?.getInt(COMPOUND_ID_KEY),
-                compoundName = entry.arguments?.getString(COMPOUND_NAME_KEY),
                 navController = navController
             )
         }

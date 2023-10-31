@@ -37,7 +37,8 @@ fun ProductDetailsScreen(
             onBackClick = { listener.navigateBack() },
             onEditClick = {
                 listener.onEditClick(
-                    viewState.product.id.toString()
+                    productId = viewState.product.id.toString(),
+                    productName = viewState.product.name
                 )
             }
         )

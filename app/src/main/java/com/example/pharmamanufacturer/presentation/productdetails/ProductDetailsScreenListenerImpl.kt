@@ -17,9 +17,9 @@ class ProductDetailsScreenListenerImpl(
         )
     }
 
-    override fun onEditClick(productId: String) {
+    override fun onEditClick(productId: String, productName: String) {
         navController.navigate(
-            Screen.EditProductScreen.withArgs(productId)
+            Screen.EditProductScreen.withArgs(productId, productName)
         )
     }
 

@@ -13,12 +13,9 @@ data class TextFieldViewState(
     companion object {
         const val CLEARED_FIELD = " "
         const val INVALID_INPUT_HINT = "Invalid Input"
-        fun initState(
-            hint: String = "",
-            initialInput: String = "",
-        ): TextFieldViewState {
+        fun initState(hint: String): TextFieldViewState {
             return TextFieldViewState(
-                input = initialInput,
+                input = CLEARED_FIELD,
                 hint = hint,
                 labelColor = Blue,
                 focusedBorderColor = Blue,

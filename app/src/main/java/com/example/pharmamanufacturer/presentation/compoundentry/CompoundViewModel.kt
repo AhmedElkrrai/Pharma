@@ -55,13 +55,13 @@ class CompoundViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            initNameTextField()
+            initViewData()
             processActions()
             processEvents()
         }
     }
 
-    private fun initNameTextField() {
+    private fun initViewData() {
         if (compoundName == null) return
         updateState {
             it.copy(
