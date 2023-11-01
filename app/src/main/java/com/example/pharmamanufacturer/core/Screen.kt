@@ -11,6 +11,7 @@ sealed class Screen(val route: String) {
     object EditCompoundScreen : Screen(EDIT_COMPOUND_SCREEN_ROUTE)
     object DashboardScreen : Screen(DASHBOARD_SCREEN_ROUTE)
     object PackagingScreen : Screen(PACKAGING_SCREEN_ROUTE)
+    object PackagingDetailsScreen : Screen(PACKAGING_DETAILS_SCREEN_ROUTE)
 
     fun withArgs(vararg args: String): String {
         return buildString {
@@ -25,12 +26,14 @@ sealed class Screen(val route: String) {
         private const val EDIT = "_edit"
         const val COMPOUND_ID_KEY = "compound_id_key"
         const val COMPOUND_NAME_KEY = "compound_name_key"
+        const val PACKAGING_TYPE_KEY = "packaging_type_key"
         const val PRODUCT_ID_KEY = "product_details_key"
         const val PRODUCT_NAME_KEY = "product_name_key"
         const val PRODUCTS_SCREEN_ROUTE = "products"
         const val COMPOUND_SCREEN_ROUTE = "compounds"
         const val PACKAGING_SCREEN_ROUTE = "packaging"
         const val DASHBOARD_SCREEN_ROUTE = "dashboard"
+        const val PACKAGING_DETAILS_SCREEN_ROUTE = PACKAGING_SCREEN_ROUTE + DETAILS
         const val COMPOUND_DETAILS_SCREEN_ROUTE = COMPOUND_SCREEN_ROUTE + DETAILS
         const val PRODUCT_DETAILS_SCREEN_ROUTE = PRODUCTS_SCREEN_ROUTE + DETAILS
         const val ADD_COMPOUND_SCREEN_ROUTE = COMPOUND_SCREEN_ROUTE + ADD

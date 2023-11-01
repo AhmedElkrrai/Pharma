@@ -20,7 +20,10 @@ data class Packaging(
     var availableAmount: Double,
 
     @ColumnInfo(name = COL_PRODUCTS_NODES)
-    val productNodes: List<ProductNode>? = null
+    val productNodes: List<ProductNode>? = null,
+
+    @ColumnInfo(name = COL_SUPPLIERS)
+    val suppliers: List<Supplier>? = null
 ) {
     override fun toString(): String {
         return Uri.encode(Gson().toJson(this))
@@ -45,5 +48,6 @@ data class Packaging(
         const val COL_PACKAGING_TYPE = "type"
         const val COL_AVAILABLE_AMOUNT = "available_amount"
         const val COL_PRODUCTS_NODES = "packaging_products"
+        const val COL_SUPPLIERS = "col_suppliers"
     }
 }
