@@ -31,7 +31,8 @@ fun ProductCompoundItem(
     modifier: Modifier = Modifier,
     name: String,
     availableAmount: Double,
-    neededAmount: Double
+    neededAmount: Double,
+    selectedTab: ProductDetailsTab
 ) {
     Card(
         elevation = UiDimensions.Extra_Small,
@@ -49,15 +50,26 @@ fun ProductCompoundItem(
 
             Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
+            val itemUnit =
+                if (selectedTab == ProductDetailsTab.PACKAGING) " Unit" else " KG"
+
+            val itemSubtitle =
+                if (selectedTab == ProductDetailsTab.PACKAGING)
+                    "Needed"
+                else
+                    "Concentration"
+
             DetailsRow(
-                details = availableAmount.toString()
+                details = availableAmount.toString(),
+                unit = itemUnit
             )
 
             Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))
 
             DetailsRow(
-                title = "Concentration:",
-                details = neededAmount.toString()
+                title = itemSubtitle,
+                details = neededAmount.toString(),
+                unit = itemUnit
             )
 
             Spacer(modifier = Modifier.height(UiDimensions.Medium_Space))

@@ -24,6 +24,7 @@ import com.example.pharmamanufacturer.presentation.compounds.main.CompoundsScree
 import com.example.pharmamanufacturer.presentation.compounds.entry.EditCompoundScreenNavigation
 import com.example.pharmamanufacturer.presentation.dashboard.DashboardScreen
 import com.example.pharmamanufacturer.presentation.packaging.details.PackagingDetailsScreenNavigation
+import com.example.pharmamanufacturer.presentation.packaging.entry.EditPackagingNavigation
 import com.example.pharmamanufacturer.presentation.packaging.main.PackagingScreenListenerImpl
 import com.example.pharmamanufacturer.presentation.products.details.ProductDetailsScreenNavigation
 import com.example.pharmamanufacturer.presentation.products.entry.EditProductScreenNavigation
@@ -156,6 +157,21 @@ fun Navigation(navController: NavHostController) {
             }
         ) {
             PackagingDetailsScreenNavigation(navController)
+        }
+
+        composable(
+            route = Screen.EditPackagingScreen.route + "/{$PACKAGING_TYPE_KEY}",
+            arguments = listOf(
+                navArgument(PACKAGING_TYPE_KEY) {
+                    type = NavType.StringType
+                    nullable = false
+                }
+            )
+        ) { entry ->
+            EditPackagingNavigation(
+                packagingType = entry.arguments?.getString(PACKAGING_TYPE_KEY),
+                navController = navController
+            )
         }
     }
 }

@@ -68,7 +68,7 @@ class ProductionDialogViewModel @Inject constructor(
         if (product.getAvailableBatches() < 1) {
             Toast.makeText(
                 PharmaApp.instance.applicationContext,
-                "Can not start production, some or all compounds are on low stock",
+                "Can not start production, some or all materials are on low stock",
                 Toast.LENGTH_LONG
             )
                 .show()

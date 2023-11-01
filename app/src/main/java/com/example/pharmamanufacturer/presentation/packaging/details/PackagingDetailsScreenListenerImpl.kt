@@ -19,7 +19,7 @@ class PackagingDetailsScreenListenerImpl(
             return
 
         navController.navigate(
-            Screen.EditCompoundScreen.withArgs(type)
+            Screen.EditPackagingScreen.withArgs(type)
         )
     }
 }

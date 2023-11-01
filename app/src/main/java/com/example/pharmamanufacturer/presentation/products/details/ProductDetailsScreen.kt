@@ -99,7 +99,8 @@ fun ProductDetailsScreen(
                     ProductCompoundItem(
                         name = compound.name,
                         availableAmount = compound.availableAmount,
-                        neededAmount = concentration
+                        neededAmount = concentration,
+                        selectedTab = ProductDetailsTab.COMPOUNDS
                     )
                 }
             }
@@ -115,7 +116,8 @@ fun ProductDetailsScreen(
                     ProductCompoundItem(
                         name = packaging.type,
                         availableAmount = packaging.availableAmount,
-                        neededAmount = neededAmount
+                        neededAmount = neededAmount,
+                        selectedTab = ProductDetailsTab.PACKAGING
                     )
                 }
             }

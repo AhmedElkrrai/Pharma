@@ -6,8 +6,7 @@ import com.example.pharmamanufacturer.presentation.compounds.entry.state.Compoun
 class AddCompoundScreenListenerImpl(
     private val viewModel: CompoundViewModel,
     private val navigateBack: () -> Unit
-) :
-    CompoundScreenListener {
+) : CompoundScreenListener {
     override fun exitErrorState(textField: CompoundTextField) {
         viewModel.sendAction(
             CompoundAction.RetrieveInitialState(textField)
