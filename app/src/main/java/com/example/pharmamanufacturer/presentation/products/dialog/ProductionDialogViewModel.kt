@@ -57,7 +57,11 @@ class ProductionDialogViewModel @Inject constructor(
         }
     }
 
-    private suspend fun operateBatch(batch: Batch, product: Product, dismissDialog: () -> Unit) {
+    private suspend fun operateBatch(
+        batch: Batch,
+        product: Product,
+        dismissDialog: () -> Unit
+    ) {
         if (batch.number.isEmpty()) {
             renderTextFieldViewState(
                 TextFieldErrorEventState.ENTER
@@ -78,16 +82,31 @@ class ProductionDialogViewModel @Inject constructor(
 
         db.insertBatch(batch)
 
-        val compoundNodes = product.compoundNodes
+        val updatedCompoundNodes = updateCompoundNodes(product.compoundNodes)
+        val updatedPackagingNodes = updatePackagingNodes(product.packagingNodes)
 
-        val modifiedMaterialNodes = mutableListOf<MaterialNode>()
+        //update product with nodes updated available batches
+        db.updateProduct(
+            product = product.copy(
+                compoundNodes = updatedCompoundNodes,
+                packagingNodes = updatedPackagingNodes
+            )
+        )
 
-        for (node in compoundNodes) {
+        dismissDialog.invoke()
+    }
+
+    private suspend fun updateCompoundNodes(
+        materialNodes: List<MaterialNode>
+    ): MutableList<MaterialNode> {
+        val updatedMaterialNodes = mutableListOf<MaterialNode>()
+
+        for (node in materialNodes) {
             db.getCompound(node.id)?.let { compound ->
                 //update each node available batches
                 val availableAmount = compound.availableAmount - node.neededAmount
 
-                modifiedMaterialNodes.add(
+                updatedMaterialNodes.add(
                     node.copy(
                         available = availableAmount / node.neededAmount
                     )
@@ -101,15 +120,34 @@ class ProductionDialogViewModel @Inject constructor(
                 )
             }
         }
+        return updatedMaterialNodes
+    }
 
-        //update product with nodes updated available batches
-        db.updateProduct(
-            product = product.copy(
-                compoundNodes = modifiedMaterialNodes
-            )
-        )
+    private suspend fun updatePackagingNodes(
+        materialNodes: List<MaterialNode>
+    ): MutableList<MaterialNode> {
+        val updatedMaterialNodes = mutableListOf<MaterialNode>()
 
-        dismissDialog.invoke()
+        for (node in materialNodes) {
+            db.getPackaging(node.id)?.let { packaging ->
+                //update each node available batches
+                val availableAmount = packaging.availableAmount - node.neededAmount
+
+                updatedMaterialNodes.add(
+                    node.copy(
+                        available = availableAmount / node.neededAmount
+                    )
+                )
+
+                //update each packaging availableAmount
+                db.updatePackaging(
+                    packaging = packaging.copy(
+                        availableAmount = availableAmount
+                    )
+                )
+            }
+        }
+        return updatedMaterialNodes
     }
 
     private fun renderTextFieldViewState(
@@ -126,7 +164,6 @@ class ProductionDialogViewModel @Inject constructor(
     private fun updateState(newState: (TextFieldViewState) -> TextFieldViewState) {
         _viewState.update { oldState -> newState(oldState) }
     }
-
 
     internal fun sendAction(action: ProductionDialogAction) {
         viewModelScope.launch {

@@ -91,7 +91,10 @@ fun ProductDetailsScreen(
 
         if (viewState.selectedTab == ProductDetailsTab.COMPOUNDS) {
             LazyColumn {
-                items(viewState.compounds) { compound ->
+                items(
+                    viewState.compounds
+                        .sortedBy { !it.lowStock }
+                ) { compound ->
                     val concentration =
                         viewState.product.compoundNodes
                             .find { it.id == compound.id }?.neededAmount ?: 0.0
@@ -108,7 +111,10 @@ fun ProductDetailsScreen(
 
         if (viewState.selectedTab == ProductDetailsTab.PACKAGING) {
             LazyColumn {
-                items(viewState.packagingList) { packaging ->
+                items(
+                    viewState.packagingList
+                        .sortedBy { !it.lowStock }
+                ) { packaging ->
                     val neededAmount =
                         viewState.product.packagingNodes
                             .find { it.id == packaging.id }?.neededAmount ?: 0.0

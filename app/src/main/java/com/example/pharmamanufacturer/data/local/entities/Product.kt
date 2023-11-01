@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 import com.example.pharmamanufacturer.core.MINIMUM_PRODUCT_BATCHES
 import com.example.pharmamanufacturer.core.round
 import com.google.gson.Gson
+import kotlin.math.min
 
 @Entity(tableName = Product.TABLE_PRODUCT)
 data class Product(
@@ -35,10 +36,17 @@ data class Product(
         }
 
     fun getAvailableBatches(): Double {
-        return compoundNodes
+        val compoundMinBatches = compoundNodes
             .map { it.available }
             .sortedWith(compareBy { it }).first()?.round()
             ?: 0.0
+
+        val packagingMinBatches = packagingNodes
+            .map { it.available }
+            .sortedWith(compareBy { it }).first()?.round()
+            ?: 0.0
+
+        return minOf(compoundMinBatches, packagingMinBatches)
     }
 
     companion object {

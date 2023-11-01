@@ -51,6 +51,12 @@ class DatabaseHandler @Inject constructor(
         }
     }
 
+    suspend fun getPackaging(id: Int): Packaging? {
+        return withContext(Dispatchers.IO) {
+            packagingDao.getPackaging(id)
+        }
+    }
+
     suspend fun addPackaging(packaging: Packaging): Long {
         return withContext(Dispatchers.IO) {
             packagingDao.insert(packaging)
