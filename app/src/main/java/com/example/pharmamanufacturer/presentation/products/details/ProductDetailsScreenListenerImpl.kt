@@ -1,6 +1,7 @@
 package com.example.pharmamanufacturer.presentation.products.details
 
 import androidx.navigation.NavHostController
+import com.example.pharmamanufacturer.core.PRODUCTS_GRAPH_ROUTE
 import com.example.pharmamanufacturer.core.Screen
 import com.example.pharmamanufacturer.presentation.navigation.navigateToParent
 

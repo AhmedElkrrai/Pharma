@@ -3,6 +3,7 @@ package com.example.pharmamanufacturer.presentation.packaging.entry
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.pharmamanufacturer.core.PACKAGING_TYPE_KEY
 import com.example.pharmamanufacturer.core.Screen
 import com.example.pharmamanufacturer.core.capitalizeFirstChar
 import com.example.pharmamanufacturer.data.di.IOContext
@@ -39,7 +40,7 @@ class PackagingEntryViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val packagingType: String? =
-        savedStateHandle.get<String>(Screen.PACKAGING_TYPE_KEY)
+        savedStateHandle.get<String>(PACKAGING_TYPE_KEY)
 
     private val viewAction = Channel<PackagingAction>()
 

@@ -3,6 +3,7 @@ package com.example.pharmamanufacturer.presentation.products.details
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.pharmamanufacturer.core.PRODUCT_ID_KEY
 import com.example.pharmamanufacturer.core.Screen
 import com.example.pharmamanufacturer.data.di.IOContext
 import com.example.pharmamanufacturer.data.local.database.DatabaseHandler
@@ -28,7 +29,7 @@ class ProductDetailsViewModel @Inject constructor(
     val viewState: StateFlow<ProductDetailsViewState>
         get() = _viewState
 
-    private val selectedProductId = savedStateHandle.get<Int>(Screen.PRODUCT_ID_KEY)
+    private val selectedProductId = savedStateHandle.get<Int>(PRODUCT_ID_KEY)
 
     private val viewAction = Channel<ProductDetailsAction>()
 

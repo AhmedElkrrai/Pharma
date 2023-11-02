@@ -3,7 +3,7 @@ package com.example.pharmamanufacturer.presentation.compounds.details
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.pharmamanufacturer.core.Screen.Companion.COMPOUND_ID_KEY
+import com.example.pharmamanufacturer.core.COMPOUND_ID_KEY
 import com.example.pharmamanufacturer.data.local.database.DatabaseHandler
 import com.example.pharmamanufacturer.data.local.entities.Compound
 import com.example.pharmamanufacturer.data.local.entities.Product

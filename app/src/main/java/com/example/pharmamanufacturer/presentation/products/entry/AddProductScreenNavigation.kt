@@ -10,18 +10,16 @@ import com.example.pharmamanufacturer.presentation.navigation.navigateToParent
 
 @Composable
 fun AddProductScreenNavigation(navController: NavHostController) {
-    val navigateBack = {
-        navigateToParent(
-            controller = navController,
-            parentRoute = Screen.ProductsScreen.route
-        )
-    }
-
     val viewModel: ProductViewModel = hiltViewModel()
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
 
     ProductScreen(
         viewState = viewState,
-        listener = AddProductScreenListenerImpl(viewModel, navigateBack)
+        listener = AddProductScreenListenerImpl(viewModel) {
+            navigateToParent(
+                controller = navController,
+                parentRoute = Screen.ProductsScreen.route
+            )
+        }
     )
 }

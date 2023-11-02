@@ -4,6 +4,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pharmamanufacturer.core.MINIMUM_PRODUCT_INGREDIENTS
+import com.example.pharmamanufacturer.core.PRODUCT_ID_KEY
+import com.example.pharmamanufacturer.core.PRODUCT_NAME_KEY
 import com.example.pharmamanufacturer.core.Screen
 import com.example.pharmamanufacturer.core.capitalizeFirstChar
 import com.example.pharmamanufacturer.data.di.IOContext
@@ -42,8 +44,8 @@ class ProductViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val selectedId: Int? = savedStateHandle.get<Int>(Screen.PRODUCT_ID_KEY)
-    private val productName: String? = savedStateHandle.get<String>(Screen.PRODUCT_NAME_KEY)
+    private val selectedId: Int? = savedStateHandle.get<Int>(PRODUCT_ID_KEY)
+    private val productName: String? = savedStateHandle.get<String>(PRODUCT_NAME_KEY)
 
     private val viewAction = Channel<ProductAction>()
 

@@ -3,6 +3,7 @@ package com.example.pharmamanufacturer.presentation.packaging.details
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.pharmamanufacturer.core.PACKAGING_TYPE_KEY
 import com.example.pharmamanufacturer.core.Screen
 import com.example.pharmamanufacturer.data.di.IOContext
 import com.example.pharmamanufacturer.data.local.database.DatabaseHandler
@@ -20,7 +21,7 @@ class PackagingDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     @IOContext private val ioContext: CoroutineContext
 ) : ViewModel() {
-    private val packagingType = savedStateHandle.get<String>(Screen.PACKAGING_TYPE_KEY)
+    private val packagingType = savedStateHandle.get<String>(PACKAGING_TYPE_KEY)
 
     private val _viewState: MutableStateFlow<PackagingDetailsViewState> =
         MutableStateFlow(PackagingDetailsViewState.INIT)

@@ -3,6 +3,8 @@ package com.example.pharmamanufacturer.presentation.compounds.entry
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.pharmamanufacturer.core.COMPOUND_ID_KEY
+import com.example.pharmamanufacturer.core.COMPOUND_NAME_KEY
 import com.example.pharmamanufacturer.core.Screen
 import com.example.pharmamanufacturer.core.capitalizeFirstChar
 import com.example.pharmamanufacturer.data.di.IOContext
@@ -38,8 +40,8 @@ class CompoundViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val selectedId: Int? = savedStateHandle.get<Int>(Screen.COMPOUND_ID_KEY)
-    private val compoundName: String? = savedStateHandle.get<String>(Screen.COMPOUND_NAME_KEY)
+    private val selectedId: Int? = savedStateHandle.get<Int>(COMPOUND_ID_KEY)
+    private val compoundName: String? = savedStateHandle.get<String>(COMPOUND_NAME_KEY)
 
     private val viewAction = Channel<CompoundAction>()
 

@@ -53,7 +53,7 @@ fun HomeScreen() {
             }
         ) {
             Box(modifier = Modifier.padding(it)) {
-                Navigation(navController = navController)
+                NavGraph(navController = navController)
             }
         }
     }
