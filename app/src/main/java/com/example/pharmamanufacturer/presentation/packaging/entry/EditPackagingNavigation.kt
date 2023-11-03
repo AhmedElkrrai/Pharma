@@ -16,18 +16,15 @@ fun EditPackagingNavigation(
     if (packagingType == null)
         return
 
-    val navigateBack = {
-        navigateToParent(
-            controller = navController,
-            parentRoute = Screen.PackagingDetailsScreen.withArgs(packagingType)
-        )
-    }
-
     val viewModel: PackagingEntryViewModel = hiltViewModel()
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
 
     PackagingEntryScreen(
         viewState = viewState,
-        listener = PackagingEntryScreenListenerImpl(viewModel, navigateBack)
+        listener = PackagingEntryScreenListenerImpl(viewModel) {
+            navController.navigate(
+                Screen.PackagingDetailsScreen.withArgs(packagingType)
+            )
+        }
     )
 }

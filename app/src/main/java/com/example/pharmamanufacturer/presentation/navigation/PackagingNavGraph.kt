@@ -15,6 +15,7 @@ import com.example.pharmamanufacturer.presentation.packaging.details.PackagingDe
 import com.example.pharmamanufacturer.presentation.packaging.entry.EditPackagingNavigation
 import com.example.pharmamanufacturer.presentation.packaging.main.PackagingScreen
 import com.example.pharmamanufacturer.presentation.packaging.main.PackagingScreenListenerImpl
+import com.example.pharmamanufacturer.presentation.packaging.main.PackagingScreenNavigation
 
 fun NavGraphBuilder.packagingNavGraph(
     navController: NavHostController
@@ -25,9 +26,7 @@ fun NavGraphBuilder.packagingNavGraph(
     ) {
 
         composable(route = Screen.PackagingScreen.route) {
-            PackagingScreen(
-                PackagingScreenListenerImpl(navController)
-            )
+            PackagingScreenNavigation(navController)
         }
 
         composable(
