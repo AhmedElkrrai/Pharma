@@ -26,8 +26,7 @@ fun ProductsScreen(
 ) {
     if (viewState.products.isNotEmpty()) {
         LazyColumn {
-            val products = viewState.products
-            items(products) { product ->
+            items(viewState.products) { product ->
                 ProductItem(
                     modifier = Modifier
                         .fillMaxWidth()

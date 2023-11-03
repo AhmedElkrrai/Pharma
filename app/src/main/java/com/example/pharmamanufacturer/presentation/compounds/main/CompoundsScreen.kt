@@ -3,27 +3,24 @@ package com.example.pharmamanufacturer.presentation.compounds.main
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.pharmamanufacturer.R
+import com.example.pharmamanufacturer.data.local.entities.Compound
 import com.example.pharmamanufacturer.presentation.utilitycompose.BottomFloatingButton
 import com.example.pharmamanufacturer.presentation.utilitycompose.EmptyContentScreen
+import androidx.compose.foundation.lazy.items
 
 @Composable
 fun CompoundsScreen(
+    compounds: List<Compound>,
     listener: CompoundsScreenListener
 ) {
-    val viewModel: CompoundsViewModel = hiltViewModel()
-    val compoundsState = viewModel.compoundsState.collectAsStateWithLifecycle()
-
-    if (compoundsState.value.isNotEmpty()) {
+    if (compounds.isNotEmpty()) {
         LazyColumn {
-            items(compoundsState.value) { compound ->
+            items(compounds) { compound ->
                 CompoundItem(compound) {
                     listener.onCompoundClick(compound.id.toString())
                 }

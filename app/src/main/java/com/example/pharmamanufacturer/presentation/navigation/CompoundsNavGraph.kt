@@ -15,8 +15,7 @@ import com.example.pharmamanufacturer.core.Screen
 import com.example.pharmamanufacturer.presentation.compounds.details.CompoundDetailsScreenNavigation
 import com.example.pharmamanufacturer.presentation.compounds.entry.AddCompoundScreenNavigation
 import com.example.pharmamanufacturer.presentation.compounds.entry.EditCompoundScreenNavigation
-import com.example.pharmamanufacturer.presentation.compounds.main.CompoundsScreen
-import com.example.pharmamanufacturer.presentation.compounds.main.CompoundsScreenListenerImpl
+import com.example.pharmamanufacturer.presentation.compounds.main.CompoundsScreenNavigation
 
 fun NavGraphBuilder.compoundsNavGraph(
     navController: NavHostController
@@ -27,9 +26,7 @@ fun NavGraphBuilder.compoundsNavGraph(
     ) {
 
         composable(route = Screen.CompoundsScreen.route) {
-            CompoundsScreen(
-                CompoundsScreenListenerImpl(navController)
-            )
+            CompoundsScreenNavigation(navController)
         }
 
         composable(

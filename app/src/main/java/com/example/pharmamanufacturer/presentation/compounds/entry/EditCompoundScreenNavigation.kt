@@ -13,19 +13,15 @@ fun EditCompoundScreenNavigation(
     selectedId: Int?,
     navController: NavHostController
 ) {
-
-    val navigateBack = {
-        navigateToParent(
-            controller = navController,
-            parentRoute = Screen.CompoundDetailsScreen.withArgs(selectedId.toString())
-        )
-    }
-
     val viewModel: CompoundViewModel = hiltViewModel()
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
 
     CompoundScreen(
         viewState = viewState,
-        listener = EditCompoundScreenListenerImpl(viewModel, navigateBack)
+        listener = EditCompoundScreenListenerImpl(viewModel) {
+            navController.navigate(
+                Screen.CompoundDetailsScreen.withArgs(selectedId.toString())
+            )
+        }
     )
 }
