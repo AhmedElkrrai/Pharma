@@ -16,12 +16,11 @@ fun EditProductScreenNavigation(
     val viewModel: ProductViewModel = hiltViewModel()
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
 
-    ProductScreen(
+    ProductEntryScreen(
         viewState = viewState,
-        listener = EditProductScreenListenerImpl(viewModel){
-            navigateToParent(
-                controller = navController,
-                parentRoute = Screen.ProductDetailsScreen.withArgs(selectedId.toString())
+        listener = EditProductScreenListenerImpl(viewModel) {
+            navController.navigate(
+                Screen.ProductDetailsScreen.withArgs(selectedId.toString())
             )
         }
     )

@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pharmamanufacturer.core.COMPOUND_ID_KEY
 import com.example.pharmamanufacturer.core.COMPOUND_NAME_KEY
-import com.example.pharmamanufacturer.core.Screen
 import com.example.pharmamanufacturer.core.capitalizeFirstChar
 import com.example.pharmamanufacturer.data.di.IOContext
 import com.example.pharmamanufacturer.data.di.MainContext

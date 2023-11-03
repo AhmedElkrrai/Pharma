@@ -12,9 +12,8 @@ class ProductDetailsScreenListenerImpl(
     ProductDetailsScreenListener {
 
     override fun navigateBack() {
-        navigateToParent(
-            controller = navController,
-            parentRoute = Screen.ProductsScreen.route
+        navController.navigate(
+            Screen.ProductsScreen.route
         )
     }
 

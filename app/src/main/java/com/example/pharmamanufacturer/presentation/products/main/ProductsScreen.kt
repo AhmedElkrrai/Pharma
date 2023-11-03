@@ -4,35 +4,29 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
 import com.example.pharmamanufacturer.R
 import com.example.pharmamanufacturer.presentation.products.dialog.ProductionDialog
 import com.example.pharmamanufacturer.presentation.theme.DeepBlue
 import com.example.pharmamanufacturer.presentation.utilitycompose.BottomFloatingButton
 import com.example.pharmamanufacturer.presentation.utilitycompose.EmptyContentScreen
 import com.example.pharmamanufacturer.presentation.utilitycompose.ProductItem
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 
 @Composable
 fun ProductsScreen(
-    navController: NavHostController
+    viewState: ProductsScreenViewState,
+    listener: ProductsScreenListener
 ) {
-    val viewModel: ProductsViewModel = hiltViewModel()
-    val viewState = viewModel.viewState.collectAsStateWithLifecycle()
-    val listener = ProductsScreenListenerImpl(navController, viewModel)
-
-    if (viewState.value.products.isNotEmpty()) {
+    if (viewState.products.isNotEmpty()) {
         LazyColumn {
-            val products = viewState.value.products
+            val products = viewState.products
             items(products) { product ->
                 ProductItem(
                     modifier = Modifier
@@ -67,7 +61,7 @@ fun ProductsScreen(
         imageVector = Icons.Filled.Add
     )
 
-    if (viewState.value.visibleDialog) {
+    if (viewState.visibleDialog) {
         ProductionDialog(
             modifier = Modifier
                 .fillMaxWidth(0.95f)
@@ -77,9 +71,9 @@ fun ProductsScreen(
                     color = DeepBlue,
                     shape = RoundedCornerShape(15.dp)
                 ),
-            product = viewState.value.selectedProduct!!,
+            product = viewState.selectedProduct!!,
             onDismiss = {
-                listener.dismissProductionDialog(navController)
+                listener.dismissProductionDialog()
             }
         )
     }

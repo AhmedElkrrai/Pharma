@@ -27,7 +27,7 @@ class ProductsScreenListenerImpl(
         )
     }
 
-    override fun dismissProductionDialog(navController: NavHostController) {
+    override fun dismissProductionDialog() {
         viewModel.sendAction(
             ProductionDialogAction.Display.DISMISS {
                 navController.navigate(

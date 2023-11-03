@@ -15,8 +15,7 @@ import com.example.pharmamanufacturer.core.Screen
 import com.example.pharmamanufacturer.presentation.products.details.ProductDetailsScreenNavigation
 import com.example.pharmamanufacturer.presentation.products.entry.AddProductScreenNavigation
 import com.example.pharmamanufacturer.presentation.products.entry.EditProductScreenNavigation
-import com.example.pharmamanufacturer.presentation.products.main.ProductsScreen
-import com.example.pharmamanufacturer.presentation.products.main.ProductsScreenListenerImpl
+import com.example.pharmamanufacturer.presentation.products.main.ProductsScreenNavigation
 
 fun NavGraphBuilder.productsNavGraph(
     navController: NavHostController
@@ -27,7 +26,7 @@ fun NavGraphBuilder.productsNavGraph(
     ) {
 
         composable(route = Screen.ProductsScreen.route) {
-            ProductsScreen(navController)
+            ProductsScreenNavigation(navController)
         }
 
         composable(route = Screen.AddProductScreen.route) {

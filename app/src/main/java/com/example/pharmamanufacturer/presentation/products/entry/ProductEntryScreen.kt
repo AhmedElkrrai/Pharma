@@ -33,7 +33,7 @@ import com.example.pharmamanufacturer.presentation.utilitycompose.CenteredTitleW
 import com.example.pharmamanufacturer.presentation.utilitycompose.textfield.styledTextField
 
 @Composable
-fun ProductScreen(
+fun ProductEntryScreen(
     viewState: ProductScreenViewState,
     listener: ProductScreenListener
 ) {

@@ -13,12 +13,11 @@ fun AddProductScreenNavigation(navController: NavHostController) {
     val viewModel: ProductViewModel = hiltViewModel()
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
 
-    ProductScreen(
+    ProductEntryScreen(
         viewState = viewState,
         listener = AddProductScreenListenerImpl(viewModel) {
-            navigateToParent(
-                controller = navController,
-                parentRoute = Screen.ProductsScreen.route
+            navController.navigate(
+                Screen.ProductsScreen.route
             )
         }
     )

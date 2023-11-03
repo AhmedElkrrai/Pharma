@@ -2,6 +2,8 @@ package com.example.pharmamanufacturer.presentation.products.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.pharmamanufacturer.data.di.IOContext
+import com.example.pharmamanufacturer.data.di.MainContext
 import com.example.pharmamanufacturer.data.local.database.DatabaseHandler
 import com.example.pharmamanufacturer.data.local.entities.Product
 import com.example.pharmamanufacturer.presentation.products.dialog.ProductionDialogAction
@@ -14,25 +16,26 @@ import kotlinx.coroutines.flow.getAndUpdate
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
 
 @HiltViewModel
 class ProductsViewModel @Inject constructor(
-    private val db: DatabaseHandler
+    private val db: DatabaseHandler,
+    @IOContext private val ioContext: CoroutineContext,
 ) : ViewModel() {
 
     private val viewAction = Channel<ProductionDialogAction.Display>()
 
     private val _viewState = MutableStateFlow(ProductsScreenViewState.INIT)
     internal val viewState: StateFlow<ProductsScreenViewState>
-        get() = _viewState
+        get() = updateViewState()
 
     init {
-        initViewData()
         processActions()
     }
 
-    private fun initViewData() {
-        viewModelScope.launch(Dispatchers.IO) {
+    private fun updateViewState(): MutableStateFlow<ProductsScreenViewState> {
+        viewModelScope.launch(ioContext) {
             val products = db.getAllProducts()
                 .toMutableList()
                 .sortedBy { !it.lowStock }
@@ -43,6 +46,7 @@ class ProductsViewModel @Inject constructor(
                 )
             }
         }
+        return _viewState
     }
 
     private fun processActions() {
