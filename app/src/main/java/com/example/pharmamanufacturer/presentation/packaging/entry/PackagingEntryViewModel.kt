@@ -74,7 +74,7 @@ class PackagingEntryViewModel @Inject constructor(
     }
 
     private suspend fun processActions() {
-        viewModelScope.launch(ioContext) {
+        viewModelScope.launch {
             viewAction.receiveAsFlow().collect { action ->
                 when (action) {
                     is PackagingAction.UPDATE ->
@@ -100,7 +100,7 @@ class PackagingEntryViewModel @Inject constructor(
     }
 
     private suspend fun processEvents() {
-        viewModelScope.launch(mainContext) {
+        viewModelScope.launch {
             events.collect { event ->
                 when (event) {
                     is TextFieldEventState.InvalidInput ->

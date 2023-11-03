@@ -27,9 +27,7 @@ fun NavGraphBuilder.productsNavGraph(
     ) {
 
         composable(route = Screen.ProductsScreen.route) {
-            ProductsScreen(
-                ProductsScreenListenerImpl(navController)
-            )
+            ProductsScreen(navController)
         }
 
         composable(route = Screen.AddProductScreen.route) {

@@ -12,4 +12,9 @@ sealed interface ProductionDialogAction {
 
     object INVALID : ProductionDialogAction
     object RetrieveInitialState : ProductionDialogAction
+
+    sealed interface Display {
+        data class SHOW(val product: Product) : Display
+        data class DISMISS(val onDismiss: () -> Unit) : Display
+    }
 }

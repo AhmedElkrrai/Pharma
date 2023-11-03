@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Pharma Manufacturer</string>
+    <string name="app_name">Tetra</string>
     <string name="title_products">Products</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_compounds">Compounds</string>
